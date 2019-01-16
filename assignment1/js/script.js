@@ -63,7 +63,6 @@ function draw() {
   // Make sure the avatar is still alive - if not, we don't run
   // the rest of the draw loop
   if (!avatar.active) {
-    // By using "return" the draw() function exits immediately
     push();
       textSize(250);
       textAlign(CENTER, CENTER);
@@ -73,8 +72,8 @@ function draw() {
       text('R.I.P',windowWidth/2,windowHeight/2);
       pop();
       return;
+      // By using "return" the draw() function exits immediately
   }
-
   // Otherwise we handle the game
   background(0);
   updateAvatar();
