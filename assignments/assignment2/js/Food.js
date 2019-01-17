@@ -14,13 +14,13 @@ class Food extends Agent {
 
 update() {
   //randomize velocity ~10% of the time
-    if (random() < 0.1) {
+    if (random(1) < 0.1) {
       vx = random(-this.speed, this.speed);
       vy = random(-this.speed, this.speed);
     }
     this.x += vx;
     this.y += vy;
-    
+
     // screen wrapping
     if (this.x < 0) {
       this.x += width;

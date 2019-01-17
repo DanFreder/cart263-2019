@@ -40,8 +40,7 @@ class Avatar extends Agent {
     this.x = mouseX;
     this.y = mouseY;
 
-    // Reduce the size by the set amount
-    // But constrain it within 0 and maximum
+    // Reduce size by set amount and constrain it between 0 and maxSize
     this.size = constrain(this.size - this.sizeLoss,0,this.maxSize);
 
     // If the size reaches zero, set to inactive

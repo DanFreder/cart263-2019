@@ -1,14 +1,10 @@
 // Agent
-//
 // A class that represents the basic idea of a coloured circle on the screen
 // It has a position, size, color, and active state
 // It can check for collisions with other agents and can display itself
 
 class Agent {
-
-  // Constructor
-  //
-  // Sets the key properties based on the arguments
+  // Sets key properties based on arguments
   // Defaults active to true
   constructor(x,y,size,agentColor) {
     this.x = x;
@@ -19,7 +15,6 @@ class Agent {
   }
 
   // collide(other)
-  //
   // Returns true if this agent collides with the other agent (e.g. overlaps)
   // false otherwise
   collide(other) {
@@ -41,15 +36,10 @@ class Agent {
     }
   }
 
-  // update()
-  //
   // Placeholder since subclasses/children should consider defining an update function
   update() {
-
   }
 
-  // display()
-  //
   // Displays the agent as a coloured circle
   display() {
     // Don't display if not active
