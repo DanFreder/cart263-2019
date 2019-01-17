@@ -1,14 +1,11 @@
 // Avatar
-//
-// A class that defined an avatar controlled by the player that can
-// eat other agents
+// defines an avatar class controlled by the player that eats other agents
 
 class Avatar extends Agent {
 
   // Constructor
-  //
   // Passes some arguments to the super constructor (of Agent)
-  // Also sets a maximum size and size loss property
+  // sets maxSize and sizeLoss properties
   constructor(x,y,size,sizeLoss) {
     super(x,y,size,'#cccc55');
     this.maxSize = size;
@@ -16,7 +13,6 @@ class Avatar extends Agent {
   }
 
   // eat(other)
-  //
   // Add the size of the other agent to this one, and resets the other agent
   eat(other) {
     // Only eat if you're active
@@ -32,7 +28,6 @@ class Avatar extends Agent {
   }
 
   // update()
-  //
   // Moves the avatar based on the mouse position
   // Shrinks the avatar per frame, and check if it dies
   update() {

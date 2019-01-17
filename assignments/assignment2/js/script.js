@@ -1,15 +1,14 @@
 "use strict";
 
 /*****************
-
-OOP Circle Eater
-Pippin Barr
+OOP Circle Eater by Pippin Barr
+modified for Assignment 2
+by Dan Freder
 
 An Object-Oriented version of the Circle Eater program.
 The player moves a circle around with the mouse.
 Another circle represents food which the player eats by overlapping.
 The player circle shrinks over time, but grows when it eats.
-
 ******************/
 
 // Constants for key quantities
@@ -22,18 +21,12 @@ const FOOD_MAX_SIZE = 100;
 let avatar;
 let food;
 
-
 // preload()
-//
 // Not needed
-
 function preload() {
-
 }
 
-
 // setup()
-//
 // Create the canvas, avatar, and food, disable the cursor
 
 function setup() {
@@ -45,8 +38,6 @@ function setup() {
 
 
 // draw()
-//
-// Clear the background
 // Update the avatar and check for eating
 // Display the avatar and food
 

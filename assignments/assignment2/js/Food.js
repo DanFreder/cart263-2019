@@ -1,15 +1,10 @@
 // Food
-//
-// A class to represent food, mostly just involves the ability to be
-// a random size and to reset
+// A class for food, involves the ability to be a random size and be reset
 
 class Food extends Agent {
-
   // Constructor
-  //
   // Pass arguments on to the super() constructor (e.g. for Agent)
-  // Also set a minimum and maximum size for this food object which it
-  // will vary between when it resets
+  // Set a min and max size for food when it resets
   constructor(x,y,minSize,maxSize) {
     super(x,y,random(minSize,maxSize),'#55cccc');
     this.minSize = minSize;
@@ -17,7 +12,6 @@ class Food extends Agent {
   }
 
   // reset()
-  //
   // Set position to a random location on the canvas
   // Set the size to a random size within the limits
   reset() {
