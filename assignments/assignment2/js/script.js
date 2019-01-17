@@ -16,10 +16,13 @@ const AVATAR_MAX_SIZE = 64;
 const AVATAR_SIZE_LOSS_PER_FRAME = 1;
 const FOOD_MIN_SIZE = 5;
 const FOOD_MAX_SIZE = 100;
+const FOOD_MAX_SPEED = 5;
 
 // Variables to store the two key objects
 let avatar;
 let food;
+let vx = 1;
+let vy = 1;
 
 // preload()
 // Not needed
@@ -32,7 +35,7 @@ function preload() {
 function setup() {
   createCanvas(windowWidth,windowHeight);
   avatar = new Avatar(mouseX,mouseY,AVATAR_MAX_SIZE,AVATAR_SIZE_LOSS_PER_FRAME)
-  food = new Food(random(0,width),random(0,height),FOOD_MIN_SIZE,FOOD_MAX_SIZE);
+  food = new Food(random(0,width),random(0,height),FOOD_MIN_SIZE,FOOD_MAX_SIZE,FOOD_MAX_SPEED);
   noCursor();
 }
 
@@ -43,8 +46,8 @@ function setup() {
 
 function draw() {
   background(0);
-
   avatar.update();
+  food.update();
   if (avatar.collide(food)) {
     avatar.eat(food);
   }
