@@ -26,7 +26,7 @@ class Agent {
     // Calculate the distance between this agent and the other agent
     let d = dist(this.x,this.y,other.x,other.y);
 
-    // If the distance is less that their two radii, they overlap
+    // If the distance is less than their two radii, they overlap
     if (d < this.size/2 + other.size/2) {
       return true;
     }
@@ -34,10 +34,6 @@ class Agent {
     else {
       return false;
     }
-  }
-
-  // Placeholder since subclasses/children should consider defining an update function
-  update() {
   }
 
   // Displays the agent as a coloured circle

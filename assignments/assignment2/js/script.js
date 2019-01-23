@@ -19,15 +19,12 @@ const FOOD_MAX_SIZE = 100;
 const FOOD_MAX_SPEED = 5;
 
 // Variables to array and set initial velocity vals
-let vx = 1;
 let vy = 1;
-let avatar;
-let food;
+let vx = 1;
 let agents = [];
 
 // setup()
 // Create the canvas, avatar, and food, disable the cursor
-
 function setup() {
 createCanvas(windowWidth,windowHeight);
 agents.push(new Avatar(mouseX,mouseY,AVATAR_MAX_SIZE,AVATAR_SIZE_LOSS_PER_FRAME));
@@ -35,19 +32,14 @@ agents.push(new Food(random(0,width),random(0,height),FOOD_MIN_SIZE,FOOD_MAX_SIZ
 noCursor();
 }
 
-
 // draw()
 // Update the avatar and check for eating
 // Display the avatar and food
-
 function draw() {
   background(0);
 
   for (let i = 0; i < agents.length; i++) {
   agents[i].update();
-  if (avatar.collide(food)) {
-    avatar.eat(food);
-  }
   agents[i].display();
 }
 }
