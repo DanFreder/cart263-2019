@@ -13,8 +13,8 @@ class Food extends Agent {
   }
 
 update() {
-  //randomize velocity ~10% of the time
-    if (random(1) < 0.1) {
+  //randomize velocity ~20% of the time
+    if (random(1) < 0.2) {
       vx = random(-this.speed, this.speed);
       vy = random(-this.speed, this.speed);
     }
@@ -41,5 +41,6 @@ update() {
     this.x = random(0,width);
     this.y = random(0,height);
     this.size = random(this.minSize,this.maxSize);
+    this.speed = random(-this.speed,this.speed);
   }
 }

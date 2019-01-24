@@ -19,7 +19,6 @@ class Avatar extends Agent {
     if (!avatar.active) {
       return;
     }
-
     // Add the size of the other agent to this one
     // But constrain it within the maximum size
     this.size = constrain(this.size + other.size,0,this.maxSize);

@@ -13,12 +13,12 @@ The player circle shrinks over time, but grows when it eats.
 
 // Constants for key quantities
 const AVATAR_MAX_SIZE = 64;
-const AVATAR_SIZE_LOSS_PER_FRAME = 1;
-const FOOD_MIN_SIZE = 5;
+const AVATAR_SIZE_LOSS_PER_FRAME = .5;
+const FOOD_MIN_SIZE = 10;
 const FOOD_MAX_SIZE = 100;
-const FOOD_MAX_SPEED = 5;
+const FOOD_MAX_SPEED = 2;
 
-// Variables to array and set initial velocity vals
+// Variables to store array and set initial velocity vals
 let vy = 1;
 let vx = 1;
 let agents = [];
@@ -27,10 +27,11 @@ let avatar;
 // setup()
 // Create the canvas, avatar, and food, disable the cursor
 function setup() {
-createCanvas(windowWidth,windowHeight);
-avatar = new Avatar(mouseX,mouseY,AVATAR_MAX_SIZE,AVATAR_SIZE_LOSS_PER_FRAME);
-agents.push(new Food(random(0,width),random(0,height),FOOD_MIN_SIZE,FOOD_MAX_SIZE,FOOD_MAX_SPEED));
-noCursor();
+  createCanvas(windowWidth, windowHeight);
+  agents.push(new Food(random(0, width), random(0, height), FOOD_MIN_SIZE, FOOD_MAX_SIZE, FOOD_MAX_SPEED));
+  agents.push(new Food(random(0, width), random(0, height), FOOD_MIN_SIZE, FOOD_MAX_SIZE, FOOD_MAX_SPEED));
+  avatar = new Avatar(mouseX, mouseY, AVATAR_MAX_SIZE, AVATAR_SIZE_LOSS_PER_FRAME);
+  noCursor();
 }
 
 // draw()
@@ -38,18 +39,15 @@ noCursor();
 // Display the avatar and food
 function draw() {
   background(0);
-  avatar.update();
-  avatar.display();
   for (let i = 0; i < agents.length; i++) {
-  agents[i].update();
-  agents[i].display();
-
-  if (avatar.collide(agents[i])) {
-    avatar.eat(agents[i]);
-  }
-
-  // if (avatar.collide(food)) {
-  //   avatar.eat(food); }
-
+    agents[i].update();
+    avatar.update();
+    if (avatar.collide(agents[i])) {
+      avatar.eat(agents[i]);
+    }
+    agents[i].display();
+    avatar.display();
   }
 }
+// if (avatar.collide(food)) {
+//   avatar.eat(food); }
