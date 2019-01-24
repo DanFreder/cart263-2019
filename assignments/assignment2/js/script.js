@@ -22,12 +22,13 @@ const FOOD_MAX_SPEED = 5;
 let vy = 1;
 let vx = 1;
 let agents = [];
+let avatar;
 
 // setup()
 // Create the canvas, avatar, and food, disable the cursor
 function setup() {
 createCanvas(windowWidth,windowHeight);
-agents.push(new Avatar(mouseX,mouseY,AVATAR_MAX_SIZE,AVATAR_SIZE_LOSS_PER_FRAME));
+avatar = new Avatar(mouseX,mouseY,AVATAR_MAX_SIZE,AVATAR_SIZE_LOSS_PER_FRAME);
 agents.push(new Food(random(0,width),random(0,height),FOOD_MIN_SIZE,FOOD_MAX_SIZE,FOOD_MAX_SPEED));
 noCursor();
 }
@@ -37,9 +38,18 @@ noCursor();
 // Display the avatar and food
 function draw() {
   background(0);
-
+  avatar.update();
+  avatar.display();
   for (let i = 0; i < agents.length; i++) {
   agents[i].update();
   agents[i].display();
-}
+
+  if (avatar.collide(agents[i])) {
+    avatar.eat(agents[i]);
+  }
+
+  // if (avatar.collide(food)) {
+  //   avatar.eat(food); }
+
+  }
 }
