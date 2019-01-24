@@ -1,3 +1,5 @@
+"use strict";
+
 // Agent
 //
 // A class that represents the basic idea of a coloured circle on the screen
@@ -27,10 +29,8 @@ class Agent {
     if (!this.active) {
       return false;
     }
-
     // Calculate the distance between this agent and the other agent
     let d = dist(this.x,this.y,other.x,other.y);
-
     // If the distance is less that their two radii, they overlap
     if (d < this.size/2 + other.size/2) {
       return true;
@@ -45,7 +45,6 @@ class Agent {
   //
   // Placeholder since subclasses/children should consider defining an update function
   update() {
-
   }
 
   // display()

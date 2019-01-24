@@ -1,3 +1,5 @@
+"use strict";
+
 // Avatar
 // defines an avatar class controlled by the player that eats other agents
 

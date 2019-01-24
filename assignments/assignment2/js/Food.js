@@ -1,3 +1,5 @@
+"use strict";
+
 // Food
 // A class for food, involves the ability to be a random size and be reset
 
@@ -10,16 +12,18 @@ class Food extends Agent {
     this.minSize = minSize;
     this.maxSize = maxSize;
     this.speed = speed;
+    this.vx = 1;
+    this.vy = 1;
   }
 
 update() {
   //randomize velocity ~20% of the time
     if (random(1) < 0.2) {
-      vx = random(-this.speed, this.speed);
-      vy = random(-this.speed, this.speed);
+      this.vx = random(-this.speed, this.speed);
+      this.vy = random(-this.speed, this.speed);
     }
-    this.x += vx;
-    this.y += vy;
+    this.x += this.vx;
+    this.y += this.vy;
 
     // screen wrapping
     if (this.x < 0) {
@@ -41,6 +45,7 @@ update() {
     this.x = random(0,width);
     this.y = random(0,height);
     this.size = random(this.minSize,this.maxSize);
-    this.speed = random(-this.speed,this.speed);
+    this.vx = random(-this.speed, this.speed);
+    this.vy = random(-this.speed, this.speed);
   }
 }
