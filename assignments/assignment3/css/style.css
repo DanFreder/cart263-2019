@@ -1,0 +1,46 @@
+/*********************************************
+
+Raving Redactionist CSS.
+
+**********************************************/
+
+/* Just some general syling of the page for aesthetics */
+body {
+  font-family: Courier, monospace;
+  width: 800px;
+  margin-left: 100px;
+  margin-top: 100px;
+}
+
+div {
+  margin-top: 1em;
+}
+
+/* Redacted elements need to be blanked out */
+/* this is selecting the redacted HTML class */
+.redacted {
+  background-color: black;
+  color: transparent;
+  text-decoration: none;
+}
+
+/* this is selecting the secret HTML class */
+.secret {
+  background-color: black;
+  color: transparent;
+  text-decoration: none;
+}
+
+/* this is selecting the found HTML class */
+.found {
+  background-color: lightblue;
+  color: blue;
+  text-decoration: none;
+}
+
+/* Revealed elements need to be highlighted because it's a disaster! */
+.revealed {
+  background-color: transparent;
+  text-decoration: underline;
+  color: red
+}
