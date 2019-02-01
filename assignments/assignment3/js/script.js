@@ -24,6 +24,7 @@ $(document).ready(setup);
 function setup() {
 
   // Save the selection of all spans (since we do stuff to them multiple times)
+  // '.redacted' because we're accessing only the redacted spans"
   $spans = $('.redacted');
   $secrets = $('.secret');
   // Set a click handler on the spans (so we know when they're clicked)
@@ -31,11 +32,12 @@ function setup() {
 
 //check if secrets are moused over
   $secrets.mouseover(function() {
-//# is for ID selection (as opposed to a class)
-    $('#secretCount').text(secretCounter);
     $(this).removeClass('secret');
+    $(this).off();
     $(this).addClass('found');
     secretCounter += 1;
+    //# is for ID selection (as opposed to a class)
+    $('#secretCount').text(secretCounter);
     console.log(secretCounter);
     })
   // Set an interval of 500 milliseconds to update the state of the page
