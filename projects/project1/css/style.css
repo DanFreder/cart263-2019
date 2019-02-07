@@ -1,0 +1,30 @@
+/*********************************************
+
+Stylin' shit
+
+**********************************************/
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Courier, monospace;
+  width: 800px;
+  margin-left: auto;
+  margin-top: 10%;
+}
+
+canvas {
+  display: block;
+}
+
+div {
+  margin-top: 1em;
+}
+
+/* Redacted elements need to be blanked out */
+/* this is selecting the redacted HTML class */
+.punctuation {
+  background-color: white;
+  color: blue;
+  text-decoration: none;
+}
