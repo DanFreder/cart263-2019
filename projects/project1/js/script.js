@@ -61,7 +61,7 @@ function setup() {
 
   $(this).click(function() {
     $punct.animate({
-      fontSize: '+=1'
+      margin: '+=10'
     }, "slow");
   });
 }

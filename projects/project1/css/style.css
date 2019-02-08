@@ -39,4 +39,6 @@ div {
   background-color: gold;
   color: transparent;
   text-decoration: none;
+  width: 500px;
+  height: 500px;
 }
