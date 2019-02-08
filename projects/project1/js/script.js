@@ -31,16 +31,14 @@ function setup() {
 
   $punct.on('click', spanClicked);
 
+  $folder.droppable();
   $punct.draggable();
   $header.draggable();
   $folder.draggable();
-  $folder2.draggable();
   $glitch1.draggable();
   $glitch2.draggable();
   $glitch3.draggable();
   $glitch4.draggable();
-
-  $folder.droppable();
 
   //stupid anonymous function for folder drop
   $folder.droppable({
