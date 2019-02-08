@@ -3,23 +3,61 @@
 /*****************
 Project 1
 Dan Freder
-Wow I hate jQuery
+Wow I hate jQuery, and you should too
 ******************/
-let x1 = 0;
-let y1 = 0;
-let x2 = 0;
-let y2 = 0;
+
 let canvas;
 let $punct;
-let $glitch;
+let $folder;
+let $folder2;
+let $glitch1;
 let $glitch2;
-let numCircles = 50;
+let $glitch3;
+let $glitch4;
+let $glitch5;
 
 $(document).ready(setup);
 
 function setup() {
   $punct = $('.punctuation');
+  $folder = $('#folder');
+  $folder2 = $('#folder2');
+  $glitch1 = $('#glitch1');
+  $glitch2 = $('#glitch2')
+  $glitch3 = $('#glitch3');
+  $glitch4 = $('#glitch4')
+
+  $punct.on('click',spanClicked);
+
   $punct.draggable();
+  $folder.draggable();
+  $folder2.draggable();
+  $glitch1.draggable();
+  $glitch2.draggable();
+  $glitch3.draggable();
+  $glitch4.draggable();
+
+  $folder.droppable();
+  $folder2.droppable();
+
+//stupid anonymous function for folder drop
+  $folder.droppable({
+  drop: function (event, ui) {
+    console.log('dropped');
+// ui.draggable will reference the last dragged element on the page
+    ui.draggable.remove();
+    $folder.toggle();
+}
+});
+
+$folder2.droppable({
+drop: function (event, ui) {
+  console.log('dropped');
+// ui.draggable will reference the last dragged element on the page
+  ui.draggable.remove();
+}
+});
+
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.style("display:block");
   canvas.style("position:fixed");
@@ -30,7 +68,7 @@ function setup() {
 }
 
 function draw() {
-  background(0,0,0,0);
+  background(0,0,0,5);
   stroke(random(100)+100,0,0);
   strokeWeight(3);
    if (mouseIsPressed === true) {
@@ -38,28 +76,10 @@ function draw() {
    }
 }
 
-//
-//   $glitch = $('.glitch1');
-//   $glitch2 = $('.glitch2');
-// }
-//
-// function draw() {
-//   background(0);
-//
-//   for (var i = 0; i < numCircles; i++) {
-//     push();
-//     fill(255, 255, 255, 255);
-//     stroke(0);
-//     strokeWeight(3);
-//     ellipse(random(width), height / 2,circleGrowth);
-//     pop();
-//   }
-//   circleGrowth += 1;
-// }
-//
-// function mouseClicked() {
-//   console.log("clicked");
-// }
+function spanClicked() {
+  $(this).removeClass('punctuation1');
+  $(this).addClass('punctuation2');
+}
 
 function windowResized() {
   // resize our canvas to the new window dimensions

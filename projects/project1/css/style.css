@@ -9,7 +9,7 @@ body {
   margin: 0;
   font-family: Courier, monospace;
   width: 800px;
-  margin-left: auto;
+  margin-left: 10%;
   margin-top: 10%;
 }
 
@@ -27,4 +27,17 @@ div {
   background-color: white;
   color: blue;
   text-decoration: none;
+}
+
+.punctuation2 {
+  background-color: blue;
+  color: white;
+  text-decoration: none;
+}
+
+.header {
+  background-color: transparent;
+  color: white;
+  text-decoration: none;
+  tab-size: 100;
 }
