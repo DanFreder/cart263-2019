@@ -3,7 +3,7 @@
 /*****************
 Project 1
 Dan Freder
-Wow I hate jQuery, and you should too
+Wow I hate jQuery
 ******************/
 
 let canvas;
@@ -15,6 +15,7 @@ let $glitch2;
 let $glitch3;
 let $glitch4;
 let $glitch5;
+let $header;
 
 $(document).ready(setup);
 
@@ -26,10 +27,12 @@ function setup() {
   $glitch2 = $('#glitch2')
   $glitch3 = $('#glitch3');
   $glitch4 = $('#glitch4')
+  $header = $('.header');
 
   $punct.on('click', spanClicked);
 
   $punct.draggable();
+  $header.draggable();
   $folder.draggable();
   $folder2.draggable();
   $glitch1.draggable();
@@ -55,20 +58,25 @@ function setup() {
   canvas.style("left:0");
   canvas.style("z-index:-100");
   background(0);
-}
 
-function draw() {
-  background(0, 0, 0, 5);
-  stroke(random(100) + 100, 0, 0);
-  strokeWeight(3);
-  if (mouseIsPressed === true) {
-    line(width / 2, height / 2, mouseX, mouseY);
-  }
+  $(this).click(function() {
+    $punct.animate({
+      fontSize: '+=1'
+    }, "slow");
+  });
 }
 
 function spanClicked() {
   $(this).removeClass('punctuation1');
   $(this).addClass('punctuation2');
+}
+
+function draw() {
+  stroke(random(100) + 100, 0, 0);
+  strokeWeight(3);
+  if (mouseIsPressed === true) {
+    line(width / 2, height / 2, mouseX, mouseY);
+  }
 }
 
 function windowResized() {

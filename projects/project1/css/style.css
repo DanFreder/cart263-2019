@@ -36,8 +36,7 @@ div {
 }
 
 .header {
-  background-color: transparent;
-  color: white;
+  background-color: gold;
+  color: transparent;
   text-decoration: none;
-  tab-size: 100;
 }
