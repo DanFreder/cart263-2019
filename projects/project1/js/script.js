@@ -27,7 +27,7 @@ function setup() {
   $glitch3 = $('#glitch3');
   $glitch4 = $('#glitch4')
 
-  $punct.on('click',spanClicked);
+  $punct.on('click', spanClicked);
 
   $punct.draggable();
   $folder.draggable();
@@ -38,25 +38,15 @@ function setup() {
   $glitch4.draggable();
 
   $folder.droppable();
-  $folder2.droppable();
 
-//stupid anonymous function for folder drop
+  //stupid anonymous function for folder drop
   $folder.droppable({
-  drop: function (event, ui) {
-    console.log('dropped');
-// ui.draggable will reference the last dragged element on the page
-    ui.draggable.remove();
-    $folder.toggle();
-}
-});
-
-$folder2.droppable({
-drop: function (event, ui) {
-  console.log('dropped');
-// ui.draggable will reference the last dragged element on the page
-  ui.draggable.remove();
-}
-});
+    drop: function(event, ui) {
+      console.log('dropped');
+      // ui.draggable will reference the last dragged element on the page
+      ui.draggable.remove();
+    }
+  });
 
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.style("display:block");
@@ -68,12 +58,12 @@ drop: function (event, ui) {
 }
 
 function draw() {
-  background(0,0,0,5);
-  stroke(random(100)+100,0,0);
+  background(0, 0, 0, 5);
+  stroke(random(100) + 100, 0, 0);
   strokeWeight(3);
-   if (mouseIsPressed === true) {
-     line(width/2,height/2, mouseX,mouseY);
-   }
+  if (mouseIsPressed === true) {
+    line(width / 2, height / 2, mouseX, mouseY);
+  }
 }
 
 function spanClicked() {
