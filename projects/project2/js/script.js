@@ -6,10 +6,12 @@ Dan Freder
 ******************/
 'use strict';
 
-let numSquares = 38;
+let numSquares = 80;
 let squares = [];
 let mic;
 let vol;
+let spectrum;
+let fft;
 
 function setup() {
   // Create a canvas the size of the window
@@ -24,13 +26,17 @@ function setup() {
 
   //instantiate array of rectangles
   for (var i = 0; i < numSquares; i++) {
-    squares[i] = new Square(windowWidth / 2, windowHeight / 2 - 300, 0);
+    squares[i] = new Square(windowWidth / 2-200, windowHeight / 2 - 300);
   }
 
   // create audio input
   mic = new p5.AudioIn();
   // start adc~
   mic.start();
+
+ // create waveform to visualize amplitude of mic input
+fft = new p5.FFT();
+fft.setInput(mic);
 
   angleMode(DEGREES);
 }
@@ -39,11 +45,19 @@ function draw() {
   background(0);
 
   vol = mic.getLevel();
+  spectrum = fft.analyze();
+
+  push();
+  fill(255,255);
+  stroke(255);
+  strokeWeight(2);
+  ellipse(200,200,vol*5000,vol*5000);
+  pop();
 
   for (var i = 0; i < numSquares; i++) {
     squares[i].update();
     squares[i].display();
-    translate(0, 20);
+    translate(10, 15);
   }
 }
 
