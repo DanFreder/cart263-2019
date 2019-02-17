@@ -1,23 +1,28 @@
-function square(x,y,colour) {
+let rectWidth = 10;
+let rectHeight = 100;
+let angle = 0;
+
+function Square(x,y,colour) {
 this.x = x;
 this.y = y;
 this.colour = colour;
 }
 
-square.prototype.update = function() {
-if (dist(mouseX, mouseY,this.x,this.y) < 150) {
-    background('#4b5358');
-  } else {
-    background('#af929d');
-  }
+Square.prototype.update = function() {
+
+rectWidth = (sin(angle + PI/2) * (width/2 + mouseX));
+rectHeight = (sin(angle + PI/2) * (height/2 + mouseY));
+
+angle += .01;
 }
 
-square.prototype.display = function() {
+Square.prototype.display = function() {
   push();
-  rectMode(CENTER);
   fill(this.colour);
-  strokeWeight(3);
-  stroke(0);
-  rect(this.x + spacing, this.y + spacing,300,300);
+  strokeWeight(2);
+  stroke(255);
+  noFill();
+  rectMode(CENTER);
+  rect(this.x, this.y,rectWidth,rectHeight);
   pop();
 }
