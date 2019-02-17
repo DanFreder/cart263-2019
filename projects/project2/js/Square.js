@@ -13,7 +13,7 @@ Square.prototype.update = function() {
 rectWidth = (sin(angle + PI/2) * (width/2 + mouseX));
 rectHeight = (sin(angle + PI/2) * (height/2 + mouseY));
 
-angle += .01;
+angle += vol;
 }
 
 Square.prototype.display = function() {

@@ -8,6 +8,8 @@ Dan Freder
 
 let numSquares = 38;
 let squares = [];
+let mic;
+let vol;
 
 function setup() {
   // Create a canvas the size of the window
@@ -20,21 +22,31 @@ function setup() {
   canvas.style("z-index:-100");
   background(0);
 
+  //instantiate array of rectangles
   for (var i = 0; i < numSquares; i++) {
-  squares[i] = new Square(windowWidth/2,windowHeight/2-300,0);
-}
+    squares[i] = new Square(windowWidth / 2, windowHeight / 2 - 300, 0);
+  }
 
-angleMode(DEGREES);
+  // create audio input
+  mic = new p5.AudioIn();
+  // start adc~
+  mic.start();
+
+  angleMode(DEGREES);
 }
 
 function draw() {
   background(0);
-      for (var i = 0; i < numSquares; i++) {
-      squares[i].update();
-      squares[i].display();
-translate(0,20);
-    }
+
+vol = mic.getLevel();
+
+  for (var i = 0; i < numSquares; i++) {
+    squares[i].update();
+    squares[i].display();
+    translate(0, 20);
   }
+}
+
 function windowResized() {
   // resize our canvas to the new window dimensions
   resizeCanvas(windowWidth, windowHeight);
