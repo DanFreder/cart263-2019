@@ -38,7 +38,7 @@ function setup() {
 function draw() {
   background(0);
 
-vol = mic.getLevel();
+  vol = mic.getLevel();
 
   for (var i = 0; i < numSquares; i++) {
     squares[i].update();
