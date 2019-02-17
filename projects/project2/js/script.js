@@ -10,8 +10,7 @@ let numSquares = 80;
 let squares = [];
 let mic;
 let vol;
-let spectrum;
-let fft;
+let curveAmp;
 
 function setup() {
   // Create a canvas the size of the window
@@ -35,8 +34,6 @@ function setup() {
   mic.start();
 
  // create waveform to visualize amplitude of mic input
-fft = new p5.FFT();
-fft.setInput(mic);
 
   angleMode(DEGREES);
 }
@@ -45,13 +42,13 @@ function draw() {
   background(0);
 
   vol = mic.getLevel();
-  spectrum = fft.analyze();
 
   push();
-  fill(255,255);
+  noFill();
   stroke(255);
   strokeWeight(2);
-  ellipse(200,200,vol*5000,vol*5000);
+  curveAmp = map(vol,0,1,0,width);
+bezier(0, height/2, width/2-curveAmp, curveAmp, width/2+curveAmp,curveAmp, width, height/2)
   pop();
 
   for (var i = 0; i < numSquares; i++) {

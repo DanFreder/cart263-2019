@@ -18,7 +18,7 @@ angle += angleAmp;
 
 Square.prototype.display = function() {
   push();
-  fill(0,0,0,0);
+  noFill();
   strokeWeight(2);
   stroke(255,255,255,255);
   rectMode(CENTER);
