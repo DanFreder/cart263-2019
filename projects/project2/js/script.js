@@ -6,11 +6,13 @@ Dan Freder
 ******************/
 'use strict';
 
-let numSquares = 80;
+let numSquares = 42;
 let squares = [];
 let mic;
 let vol;
 let curveAmp;
+let volHistory = [];
+let y = 0;
 
 function setup() {
   // Create a canvas the size of the window
@@ -25,7 +27,7 @@ function setup() {
 
   //instantiate array of rectangles
   for (var i = 0; i < numSquares; i++) {
-    squares[i] = new Square(windowWidth / 2-200, windowHeight / 2 - 300);
+    squares[i] = new Square(windowWidth / 2 - 205, windowHeight / 2 - 300);
   }
 
   // create audio input
@@ -41,22 +43,36 @@ function setup() {
 function draw() {
   background(0);
 
-  vol = mic.getLevel();
+//retrieve mic in to vol
+vol = mic.getLevel();
 
-  push();
-  noFill();
-  stroke(255);
-  strokeWeight(2);
-  curveAmp = map(vol,0,1,0,width);
-bezier(0, height/2, width/2-curveAmp, curveAmp, width/2+curveAmp,curveAmp, width, height/2)
-  pop();
-
+// //push amplitude values to array
+// volHistory.push(vol);
+// //graph values
+// push();
+// translate(0,-height/2-100);
+// beginShape();
+// for (var i = 0; i < volHistory.length; i ++) {
+// y = map(volHistory[i],0,1,height,0);
+// noFill();
+// stroke(255,0,0);
+// strokeWeight(2);
+// curveVertex(i,y);
+// }
+// endShape();
+// pop();
+//
+// if (volHistory.length > width) {
+//   volHistory.splice(0,1);
+// }
+push();
   for (var i = 0; i < numSquares; i++) {
     squares[i].update();
     squares[i].display();
     translate(10, 15);
   }
-}
+pop();
+  }
 
 function windowResized() {
   // resize our canvas to the new window dimensions

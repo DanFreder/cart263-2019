@@ -8,17 +8,19 @@ this.y = y;
 }
 
 Square.prototype.update = function() {
-
-rectWidth = (sin(angle + PI/2) * (width/2 + pmouseX));
-rectHeight = (sin(angle + PI/2) * (height/2 + pmouseY));
-
 angleAmp = map(vol,0,1,0,.4);
 angle += angleAmp;
+rectWidth = (sin(angle + PI/8) * (width/2 + mouseX));
+rectHeight = (sin(angle + PI/8) * (height/2 + mouseY/2));
 }
 
 Square.prototype.display = function() {
-  push();
-  noFill();
+push();
+if (mouseIsPressed) {
+fill(0,0,0,25);
+} else {
+  fill(0,0,0,0);
+}
   strokeWeight(2);
   stroke(255,255,255,255);
   rectMode(CENTER);
