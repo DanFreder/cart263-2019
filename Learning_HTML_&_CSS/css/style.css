@@ -1,0 +1,43 @@
+/*********************************************
+
+CSS
+
+**********************************************/
+body {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 1em;
+  margin: 0;
+  border: 0;
+  text-align: center;
+}
+
+h1 {
+  background-color: black;
+  color: white;
+}
+
+p {
+  background-color: #139A43;
+  color: white;
+  font-family: 'Helvetica';
+  font-size: 32px;
+  padding: 1em;
+  border: 0em;
+}
+
+li {
+  background-color: blue;
+  color: white;
+  font-family: 'Helvetica';
+  font-size: 32px;
+  padding: 0px;
+  border: 0em;
+
+a {
+  background-color: green;
+  color: black;
+  font-family: 'Helvetica';
+  font-size: 32px;
+}
