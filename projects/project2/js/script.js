@@ -14,6 +14,10 @@ let time = 1;
 let counter = 0;
 let moveX;
 let moveY;
+let noiseY;
+let xOff1 = 0;
+let inc = 0.02;
+let start = 0;
 
 function setup() {
   // Create a canvas the size of the window
@@ -45,8 +49,8 @@ function draw() {
   //retrieve mic in to vol
   vol = mic.getLevel();
 
-  if (counter === 1) {
-    //white rectangles
+  //white rectangles
+  if (counter === 3) {
     push();
     for (var i = 0; i < numSquares; i++) {
       squares[i].update();
@@ -66,28 +70,52 @@ function draw() {
     time += 10;
   }
 
+  //triangle curve
   if (counter === 2) {
     push();
     noFill();
     stroke(255);
-    strokeWeight(1);
+    strokeWeight(2);
     moveX = map(mouseX, 0, width, width / 2.1, width - width / 2.1);
     moveY = map(mouseY, 0, height, height / 2.1, height - height / 2.1);
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 250; i++) {
       translate(moveX - width / 2, moveY - height / 2);
-      rotate(radians(45));
-      triangle(width / 2 - 15 * i, height / 2 + 15 * i, width / 2, height / 2 - 15 * i, width / 2 + 15 * i, height / 2 + 15 * i);
+      rotate(radians((1920 * vol) + 45));
+      triangle(width / 2 - 25 * i, height / 2 + 25 * i, width / 2, height / 2 - 25 * i, width / 2 + 25 * i, height / 2 + 25 * i);
     }
     pop();
   }
+
+  //noise
+  if (counter === 1) {
+    push();
+    stroke(255);
+    strokeWeight(2);
+    noFill();
+    for (var lines = 0; lines < 10; lines++) {
+      translate(0, 15);
+      beginShape();
+      xOff1 = start;
+      for (var i = 0; i < width; i++) {
+        noiseY = noise(xOff1) * height;
+        stroke(255);
+        vertex(i, (noiseY * vol) + height / 4);
+        xOff1 += inc;
+      }
+      endShape();
+      start += inc;
+    }
+    pop();
+  }
+
   //text
-  textFont("Futura");
-  textSize(72);
-  textStyle('italic');
-  textAlign(CENTER, CENTER);
-  noStroke();
-  fill('#990033');
-  text("uchh", width / 2, height / 2);
+  // textFont("Futura");
+  // textSize(72);
+  // textStyle('italic');
+  // textAlign(CENTER, CENTER);
+  // noStroke();
+  // fill('#990033');
+  // text("uchh", width / 2, height / 2);
 }
 
 //counter for different states
@@ -100,7 +128,7 @@ function mouseReleased() {
   console.log('counter', counter);
 }
 
+// resize canvas to new window dimensions - presently not working
 function windowResized() {
-  // resize our canvas to the new window dimensions
   resizeCanvas(windowWidth, windowHeight);
 }
