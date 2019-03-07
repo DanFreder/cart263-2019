@@ -2,7 +2,7 @@
 
 Project 2
 Dan Freder
-
+audio-reactive lines on a black background
 ******************/
 'use strict';
 
@@ -16,8 +16,13 @@ let moveX;
 let moveY;
 let noiseY;
 let xOff1 = 0;
+let yOff1 = 0;
+let zOff1 = 0;
 let inc = 0.02;
+let flowInc = .0005;
 let start = 0;
+let scl = 20;
+let cols, rows;
 
 function setup() {
   // Create a canvas the size of the window
@@ -29,6 +34,8 @@ function setup() {
   canvas.style("left:0");
   canvas.style("z-index:-100");
   background(0);
+  cols = floor(width / scl);
+  rows = floor(height / scl);
 
   //Instantiate array of rectangles
   for (var i = 0; i < numSquares; i++) {
@@ -40,8 +47,6 @@ function setup() {
   // start adc~
   mic.start();
 
-  // fuck with this
-  angleMode(DEGREES);
 }
 
 function draw() {
@@ -50,7 +55,8 @@ function draw() {
   vol = mic.getLevel();
 
   //white rectangles
-  if (counter === 3) {
+  if (counter === 4) {
+    angleMode(DEGREES);
     push();
     for (var i = 0; i < numSquares; i++) {
       squares[i].update();
@@ -72,6 +78,7 @@ function draw() {
 
   //triangle curve
   if (counter === 2) {
+    angleMode(DEGREES);
     push();
     noFill();
     stroke(255);
@@ -86,20 +93,21 @@ function draw() {
     pop();
   }
 
-  //noise
-  if (counter === 1) {
+  //noisy bars
+  if (counter === 3) {
+    angleMode(DEGREES);
     push();
     stroke(255);
     strokeWeight(2);
     noFill();
-    for (var lines = 0; lines < 10; lines++) {
+    for (var lines = 0; lines < 3; lines++) {
       translate(0, 15);
       beginShape();
       xOff1 = start;
       for (var i = 0; i < width; i++) {
         noiseY = noise(xOff1) * height;
         stroke(255);
-        vertex(i, (noiseY * vol) + height / 4);
+        vertex(i, (noiseY * 5 * vol) + height / 5);
         xOff1 += inc;
       }
       endShape();
@@ -108,6 +116,30 @@ function draw() {
     pop();
   }
 
+  //flowy lines
+  if (counter === 1) {
+    angleMode(RADIANS);
+    var yOff1 = 0;
+    for (var y = 0; y < rows; y++) {
+      xOff1 = 0;
+      for (var x = 0; x < cols; x++) {
+        var index = (x + y * width) * 4;
+        var angle = noise(xOff1, yOff1, zOff1) * TWO_PI;
+        var v = p5.Vector.fromAngle(angle);
+        xOff1 += -mouseX / 5000;
+        stroke(255);
+        strokeWeight(2);
+        push();
+        translate(x * scl, y * scl);
+        rotate(v.heading());
+        line(0, 0, scl, 0);
+        pop();
+      }
+      yOff1 += -mouseY / 5000;
+      zOff1 += vol * .1;
+    }
+
+  }
   //text
   // textFont("Futura");
   // textSize(72);
