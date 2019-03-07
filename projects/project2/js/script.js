@@ -49,16 +49,16 @@ function draw() {
     introText();
   }
   if (counter === 1) {
-    whiteRectangles();
-  }
-  if (counter === 2) {
     noiseBars();
   }
+  if (counter === 2) {
+    circleMeetSquare();
+  }
   if (counter === 3) {
-    whiteRectangles();
+    triangleCurve();
   }
   if (counter === 4) {
-    triangleCurve();
+    whiteRectangles();
   }
   if (counter === 5) {
     vectorField();
@@ -73,6 +73,40 @@ function introText() {
   noStroke();
   fill(255);
   text('click', width / 2, height / 2 + 10);
+}
+
+function circleMeetSquare() {
+  angleMode(DEGREES);
+  rectMode(CENTER);
+  stroke(255);
+  strokeWeight(2);
+  noFill();
+  push();
+  var inishScale = 1000;
+  var sclMseX = map(mouseX, 0, width, width / 7, width - width / 7);
+  var sclMseY = map(mouseY, 0, height, height / 5, height - height / 5);
+  //circles to right & down
+  for (var i = 0; i < 30; i++) {
+    ellipse(windowWidth / 2, windowHeight / 2, inishScale + (1000 * vol) + sclMseX, inishScale / 2 + sclMseY);
+    translate(20, i);
+  }
+  pop();
+  //circles to left & up
+  push();
+  for (var i = 0; i < 30; i++) {
+    ellipse(windowWidth / 2, windowHeight / 2, inishScale + (1000 * vol) + sclMseX, inishScale / 2 + sclMseY);
+    translate(-20, -i);
+  }
+  pop();
+  //black squares highlight -ve space
+  push();
+  noFill();
+  stroke(0);
+  strokeWeight(6);
+  for (var i = 0; i < 100; i++) {
+    rect(width / 2, height / 2, 1000 * vol + 50 * i, 1000 * vol + 50 * i);
+  }
+  pop();
 }
 
 function noiseBars() {
@@ -108,14 +142,14 @@ function whiteRectangles() {
   var rectWidth = (sin(angle) * (width / 2 + mouseX));
   var rectHeight = (sin(angle) * (height / 2 + mouseY));
   push();
-  //center to lower left
+  //center to lower right
   for (var i = 0; i < numSquares; i++) {
     rect(width / 2, height / 2, rectWidth, rectHeight);
     translate(20, 20);
   }
   pop();
   push();
-  //center to upper right
+  //center to upper left
   for (var i = 0; i < numSquares; i++) {
     rect(width / 2, height / 2, rectWidth, rectHeight);
     translate(-20, -20);
@@ -149,6 +183,7 @@ function triangleCurve() {
   pop();
 }
 
+//this is heavily based on Dan shiffman's vector flow field
 function vectorField() {
   cols = floor(windowWidth / scl) + 1;
   rows = floor(windowHeight / scl) + 1;
