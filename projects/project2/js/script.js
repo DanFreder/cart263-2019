@@ -70,7 +70,7 @@ function draw() {
     stroke(0);
     strokeWeight(8);
     for (var i = 0; i < 100; i++) {
-      ellipse(pmouseX, pmouseY, sin(time) + 50 * i, sin(time) + 50 * i);
+      ellipse(width / 2, height / 2, sin(time * vol) + 50 * i, sin(time * vol) + 50 * i);
     }
     pop();
     time += 10;
@@ -83,11 +83,11 @@ function draw() {
     noFill();
     stroke(255);
     strokeWeight(2);
-    moveX = map(mouseX, 0, width, width / 2.1, width - width / 2.1);
-    moveY = map(mouseY, 0, height, height / 2.1, height - height / 2.1);
+    moveX = map(mouseX, 0, width, width / 2.05, width - width / 2.05);
+    moveY = map(mouseY, 0, height, height / 2.01, height - height / 2.01);
     for (var i = 0; i < 250; i++) {
       translate(moveX - width / 2, moveY - height / 2);
-      rotate(radians((1920 * vol) + 45));
+      rotate(radians(45));
       triangle(width / 2 - 25 * i, height / 2 + 25 * i, width / 2, height / 2 - 25 * i, width / 2 + 25 * i, height / 2 + 25 * i);
     }
     pop();
@@ -135,7 +135,7 @@ function draw() {
         line(0, 0, scl, 0);
         pop();
       }
-      yOff1 += -mouseY / 5000;
+      yOff1 += mouseY / 5000;
       zOff1 += vol * .1;
     }
 
