@@ -1,10 +1,9 @@
 /*****************
 
-Project 2
-Dan Freder
+project 2 - 'click'
+dan freder
+
 white lines on black canvas
-completely ignoring the project prompt
-classic self-detrimental behaviour we can expect from dan
 ******************/
 'use strict';
 
@@ -38,14 +37,17 @@ function setup() {
   mic = new p5.AudioIn();
   // start adc~
   mic.start();
+  // Start annYang listening.
+  annyang.start();
 }
 
 function draw() {
   background(0);
   //retrieve mic in to vol
   vol = mic.getLevel();
-
+  noCursor();
   if (counter === 0) {
+    cursor();
     introText();
   }
   if (counter === 1) {
@@ -67,12 +69,34 @@ function draw() {
 
 function introText() {
   textFont("Futura");
-  textSize(72);
+  textSize(width / height * 50);
   textStyle('italic');
   textAlign(CENTER, CENTER);
   noStroke();
   fill(255);
-  text('click', width / 2, height / 2 + 10);
+  text('click', width / 2, height / 2 + 20);
+}
+
+function noiseBars() {
+  angleMode(DEGREES);
+  push();
+  stroke(255);
+  strokeWeight(2);
+  noFill();
+  for (var lines = 0; lines < 3; lines++) {
+    translate(0, 15);
+    beginShape();
+    xOff1 = start;
+    for (var i = 0; i < width; i++) {
+      noiseY = noise(xOff1) * height;
+      stroke(255);
+      vertex(i, (noiseY * 5 * vol) + pmouseY - 35);
+      xOff1 += inc;
+    }
+    endShape();
+    start += inc;
+  }
+  pop();
 }
 
 function circleMeetSquare() {
@@ -109,24 +133,19 @@ function circleMeetSquare() {
   pop();
 }
 
-function noiseBars() {
+function triangleCurve() {
   angleMode(DEGREES);
   push();
+  noFill();
   stroke(255);
   strokeWeight(2);
-  noFill();
-  for (var lines = 0; lines < 3; lines++) {
-    translate(0, 15);
-    beginShape();
-    xOff1 = start;
-    for (var i = 0; i < width; i++) {
-      noiseY = noise(xOff1) * height;
-      stroke(255);
-      vertex(i, (noiseY * 5 * vol) + pmouseY - 35);
-      xOff1 += inc;
-    }
-    endShape();
-    start += inc;
+  moveX = map(mouseX, 0, width, width / 2.07, width - width / 2.07);
+  moveY = map(mouseY, 0, height, height / 2.06, height - height / 2.06);
+  for (var i = 0; i < 200; i++) {
+    translate(moveX - width / 2, moveY - height / 2);
+    rotate(radians(45));
+    var triVolScale = vol * 5000;
+    triangle(width / 2 - 30 * i - triVolScale, height / 2 + 30 * i + triVolScale, width / 2, height / 2 - 30 * i - triVolScale, width / 2 + 30 * i + triVolScale, height / 2 + 30 * i + triVolScale);
   }
   pop();
 }
@@ -162,23 +181,6 @@ function whiteRectangles() {
   strokeWeight(6);
   for (var i = 0; i < 100; i++) {
     ellipse(width / 2, height / 2, 1000 * vol + 50 * i, 1000 * vol + 50 * i);
-  }
-  pop();
-}
-
-function triangleCurve() {
-  angleMode(DEGREES);
-  push();
-  noFill();
-  stroke(255);
-  strokeWeight(2);
-  moveX = map(mouseX, 0, width, width / 2.07, width - width / 2.07);
-  moveY = map(mouseY, 0, height, height / 2.06, height - height / 2.06);
-  for (var i = 0; i < 200; i++) {
-    translate(moveX - width / 2, moveY - height / 2);
-    rotate(radians(45));
-    var triVolScale = vol * 5000;
-    triangle(width / 2 - 30 * i - triVolScale, height / 2 + 30 * i + triVolScale, width / 2, height / 2 - 30 * i - triVolScale, width / 2 + 30 * i + triVolScale, height / 2 + 30 * i + triVolScale);
   }
   pop();
 }
@@ -219,8 +221,22 @@ function mouseReleased() {
   console.log('counter', counter);
 }
 
+if (annyang) {
+  // First the text we expect, and then the function it should call
+  var commands = {
+    'click': function() {
+      counter++;
+      counter = constrain(counter, 1, 6);
+      if (counter >= 6) {
+        counter = 1;
+      }
+      console.log('counter', counter);
+    }
+  };
+  annyang.addCommands(commands);
+}
+
 // resize canvas to new window dimensions
 function windowResized() {
-  console.log('RESIZED');
   resizeCanvas(windowWidth, windowHeight);
 }
