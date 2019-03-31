@@ -12,10 +12,12 @@ let o1z = 10;
 let song;
 let loaded = 0;
 let whereYat = 0;
+let graphics2d;
 
 function setup() {
   // Create a canvas the size of the window
-  canvas = createCanvas(windowWidth, windowHeight);
+  canvas = createCanvas(windowWidth, windowHeight, WEBGL);
+  graphics2d = createGraphics(windowWidth, windowHeight);
   // Style it so it sits fixed behind HTML & ignores scrolling
   canvas.style("display:block");
   canvas.style("position:fixed");
@@ -25,7 +27,7 @@ function setup() {
   background(0);
 
   //load audio file and trigger songLoaded function once it's loaded
-  song = loadSound('assets/sounds/phosphenes_rough.wav', songLoaded);
+  song = loadSound('assets/sounds/phosphenes_rough.mp3', songLoaded);
 }
 
 function songLoaded() {
@@ -37,28 +39,29 @@ function songLoaded() {
 function draw() {
   //display loading screen if song hasn't loaded
   if (loaded == 0) {
-    background(0);
-    textFont("Futura");
-    textSize(width / height * 50);
-    textStyle('italic');
-    textAlign(CENTER, CENTER);
-    noStroke();
-    fill(255);
-    text('loading', width / 2, height / 2 + 20);
+    graphics2d.background(0);
+    graphics2d.textFont("Futura");
+    graphics2d.textSize(100);
+    graphics2d.textStyle('italic');
+    graphics2d.textAlign(CENTER, CENTER);
+    graphics2d.noStroke();
+    graphics2d.fill(255);
+    graphics2d.text('loading', windowWidth / 2, windowHeight / 2 + 20);
+    texture(graphics2d);
+    plane(windowWidth, windowHeight);
   } else {
 
-    //start the 'video'
+    //start music video
     whereYat = song.currentTime();
     console.log(whereYat);
     background(0);
-    //style for our spheres
+
+    //low-poly spheres
     push();
     strokeWeight(1);
     stroke(226);
     fill(0, 0, 0, 0);
-    // rotating sphere
-    translate(windowWidth / 2, windowHeight / 2);
-    ellipse(0, 0, 100, 100);
+    sphere(100, 5, 5);
     pop();
 
     o1x += .004;
