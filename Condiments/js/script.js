@@ -5,15 +5,17 @@ Condiments - In Class Exercise
 Dan Freder
 ******************/
 
+let paint;
+
 $(document).ready(function() {
   $.getJSON('data/paints.JSON', dataLoaded);
   $.getJSON('data/data.JSON', dataLoaded);
 });
 
-
 function dataLoaded(data) {
   let paint = getRandomElement(data.colors);
   console.log(paint);
+
   let condiment = getRandomElement(data.condiments);
   // console.log(condiment);
   //check if ends with s

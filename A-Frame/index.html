@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
+
+  <!-- CSS stylesheet(s) -->
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+  <!-- Library script(s) -->
+  <script src="js/libraries/p5.min.js"></script>
+  <script src="js/libraries/p5.sound.min.js"></script>
+  <script src="js/libraries/p5.dom.min.js"></script>
+  <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+  <!-- My script(s) -->
+  <script src="js/script.js"></script>
+</head>
+
+
+<body>
+  <a-scene>
+    <a-entity rotation="0 0 0" position="0 0 0">
+        <a-text value="ucch" position="0 2 -1" rotation="0 0 45" color="#2b4162" align="center"></a-text>
+        <a-box src="/assets/images/plywoodTex.jpg" position="0 2 -3" rotation="45 45 0"></a-box>
+        <a-sphere src="/assets/images/bricks.jpg"position="0 1.25 -5" radius="1.25"></a-sphere>
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+        <a-sky src="/assets/images/coldBack.jpg"></a-sky>
+      </a-entity>
+    </a-scene>
+</body>
+
+</html>
