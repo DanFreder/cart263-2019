@@ -16,13 +16,13 @@ let amp;
 
 //second values for different song sections
 let p1 = 1;
-let p2 = 20;
-let p3 = 30;
-let p4 = 40;
-let p5 = 50;
-let p6 = 60;
-let p7 = 70;
-let p8 = 80;
+let p2 = 50;
+let p3 = 100;
+let p4 = 100;
+let p5 = 100;
+let p6 = 100;
+let p7 = 100;
+let p8 = 100;
 
 function setup() {
   // Create a canvas the size of the window
@@ -35,7 +35,10 @@ function setup() {
   canvas.style("left:0");
   canvas.style("z-index:-100");
   background(0);
-  amplitude = new p5.Amplitude();
+
+  //WHY IS THIS NOT WORKING???
+  amplitude = new p5.Amplitude(0.);
+
   //load audio file and trigger songLoaded function once it's loaded
   song = loadSound('assets/sounds/phosphenes_rough.mp3', songLoaded);
 }
@@ -53,11 +56,11 @@ function draw() {
   } else {
     //start music video
     background(0);
-    amp = amplitude.getLevel();
+    // amp = amplitude.getLevel();
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= p1 && currentTime <= p2) {
-      spheres();
+      dunshire();
     } else if (currentTime >= p2 && currentTime <= p3) {
       spheres();
     } else if (currentTime >= p3 && currentTime <= p4) {
@@ -75,21 +78,26 @@ function draw() {
 }
 
 function dunshire() {
+  var xScale = mouseX;
+  xScale = map(xScale, 0, width, width / 101, width - width / 101);
+  var yScale = mouseY;
+  yScale = map(yScale, height, 0, height / 2, 2 * height);
+  angleMode(DEGREES);
   push();
-  translate(0, -200, 0);
-  strokeWeight(2);
+  translate(0, 0, 0);
+  strokeWeight(1);
   stroke(226);
-  rotateX(o1x);
+  rotateX(90);
   rotateY(o1y);
-  rotateZ(o1z);
-  specularMaterial(2);
-  cone(200, 100, 20);
-  translate(0, 200, 0);
-  cone(200, 100, 20);
+  rotateZ(0);
+  fill(0, 0, 0, 3);
+  cone(yScale, xScale, 11, 6);
   pop();
+  o1y += .1;
 }
 
 function spheres() {
+  angleMode(RADIANS);
   push();
   translate(-200, 0, 100);
   for (var i = 0; i < 2; i++) {
