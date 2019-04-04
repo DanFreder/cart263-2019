@@ -11,13 +11,13 @@ let song;
 let loaded = 0;
 let currentTime = 0;
 let graphics2d;
+let amplitude;
 let amp = 0;
-let amplitude = 0;
 
 //second values for different song sections
 let part1 = 1;
-let part2 = 100;
-let part3 = 100;
+let part2 = 10;
+let part3 = 20;
 let part4 = 100;
 let part5 = 100;
 let part6 = 100;
@@ -42,9 +42,9 @@ function setup() {
   canvas.style("left:0");
   canvas.style("z-index:-100");
   background(0);
-  amplitude = new p5.Amplitude(.125);
+  amplitude = new p5.Amplitude();
   //load audio file and trigger songLoaded function once it's loaded
-  song = loadSound('assets/sounds/slowBurnUnmixed.mp3', songLoaded);
+  song = loadSound('assets/sounds/slowBurnUnmixed2.mp3', songLoaded);
 }
 
 function songLoaded() {
@@ -60,11 +60,11 @@ function draw() {
   } else {
     //start music video
     background(0);
-    amp = amplitude.getLevel();
+    amp = amplitude.volume * 10;
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      testing();
+      planar();
     } else if (currentTime >= part2 && currentTime <= part3) {
       spheres();
     } else if (currentTime >= part3 && currentTime <= part4) {
@@ -81,45 +81,48 @@ function draw() {
   }
 }
 
-function testing() {
-  push();
-  noFill();
-  strokeWeight(2);
-  stroke(255);
-  sphere(300, 10, floor(amp * 1000));
-  pop();
-}
-
 function dunshire() {
   var xScale = mouseX;
   xScale = map(xScale, 0, width, -width / 12, -width / 3);
   var yScale = mouseY;
   yScale = map(yScale, height, 0, height / 2, 3 * height);
-  var scaledAmp = map(amp, 0., 1., 15, 180.);
+  var scaledAmp = map(amp, 0., 1., 0, 45.);
   angleMode(DEGREES);
   push();
   translate(0, 0, 0);
   strokeWeight(1);
-  stroke('#6EDBA1');
+  stroke(clr1);
   rotateX(90);
   rotateY(o1y);
-  rotateZ(scaledAmp);
+  rotateZ(o1z);
   noFill();
-  cone(yScale, xScale, 3, 16);
+  let polyAmp = map(amp, .1, 1, 1, 16);
+  let polyAmp2 = map(amp, .1, 1, 3, 24);
+  cone(yScale, xScale, floor(polyAmp2), floor(polyAmp));
+  translate(0, 0, -10);
+  stroke(clr2);
+  cone(yScale, xScale, floor(polyAmp2), floor(polyAmp));
   pop();
-  o1y += .01 * scaledAmp;
+  o1z += 2 * amp;
+  o1y += amp;
 }
 
 function planar() {
+  var scaleX = map(mouseX, 0, width, -91, 91);
+  var scaleY = map(mouseY, height, 0, -91, 91);
+  var ampy = map(amp, 0, 1., 0, 60);
   push();
   angleMode(DEGREES);
-  translate(0, 10, -50);
+  translate(0, 0, 0);
   noFill();
-  strokeWeight(2);
-  stroke(255);
-  for (var i = 0; i < 10; i++) {
-    box(width / 2, height / 2, width / 2 * amp * 100, 4, 4);
-    translate(0, 0, -100);
+  strokeWeight(1);
+  stroke(clr3);
+  rotateX(scaleY);
+  rotateZ(scaleX);
+  for (var i = 0; i < 50; i++) {
+    box(width / 7, width / 9, 0, 4, 4);
+    translate(0, 0, 15);
+    rotateX(ampy);
   }
   pop();
 }
@@ -141,14 +144,14 @@ function spheres() {
   //mouse + amplitude control rotation
   var fromCenter = dist(width / 2, height / 2, mouseX, mouseY);
   if (mouseY > height / 2) {
-    o1x += .0005 * amp * fromCenter;
+    o1x += .0001 * amp * fromCenter;
   } else {
-    o1x -= .0005 * amp * fromCenter;
+    o1x -= .0001 * amp * fromCenter;
   }
   if (mouseX > width / 2) {
-    o1z += .0005 * amp * fromCenter;
+    o1z += .0001 * amp * fromCenter;
   } else {
-    o1z -= .0005 * amp * fromCenter;
+    o1z -= .0001 * amp * fromCenter;
   }
   pop();
 }
