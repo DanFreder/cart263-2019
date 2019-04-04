@@ -2,7 +2,7 @@
 project 3 - interactive music video
 dan freder
 ******************/
-'use strict';
+"use strict";
 
 let o1x = 0.0001;
 let o1y = 0.0002;
@@ -11,18 +11,25 @@ let song;
 let loaded = 0;
 let currentTime = 0;
 let graphics2d;
-let amplitude;
-let amp;
+let amp = 0;
+let amplitude = 0;
 
 //second values for different song sections
-let p1 = 1;
-let p2 = 50;
-let p3 = 100;
-let p4 = 100;
-let p5 = 100;
-let p6 = 100;
-let p7 = 100;
-let p8 = 100;
+let part1 = 1;
+let part2 = 100;
+let part3 = 100;
+let part4 = 100;
+let part5 = 100;
+let part6 = 100;
+let part7 = 100;
+let part8 = 100;
+
+//colour pallete
+let clr1 = '#ff1d00'
+let clr2 = '#9f9aa4'
+let clr3 = '#6edba1'
+let clr4 = '#eff1ed'
+
 
 function setup() {
   // Create a canvas the size of the window
@@ -35,16 +42,13 @@ function setup() {
   canvas.style("left:0");
   canvas.style("z-index:-100");
   background(0);
-
-  //WHY IS THIS NOT WORKING???
-  amplitude = new p5.Amplitude(0.);
-
+  amplitude = new p5.Amplitude(.125);
   //load audio file and trigger songLoaded function once it's loaded
-  song = loadSound('assets/sounds/phosphenes_rough.mp3', songLoaded);
+  song = loadSound('assets/sounds/slowBurnUnmixed.mp3', songLoaded);
 }
 
 function songLoaded() {
-  console.log('Phosphenes Loaded Successfully');
+  console.log('Slow Burn Loaded Successfully');
   loaded = 1;
   song.play();
 }
@@ -56,44 +60,68 @@ function draw() {
   } else {
     //start music video
     background(0);
-    // amp = amplitude.getLevel();
+    amp = amplitude.getLevel();
     currentTime = song.currentTime();
     // change graphics based on currentTime
-    if (currentTime >= p1 && currentTime <= p2) {
+    if (currentTime >= part1 && currentTime <= part2) {
+      testing();
+    } else if (currentTime >= part2 && currentTime <= part3) {
+      spheres();
+    } else if (currentTime >= part3 && currentTime <= part4) {
       dunshire();
-    } else if (currentTime >= p2 && currentTime <= p3) {
+    } else if (currentTime >= part4 && currentTime <= part5) {
       spheres();
-    } else if (currentTime >= p3 && currentTime <= p4) {
+    } else if (currentTime >= part5 && currentTime <= part6) {
       spheres();
-    } else if (currentTime >= p4 && currentTime <= p5) {
+    } else if (currentTime >= part6 && currentTime <= part7) {
       spheres();
-    } else if (currentTime >= p5 && currentTime <= p6) {
-      spheres();
-    } else if (currentTime >= p6 && currentTime <= p7) {
-      spheres();
-    } else if (currentTime >= p7 && currentTime <= p8) {
+    } else if (currentTime >= part7 && currentTime <= part8) {
       spheres();
     }
   }
 }
 
+function testing() {
+  push();
+  noFill();
+  strokeWeight(2);
+  stroke(255);
+  sphere(300, 10, floor(amp * 1000));
+  pop();
+}
+
 function dunshire() {
   var xScale = mouseX;
-  xScale = map(xScale, 0, width, width / 101, width - width / 101);
+  xScale = map(xScale, 0, width, -width / 12, -width / 3);
   var yScale = mouseY;
-  yScale = map(yScale, height, 0, height / 2, 2 * height);
+  yScale = map(yScale, height, 0, height / 2, 3 * height);
+  var scaledAmp = map(amp, 0., 1., 15, 180.);
   angleMode(DEGREES);
   push();
   translate(0, 0, 0);
   strokeWeight(1);
-  stroke(226);
+  stroke('#6EDBA1');
   rotateX(90);
   rotateY(o1y);
-  rotateZ(0);
-  fill(0, 0, 0, 3);
-  cone(yScale, xScale, 11, 6);
+  rotateZ(scaledAmp);
+  noFill();
+  cone(yScale, xScale, 3, 16);
   pop();
-  o1y += .1;
+  o1y += .01 * scaledAmp;
+}
+
+function planar() {
+  push();
+  angleMode(DEGREES);
+  translate(0, 10, -50);
+  noFill();
+  strokeWeight(2);
+  stroke(255);
+  for (var i = 0; i < 10; i++) {
+    box(width / 2, height / 2, width / 2 * amp * 100, 4, 4);
+    translate(0, 0, -100);
+  }
+  pop();
 }
 
 function spheres() {
@@ -110,8 +138,6 @@ function spheres() {
     specularMaterial(2);
     sphere(700, 5, 5);
   }
-  pop();
-
   //mouse + amplitude control rotation
   var fromCenter = dist(width / 2, height / 2, mouseX, mouseY);
   if (mouseY > height / 2) {
@@ -124,6 +150,7 @@ function spheres() {
   } else {
     o1z -= .0005 * amp * fromCenter;
   }
+  pop();
 }
 
 //map text to 2D plane so it works in WEBGL
