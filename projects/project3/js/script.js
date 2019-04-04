@@ -16,13 +16,17 @@ let amp = 0;
 
 //second values for different song sections
 let part1 = 1;
-let part2 = 10;
-let part3 = 20;
-let part4 = 100;
+let part2 = 15;
+let part3 = 30;
+let part4 = 45;
 let part5 = 100;
 let part6 = 100;
 let part7 = 100;
 let part8 = 100;
+let part9 = 100;
+let part10 = 100;
+let part11 = 100;
+let part12 = 100;
 
 //colour pallete
 let clr1 = '#ff1d00'
@@ -64,13 +68,13 @@ function draw() {
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      planar();
+      cylindrive();
     } else if (currentTime >= part2 && currentTime <= part3) {
       spheres();
     } else if (currentTime >= part3 && currentTime <= part4) {
       dunshire();
     } else if (currentTime >= part4 && currentTime <= part5) {
-      spheres();
+      planar();
     } else if (currentTime >= part5 && currentTime <= part6) {
       spheres();
     } else if (currentTime >= part6 && currentTime <= part7) {
@@ -153,6 +157,27 @@ function spheres() {
   } else {
     o1z -= .0001 * amp * fromCenter;
   }
+  pop();
+}
+
+function cylindrive() {
+  translate(0, 0, 100);
+  var ampy = map(amp, 0, 1, 0, 3);
+  var segments = map(amp, 0, 1, 1, 5);
+  var scaleMouseY = map(mouseY, 0, height, 91, -91);
+  var scaleMouseX = map(mouseX, 0, width, -16, 16);
+  angleMode(DEGREES);
+  push();
+  stroke(clr4);
+  strokeWeight(2);
+  noFill();
+  rotateZ(90);
+  rotateY(scaleMouseY + o1y);
+  rotateX(scaleMouseX);
+  cylinder(width / 2, width / 3, floor(segments), 1);
+  rotateZ(90);
+  cylinder(width / 2, width / 3, floor(segments), 1);
+  o1y += ampy;
   pop();
 }
 
