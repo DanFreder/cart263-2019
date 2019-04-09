@@ -17,10 +17,10 @@ let amp = 0;
 //second values for different song sections
 let triggerStart = 0;
 let part1 = 1;
-let part2 = 18;
-let part3 = 28;
-let part4 = 38;
-let part5 = 48;
+let part2 = 100;
+let part3 = 100;
+let part4 = 100;
+let part5 = 100;
 let part6 = 100;
 let part7 = 100;
 let part8 = 100;
@@ -61,10 +61,12 @@ function draw() {
     //start music video
     background(0);
     amp = amplitude.volume * 10;
+    amp = constrain(amp, 0., 1);
+    console.log(amp);
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      spheres();
+      twoPlanes();
     } else if (currentTime >= part2 && currentTime <= part3) {
       planar();
       spheres();
@@ -97,21 +99,26 @@ function draw() {
 function twoPlanes() {
   push();
   translate(0, 0, 0);
-  var scalar = map(amp, 0, 1, 10, 60);
+  var scalar = map(amp, 0, 1, 10, 100);
   var scaleY = map(mouseY, 0, height, -5, 5);
   var scaleX = map(mouseX, 0, width, 15, -15);
   angleMode(DEGREES);
   noFill();
   strokeWeight(2);
   rotateZ(30);
-  for (var i = 0; i < 50; i++) {
+  for (var i = 0; i < 20; i++) {
     stroke(clr1);
     plane(width / 8, height / 5);
     rotateZ(90);
     stroke(clr2);
     plane(width / 8, height / 5);
-    translate(0, 0, scalar);
-    rotateZ(90 * amp);
+    if (amp >= .01) {
+      translate(0, 0, scalar);
+      rotateZ(i * amp);
+    } else {
+      translate(0, 0, 10);
+      rotateZ(0);
+    }
     rotateX(scaleY);
     rotateY(scaleX);
   }
@@ -120,7 +127,7 @@ function twoPlanes() {
 
 function dunshire() {
   var xScale = mouseX;
-  xScale = map(xScale, 0, width, -width / 12, -width / 3);
+  xScale = map(xScale, 0, width, -width / 2, width / 2);
   var yScale = mouseY;
   yScale = map(yScale, height, 0, height / 2, 3 * height);
   var scaledAmp = map(amp, 0., 1., 0, 45.);
@@ -145,9 +152,9 @@ function dunshire() {
 }
 
 function planar() {
-  var scaleX = map(mouseX, 0, width, -width / 33, width / 33);
-  var scaleY = map(mouseY, 0, height, -height / 3, height / 3);
-  var ampy = map(amp, 0., 1., 0, 45);
+  var scaleX = map(mouseX, 0, width, -45, 45);
+  var scaleY = map(mouseY, 0, height, 45, -45);
+  var ampy = map(amp, 0., 1., 0, 30);
   push();
   angleMode(DEGREES);
   translate(0, 0, 200);
@@ -156,11 +163,15 @@ function planar() {
   stroke(clr3);
   rotateY(scaleX);
   rotateZ(scaleY);
-  for (var i = 0; i < 100; i++) {
-    box(width / 4, height / 3, 0, 4, 4);
+  for (var i = 0; i < 20; i++) {
+    box(width / 16 * i, height / 9 * i, ampy, 4, 4);
     translate(0, 0, 15);
     rotateX(0);
-    rotateZ(ampy);
+    if (amp >= .009) {
+      rotateZ(ampy);
+    } else {
+      rotateZ(0);
+    }
   }
   pop();
 }
@@ -199,6 +210,7 @@ function cylindrive() {
   var ampy = map(amp, 0, 1, 0, 3);
   var segments = map(amp, 0, 1, 1, 3);
   var scaleMouseX = map(mouseX, 0, width, -width / 33, width / 33);
+  var scaleMouseY = map(mouseY, 0, height, 30, 90);
   angleMode(DEGREES);
   push();
   stroke(clr4);
@@ -208,7 +220,7 @@ function cylindrive() {
   rotateY(o1y);
   rotateX(scaleMouseX);
   cylinder(width / 2, width / 3, 5, floor(segments));
-  rotateZ(90);
+  rotateZ(scaleMouseY);
   stroke(clr1);
   cylinder(width / 2, width / 3, 5, floor(segments));
   o1y += ampy;
