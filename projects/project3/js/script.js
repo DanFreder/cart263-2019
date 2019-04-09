@@ -15,11 +15,12 @@ let amplitude;
 let amp = 0;
 
 //second values for different song sections
+let triggerStart = 0;
 let part1 = 1;
-let part2 = 15;
-let part3 = 30;
-let part4 = 45;
-let part5 = 100;
+let part2 = 18;
+let part3 = 28;
+let part4 = 38;
+let part5 = 48;
 let part6 = 100;
 let part7 = 100;
 let part8 = 100;
@@ -27,6 +28,7 @@ let part9 = 100;
 let part10 = 100;
 let part11 = 100;
 let part12 = 100;
+let part13 = 100;
 
 //colour pallete
 let clr1 = '#ff1d00'
@@ -51,15 +53,9 @@ function setup() {
   song = loadSound('assets/sounds/slowBurnUnmixed2.mp3', songLoaded);
 }
 
-function songLoaded() {
-  console.log('Slow Burn Loaded Successfully');
-  loaded = 1;
-  song.play();
-}
-
 function draw() {
   //display loading screen if song hasn't loaded
-  if (loaded == 0) {
+  if (triggerStart === 0) {
     loadingScreen();
   } else {
     //start music video
@@ -68,21 +64,58 @@ function draw() {
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      cylindrive();
+      spheres();
     } else if (currentTime >= part2 && currentTime <= part3) {
+      planar();
       spheres();
     } else if (currentTime >= part3 && currentTime <= part4) {
       dunshire();
-    } else if (currentTime >= part4 && currentTime <= part5) {
       planar();
+    } else if (currentTime >= part4 && currentTime <= part5) {
+      cylindrive();
+      dunshire();
     } else if (currentTime >= part5 && currentTime <= part6) {
-      spheres();
+      twoPlanes();
     } else if (currentTime >= part6 && currentTime <= part7) {
       spheres();
     } else if (currentTime >= part7 && currentTime <= part8) {
       spheres();
+    } else if (currentTime >= part8 && currentTime <= part9) {
+      spheres();
+    } else if (currentTime >= part9 && currentTime <= part10) {
+      spheres();
+    } else if (currentTime >= part10 && currentTime <= part11) {
+      spheres();
+    } else if (currentTime >= part11 && currentTime <= part12) {
+      spheres();
+    } else if (currentTime >= part12 && currentTime <= part13) {
+      spheres();
     }
   }
+}
+
+function twoPlanes() {
+  push();
+  translate(0, 0, 0);
+  var scalar = map(amp, 0, 1, 10, 60);
+  var scaleY = map(mouseY, 0, height, -5, 5);
+  var scaleX = map(mouseX, 0, width, 15, -15);
+  angleMode(DEGREES);
+  noFill();
+  strokeWeight(2);
+  rotateZ(30);
+  for (var i = 0; i < 50; i++) {
+    stroke(clr1);
+    plane(width / 8, height / 5);
+    rotateZ(90);
+    stroke(clr2);
+    plane(width / 8, height / 5);
+    translate(0, 0, scalar);
+    rotateZ(90 * amp);
+    rotateX(scaleY);
+    rotateY(scaleX);
+  }
+  pop();
 }
 
 function dunshire() {
@@ -112,21 +145,22 @@ function dunshire() {
 }
 
 function planar() {
-  var scaleX = map(mouseX, 0, width, -91, 91);
-  var scaleY = map(mouseY, height, 0, -91, 91);
-  var ampy = map(amp, 0, 1., 0, 60);
+  var scaleX = map(mouseX, 0, width, -width / 33, width / 33);
+  var scaleY = map(mouseY, 0, height, -height / 3, height / 3);
+  var ampy = map(amp, 0., 1., 0, 45);
   push();
   angleMode(DEGREES);
-  translate(0, 0, 0);
+  translate(0, 0, 200);
   noFill();
   strokeWeight(1);
   stroke(clr3);
-  rotateX(scaleY);
-  rotateZ(scaleX);
-  for (var i = 0; i < 50; i++) {
-    box(width / 7, width / 9, 0, 4, 4);
+  rotateY(scaleX);
+  rotateZ(scaleY);
+  for (var i = 0; i < 100; i++) {
+    box(width / 4, height / 3, 0, 4, 4);
     translate(0, 0, 15);
-    rotateX(ampy);
+    rotateX(0);
+    rotateZ(ampy);
   }
   pop();
 }
@@ -161,36 +195,62 @@ function spheres() {
 }
 
 function cylindrive() {
-  translate(0, 0, 100);
+  translate(0, 0, 500);
   var ampy = map(amp, 0, 1, 0, 3);
-  var segments = map(amp, 0, 1, 1, 5);
-  var scaleMouseY = map(mouseY, 0, height, 91, -91);
-  var scaleMouseX = map(mouseX, 0, width, -16, 16);
+  var segments = map(amp, 0, 1, 1, 3);
+  var scaleMouseX = map(mouseX, 0, width, -width / 33, width / 33);
   angleMode(DEGREES);
   push();
   stroke(clr4);
-  strokeWeight(2);
+  strokeWeight(1);
   noFill();
   rotateZ(90);
-  rotateY(scaleMouseY + o1y);
+  rotateY(o1y);
   rotateX(scaleMouseX);
-  cylinder(width / 2, width / 3, floor(segments), 1);
+  cylinder(width / 2, width / 3, 5, floor(segments));
   rotateZ(90);
-  cylinder(width / 2, width / 3, floor(segments), 1);
+  stroke(clr1);
+  cylinder(width / 2, width / 3, 5, floor(segments));
   o1y += ampy;
   pop();
+}
+
+function mousePressed() {
+  if (loaded === 1) {
+    triggerStart = 1;
+    song.play();
+    loaded = 2;
+  } else {}
+  console.log("pressed");
+}
+
+function songLoaded() {
+  console.log('Slow Burn Loaded Successfully');
+  loaded = 1;
 }
 
 //map text to 2D plane so it works in WEBGL
 function loadingScreen() {
   graphics2d.background(0);
   graphics2d.textFont("Futura");
-  graphics2d.textSize(100);
+  graphics2d.textSize(width / 20);
   graphics2d.textStyle('italic');
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
   graphics2d.fill(255);
-  graphics2d.text('loading', windowWidth / 2, windowHeight / 2 + 20);
+  graphics2d.text('df', windowWidth / 2, windowHeight / 2 - 100);
+  graphics2d.text('"slow burn"', windowWidth / 2, windowHeight / 2 - 25);
+  push();
+  if (loaded === 0) {
+    graphics2d.textSize(width / 30);
+    graphics2d.fill(100);
+    graphics2d.text('loading...', windowWidth / 2, windowHeight / 2 + 75);
+  } else {
+    graphics2d.textSize(width / 25);
+    graphics2d.fill(200);
+    graphics2d.text('click to play', windowWidth / 2, windowHeight / 2 + 75);
+  }
+  pop();
   texture(graphics2d);
   plane(windowWidth, windowHeight);
 }
