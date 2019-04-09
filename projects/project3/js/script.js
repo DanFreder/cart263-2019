@@ -54,7 +54,7 @@ function setup() {
 }
 
 function draw() {
-  //display loading screen if song hasn't loaded
+  //display loading screen if song hasn't loaded &/or user hasn't clicked on canvas
   if (triggerStart === 0) {
     loadingScreen();
   } else {
@@ -62,7 +62,6 @@ function draw() {
     background(0);
     amp = amplitude.volume * 10;
     amp = constrain(amp, 0., 1);
-    console.log(amp);
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
@@ -99,14 +98,15 @@ function draw() {
 function twoPlanes() {
   push();
   translate(0, 0, 0);
-  var scalar = map(amp, 0, 1, 10, 100);
-  var scaleY = map(mouseY, 0, height, -5, 5);
+  var scalar = map(amp, 0, 1, 12, 20);
+  var scaleY = map(mouseY, 0, height, -10, 10);
   var scaleX = map(mouseX, 0, width, 15, -15);
+  var thick = map(amp, 0, 1, 1, 4);
   angleMode(DEGREES);
   noFill();
-  strokeWeight(2);
+  strokeWeight(thick);
   rotateZ(30);
-  for (var i = 0; i < 20; i++) {
+  for (var i = 0; i < 40; i++) {
     stroke(clr1);
     plane(width / 8, height / 5);
     rotateZ(90);
@@ -114,9 +114,9 @@ function twoPlanes() {
     plane(width / 8, height / 5);
     if (amp >= .01) {
       translate(0, 0, scalar);
-      rotateZ(i * amp);
+      rotateZ(30 * amp);
     } else {
-      translate(0, 0, 10);
+      translate(0, 0, 12);
       rotateZ(0);
     }
     rotateX(scaleY);
@@ -250,17 +250,17 @@ function loadingScreen() {
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
   graphics2d.fill(255);
-  graphics2d.text('df', windowWidth / 2, windowHeight / 2 - 100);
-  graphics2d.text('"slow burn"', windowWidth / 2, windowHeight / 2 - 25);
+  graphics2d.text('df', windowWidth / 2, windowHeight / 2 - 150);
+  graphics2d.text('"slow burn"', windowWidth / 2, windowHeight / 2 - 50);
   push();
   if (loaded === 0) {
     graphics2d.textSize(width / 30);
     graphics2d.fill(100);
-    graphics2d.text('loading...', windowWidth / 2, windowHeight / 2 + 75);
+    graphics2d.text('loading...', windowWidth / 2, windowHeight / 2 + 50);
   } else {
     graphics2d.textSize(width / 25);
     graphics2d.fill(200);
-    graphics2d.text('click to play', windowWidth / 2, windowHeight / 2 + 75);
+    graphics2d.text('click to play', windowWidth / 2, windowHeight / 2 + 50);
   }
   pop();
   texture(graphics2d);
