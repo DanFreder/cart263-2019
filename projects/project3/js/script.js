@@ -17,18 +17,18 @@ let amp = 0;
 //second values for different song sections
 let triggerStart = 0;
 let part1 = 1;
-let part2 = 100;
-let part3 = 100;
-let part4 = 100;
-let part5 = 100;
-let part6 = 100;
-let part7 = 100;
-let part8 = 100;
-let part9 = 100;
-let part10 = 100;
-let part11 = 100;
-let part12 = 100;
-let part13 = 100;
+let part2 = 300;
+let part3 = 300;
+let part4 = 300;
+let part5 = 300;
+let part6 = 300;
+let part7 = 300;
+let part8 = 300;
+let part9 = 300;
+let part10 = 300;
+let part11 = 300;
+let part12 = 300;
+let part13 = 300;
 
 //colour pallete
 let clr1 = '#ff1d00'
@@ -65,7 +65,7 @@ function draw() {
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      cylindrive();
+      donuts();
     } else if (currentTime >= part2 && currentTime <= part3) {
       planar();
       spheres();
@@ -93,6 +93,25 @@ function draw() {
       spheres();
     }
   }
+}
+
+function donuts() {
+  angleMode(DEGREES);
+  translate(0, -height / 4, -100);
+  normalMaterial();
+  noStroke();
+  var scaleMouseX = (map(mouseX, 0, width, -10, 10));
+  var scaleMouseY = (map(mouseY, height, 0, -10, 10));
+  for (var i = 0; i < 10; i++) {
+    var xScale = i * 50;
+    var yScale = i * 50;
+    torus(xScale, yScale, 3);
+    rotateZ(i * o1z);
+    rotateY(scaleMouseX);
+    rotateX(scaleMouseY);
+    translate(0, 0, 100);
+  }
+  o1z += .1 * amp;
 }
 
 function twoPlanes() {
@@ -209,7 +228,7 @@ function spheres() {
 
 function cylindrive() {
   translate(0, 0, 400);
-  if (amp > .35) {
+  if (amp >= .35) {
     var xsegments = floor(map(amp, .35, 1, 1, 10));
     var ysegments = floor(map(amp, .35, 1, 1, 16));
   } else {
@@ -217,8 +236,8 @@ function cylindrive() {
     var ysegments = 1;
   }
   var ampy = map(amp, 0, 1, 0, 4);
-  var scaleMouseX = map(mouseX, 0, width, -width / 33, width / 33);
-  var scaleMouseY = map(mouseY, 0, height, 30, 90);
+  var scaleMouseX = map(mouseX, 0, width, -45, 45);
+  var scaleMouseY = map(mouseY, 0, height, 45, 90);
   angleMode(DEGREES);
   push();
   stroke(clr4);
