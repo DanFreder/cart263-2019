@@ -62,13 +62,13 @@ function draw() {
   } else {
     //start music video
     background(0);
-    noCursor();
+    // noCursor();
     amp = amplitude.volume * 10;
     amp = constrain(amp, 0., 1);
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      sphereXpansion();
+      holeyHole();
     } else if (currentTime >= part2 && currentTime <= part3) {
       planar();
       spheres();
@@ -98,14 +98,36 @@ function draw() {
   }
 }
 
+function holeyHole() {
+  push();
+  var scaleMouseX = (map(mouseX, 0, width, -30, 90));
+
+  var scaleMouseY = (map(mouseY, height, 0, -30, 30));
+  var lightScale = map(amp, 0, 1, 0, -width);
+  translate(0, 0, 0);
+  angleMode(DEGREES);
+  noFill();
+  stroke(clr2);
+  strokeWeight(1);
+  translate(-(width / 2 - mouseX), -(height / 2 - mouseY), 0);
+  rotateZ(-o1y)
+  for (var i = 0; i < 10; i++) {
+    torus(width / 2, width / 3, 3, 3);
+    rotateX(2);
+    rotateZ(o1z);
+    translate(0, 0, -200);
+  }
+  o1z += .5 * amp;
+  o1y += amp;
+  pop();
+}
+
 function sphereXpansion() {
   push();
   var scaleMouseX = (map(mouseX, 0, width, -90, 90));
   var scaleMouseY = (map(mouseY, height, 0, -90, 90));
-  var lightScale = map(amp, 0, 1, 0, -width);
   translate(0, 0, 0);
   angleMode(DEGREES);
-  directionalLight(255, 255, 255, lightScale);
   noFill();
   stroke(clr2);
   strokeWeight(1);
@@ -113,10 +135,10 @@ function sphereXpansion() {
   rotateX(scaleMouseY);
   rotateZ(o1z);
   o1z += 2 * amp;
-  if (amp >= .1) {
+  if (amp >= .05) {
     for (var i = 0; i < 5; i++) {
-      var scalar = map(amp, .1, 1, width / 5, width);
-      var scalar2 = map(amp, .1, 1, width / 5, width / 2);
+      var scalar = map(amp, .05, 1, width / 5, width);
+      var scalar2 = map(amp, .05, 1, width / 5, width / 2);
       stroke(clr2);
       sphere(width / 5, 6, 4);
       stroke(clr1);
