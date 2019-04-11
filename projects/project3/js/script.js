@@ -108,12 +108,12 @@ function holeyHole() {
   angleMode(DEGREES);
   noFill();
   stroke(clr2);
-  strokeWeight(1);
+  strokeWeight(2);
   translate(-(width / 2 - mouseX), -(height / 2 - mouseY), 0);
   rotateZ(-o1y)
   for (var i = 0; i < 10; i++) {
     torus(width / 2, width / 3, 3, 3);
-    rotateX(2);
+    rotateX(1);
     rotateZ(o1z);
     translate(0, 0, -200);
   }
