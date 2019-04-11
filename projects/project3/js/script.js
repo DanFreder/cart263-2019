@@ -13,9 +13,10 @@ let currentTime = 0;
 let graphics2d;
 let amplitude;
 let amp = 0;
+let triggerStart = 0;
+let pressed = 0;
 
 //second values for different song sections
-let triggerStart = 0;
 let part1 = 1;
 let part2 = 300;
 let part3 = 300;
@@ -60,12 +61,13 @@ function draw() {
   } else {
     //start music video
     background(0);
+    noCursor();
     amp = amplitude.volume * 10;
     amp = constrain(amp, 0., 1);
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      donuts();
+      twoPlanes();
     } else if (currentTime >= part2 && currentTime <= part3) {
       planar();
       spheres();
@@ -96,12 +98,17 @@ function draw() {
 }
 
 function donuts() {
+  push();
   angleMode(DEGREES);
-  translate(0, -height / 4, -100);
+  if (pressed === 0) {
+    translate(-width / 5, 0, -200);
+  } else {
+    translate(width / 5, 0, -200);
+  }
   normalMaterial();
   noStroke();
-  var scaleMouseX = (map(mouseX, 0, width, -10, 10));
-  var scaleMouseY = (map(mouseY, height, 0, -10, 10));
+  var scaleMouseX = (map(mouseX, 0, width, -3, 3));
+  var scaleMouseY = (map(mouseY, height, 0, -4, 4));
   for (var i = 0; i < 10; i++) {
     var xScale = i * 50;
     var yScale = i * 50;
@@ -112,25 +119,30 @@ function donuts() {
     translate(0, 0, 100);
   }
   o1z += .1 * amp;
+  pop();
 }
 
 function twoPlanes() {
   push();
   translate(0, 0, 0);
-  var scalar = map(amp, 0, 1, 12, 20);
-  var scaleY = map(mouseY, 0, height, -10, 10);
-  var scaleX = map(mouseX, 0, width, 15, -15);
+  var scalar = map(amp, 0.01, 1, 12, 20);
+  var scaleY = map(mouseY, 0, height, -15, 15);
+  var scaleX = map(mouseX, 0, width, 20, -20);
   var thick = map(amp, 0, 1, 1, 3);
   angleMode(DEGREES);
-  noFill();
+  if (pressed === 0) {
+    noFill();
+  } else {
+    fill(200, 0, 255, 5);
+  }
   strokeWeight(thick);
   rotateZ(30);
-  for (var i = 0; i < 40; i++) {
+  for (var i = 0; i < 35; i++) {
     stroke(clr1);
-    plane(width / 8, height / 5);
-    rotateZ(90);
+    plane(width / 5, height / 3);
+    rotateZ(91);
     stroke(clr2);
-    plane(width / 8, height / 5);
+    plane(width / 5, height / 3);
     if (amp >= .01) {
       translate(0, 0, scalar);
       rotateZ(15 * amp);
@@ -145,10 +157,10 @@ function twoPlanes() {
 }
 
 function dunshire() {
+  push();
   var xScale = map(mouseX, 0, width, -width / 2, width / 2);
   var yScale = map(mouseY, height, 0, height / 2, height);
   angleMode(DEGREES);
-  push();
   translate(0, 0, 0);
   strokeWeight(1);
   stroke(clr1);
@@ -167,9 +179,9 @@ function dunshire() {
   translate(0, 0, -10);
   stroke(clr2);
   cone(yScale, xScale, floor(polyAmp2), floor(polyAmp));
-  pop();
   o1z += 3 * amp;
   o1y += 2 * amp;
+  pop();
 }
 
 function planar() {
@@ -260,8 +272,11 @@ function mousePressed() {
     song.play();
     //update loaded variable to avoid retriggering on future mouse clicks
     loaded = 2;
-  } else {}
-  console.log("pressed");
+  } else if (loaded === 2 && pressed === 0) {
+    pressed = 1;
+  } else {
+    pressed = 0;
+  }
 }
 
 function songLoaded() {
