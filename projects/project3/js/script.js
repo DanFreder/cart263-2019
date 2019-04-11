@@ -50,6 +50,7 @@ function setup() {
   canvas.style("z-index:-100");
   background(0);
   amplitude = new p5.Amplitude();
+  amplitude.smooth(.5);
   //load audio file and trigger songLoaded function once it's loaded
   song = loadSound('assets/sounds/slowBurnUnmixed2.mp3', songLoaded);
 }
@@ -67,7 +68,7 @@ function draw() {
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      twoPlanes();
+      sphereXpansion();
     } else if (currentTime >= part2 && currentTime <= part3) {
       planar();
       spheres();
@@ -82,7 +83,7 @@ function draw() {
     } else if (currentTime >= part6 && currentTime <= part7) {
       spheres();
     } else if (currentTime >= part7 && currentTime <= part8) {
-      spheres();
+      normalDreams();
     } else if (currentTime >= part8 && currentTime <= part9) {
       spheres();
     } else if (currentTime >= part9 && currentTime <= part10) {
@@ -97,7 +98,60 @@ function draw() {
   }
 }
 
-function donuts() {
+function sphereXpansion() {
+  push();
+  var scaleMouseX = (map(mouseX, 0, width, -90, 90));
+  var scaleMouseY = (map(mouseY, height, 0, -90, 90));
+  var lightScale = map(amp, 0, 1, 0, -width);
+  translate(0, 0, 0);
+  angleMode(DEGREES);
+  directionalLight(255, 255, 255, lightScale);
+  noFill();
+  stroke(clr2);
+  strokeWeight(1);
+  rotateY(scaleMouseX);
+  rotateX(scaleMouseY);
+  rotateZ(o1z);
+  o1z += 2 * amp;
+  if (amp >= .1) {
+    for (var i = 0; i < 5; i++) {
+      var scalar = map(amp, .1, 1, width / 5, width);
+      var scalar2 = map(amp, .1, 1, width / 5, width / 2);
+      stroke(clr2);
+      sphere(width / 5, 6, 4);
+      stroke(clr1);
+      sphere(scalar, 6, 4);
+      stroke(clr3);
+      sphere(scalar2, 6, 4);
+    }
+  } else {
+    sphere(width / 5, 6, 4);
+  }
+  pop();
+}
+
+function rectraction() {
+  push();
+  translate(0, 0, -1000);
+  angleMode(DEGREES);
+  noFill();
+  strokeWeight(2);
+  var scaleMouseX = (map(mouseX, 0, width, -30, 30));
+  var scaleMouseY = (map(mouseY, height, 0, -30, 30));
+  rotateY(scaleMouseX);
+  rotateX(scaleMouseY);
+  for (var i = 0; i < 10; i++) {
+    stroke(i * 20);
+    torus(width / 15 * i, height / 10 * i, 4, 3);
+    o1z += amp * (.01 * i);
+    rotateZ(o1z);
+    translate(0, 0, 100);
+  }
+  pop();
+}
+
+
+function normalDreams() {
   push();
   angleMode(DEGREES);
   if (pressed === 0) {
@@ -108,7 +162,7 @@ function donuts() {
   normalMaterial();
   noStroke();
   var scaleMouseX = (map(mouseX, 0, width, -3, 3));
-  var scaleMouseY = (map(mouseY, height, 0, -4, 4));
+  var scaleMouseY = (map(mouseY, height, 0, -5, 5));
   for (var i = 0; i < 10; i++) {
     var xScale = i * 50;
     var yScale = i * 50;
@@ -133,7 +187,7 @@ function twoPlanes() {
   if (pressed === 0) {
     noFill();
   } else {
-    fill(200, 0, 255, 5);
+    fill(200, 0, 255, 10);
   }
   strokeWeight(thick);
   rotateZ(30);
