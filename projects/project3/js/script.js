@@ -100,25 +100,27 @@ function draw() {
 
 function holeyHole() {
   push();
-  var scaleMouseX = (map(mouseX, 0, width, -30, 90));
-
-  var scaleMouseY = (map(mouseY, height, 0, -30, 30));
-  var lightScale = map(amp, 0, 1, 0, -width);
+  var rotationScaleMouseX = (map(mouseX, 0, width, -15, 15));
   translate(0, 0, 0);
   angleMode(DEGREES);
-  noFill();
-  stroke(clr2);
+  if (pressed === 1) {
+    stroke(1);
+    fill(1, 1, 1, 9);
+  } else {
+    stroke(clr2);
+    noFill();
+  }
   strokeWeight(2);
   translate(-(width / 2 - mouseX), -(height / 2 - mouseY), 0);
   rotateZ(-o1y)
-  for (var i = 0; i < 10; i++) {
-    torus(width / 2, width / 3, 3, 3);
-    rotateX(1);
+  rotateY(rotationScaleMouseX);
+  for (var i = 0; i < 12; i++) {
     rotateZ(o1z);
-    translate(0, 0, -200);
+    torus(width / 2, width / 3, 3, 3);
+    translate(0, 0, -150);
   }
-  o1z += .5 * amp;
-  o1y += amp;
+  o1z += .333 * amp;
+  o1y += .555 * amp;
   pop();
 }
 
