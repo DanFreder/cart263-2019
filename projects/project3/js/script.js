@@ -1,5 +1,7 @@
 /*****************
-project 3 - interactive music video
+project 3
+interactive music video
+for df's "slow burn"
 dan freder
 ******************/
 "use strict";
@@ -68,7 +70,7 @@ function draw() {
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      holeyHole();
+      planar();
     } else if (currentTime >= part2 && currentTime <= part3) {
       planar();
       spheres();
@@ -104,8 +106,8 @@ function holeyHole() {
   translate(0, 0, 0);
   angleMode(DEGREES);
   if (pressed === 1) {
-    stroke(1);
-    fill(1, 1, 1, 9);
+    stroke(clr2);
+    fill(1, 1, 1, 3);
   } else {
     stroke(clr2);
     noFill();
@@ -120,7 +122,7 @@ function holeyHole() {
     translate(0, 0, -150);
   }
   o1z += .333 * amp;
-  o1y += .555 * amp;
+  o1y += .777 * amp;
   pop();
 }
 
@@ -128,6 +130,13 @@ function sphereXpansion() {
   push();
   var scaleMouseX = (map(mouseX, 0, width, -90, 90));
   var scaleMouseY = (map(mouseY, height, 0, -90, 90));
+  if (pressed === 0) {
+    var polyX = 6;
+    var polyY = 4;
+  } else {
+    var polyX = 3;
+    var polyY = 3;
+  }
   translate(0, 0, 0);
   angleMode(DEGREES);
   noFill();
@@ -142,14 +151,14 @@ function sphereXpansion() {
       var scalar = map(amp, .05, 1, width / 5, width);
       var scalar2 = map(amp, .05, 1, width / 5, width / 2);
       stroke(clr2);
-      sphere(width / 5, 6, 4);
+      sphere(width / 5, polyX, polyY);
       stroke(clr1);
-      sphere(scalar, 6, 4);
+      sphere(scalar, polyX, polyY);
       stroke(clr3);
-      sphere(scalar2, 6, 4);
+      sphere(scalar2, polyX, polyY);
     }
   } else {
-    sphere(width / 5, 6, 4);
+    sphere(width / 5, polyX, polyY);
   }
   pop();
 }
@@ -166,9 +175,15 @@ function rectraction() {
   rotateX(scaleMouseY);
   for (var i = 0; i < 10; i++) {
     stroke(i * 20);
+    fill(i * 17, 0, i * 25, 10);
     torus(width / 15 * i, height / 10 * i, 4, 3);
-    o1z += amp * (.01 * i);
-    rotateZ(o1z);
+    if (pressed === 0) {
+      o1z += (amp * (.01 * i));
+      rotateZ(o1z);
+    } else {
+      o1z -= (amp * (.01 * i));
+      rotateZ(o1z);
+    }
     translate(0, 0, 100);
   }
   pop();
@@ -209,17 +224,18 @@ function twoPlanes() {
   var thick = map(amp, 0, 1, 1, 3);
   angleMode(DEGREES);
   if (pressed === 0) {
-    noFill();
+    var pressedClr = clr2;
   } else {
-    fill(200, 0, 255, 10);
+    var pressedClr = clr3;
   }
+  noFill();
   strokeWeight(thick);
   rotateZ(30);
   for (var i = 0; i < 35; i++) {
     stroke(clr1);
     plane(width / 5, height / 3);
     rotateZ(91);
-    stroke(clr2);
+    stroke(pressedClr);
     plane(width / 5, height / 3);
     if (amp >= .01) {
       translate(0, 0, scalar);
@@ -246,12 +262,19 @@ function dunshire() {
   rotateY(o1y);
   rotateZ(o1z);
   noFill();
-  if (amp > .3) {
-    var polyAmp = map(amp, .3, 1, 1, 16);
-    var polyAmp2 = map(amp, .3, 1, 3, 24);
+  if (pressed === 0) {
+    var polyAmpLow = 1;
+    var polyAmpLow2 = 3;
   } else {
-    var polyAmp = 1;
-    var polyAmp2 = 3;
+    var polyAmpLow = 2;
+    var polyAmpLow2 = 4;
+  }
+  if (amp > .3) {
+    var polyAmp = map(amp, .3, 1, polyAmpLow, 16);
+    var polyAmp2 = map(amp, .3, 1, polyAmpLow2, 24);
+  } else {
+    var polyAmp = polyAmpLow;
+    var polyAmp2 = polyAmpLow2;
   }
   cone(yScale, xScale, floor(polyAmp2), floor(polyAmp));
   translate(0, 0, -10);
@@ -265,21 +288,29 @@ function dunshire() {
 function planar() {
   var scaleX = map(mouseX, 0, width, -45, 45);
   var scaleY = map(mouseY, 0, height, 45, -45);
-  var ampy = map(amp, 0., 1., 0, 30);
+  var ampy = map(amp, 0, 1, 0, 50);
+  var zRot = map(amp, .009, 1, 0, 30);
   push();
   angleMode(DEGREES);
   translate(0, 0, 200);
   noFill();
   strokeWeight(1);
-  stroke(clr3);
   rotateY(scaleX);
   rotateZ(scaleY);
   for (var i = 0; i < 20; i++) {
+    if (pressed === 1) {
+      if (i % 2 === 0) {
+        stroke(clr3);
+      } else {
+        stroke(clr1);
+      }
+    } else {
+      stroke(clr3);
+    }
     box(width / 16 * i, height / 9 * i, ampy, 4, 4);
     translate(0, 0, 15);
-    rotateX(0);
     if (amp >= .009) {
-      rotateZ(ampy);
+      rotateZ(zRot);
     } else {
       rotateZ(0);
     }
