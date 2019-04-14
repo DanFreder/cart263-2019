@@ -355,10 +355,11 @@ function spheres() {
 }
 
 function cylindrive() {
+  push();
   translate(0, 0, 400);
   if (amp >= .35) {
-    var xsegments = floor(map(amp, .35, 1, 1, 10));
-    var ysegments = floor(map(amp, .35, 1, 1, 16));
+    var xsegments = floor(map(amp, .35, 1, 1, 5));
+    var ysegments = floor(map(amp, .35, 1, 1, 8));
   } else {
     var xsegments = 1;
     var ysegments = 1;
@@ -367,17 +368,26 @@ function cylindrive() {
   var scaleMouseX = map(mouseX, 0, width, -45, 45);
   var scaleMouseY = map(mouseY, 0, height, 45, 90);
   angleMode(DEGREES);
-  push();
-  stroke(clr4);
-  strokeWeight(1);
-  noFill();
+  noStroke();
+  var dx = mouseX - width / 2;
+  var dy = mouseY - height / 2;
+  var v = createVector(dx, dy, 0);
+  v.normalize();
+  directionalLight(45, 125, 210, v);
+  specularMaterial(255, 255, 255, 255);
   rotateZ(90);
   rotateY(o1y);
   rotateX(scaleMouseX);
-  cylinder(width / 5, height / 2, xsegments, ysegments);
+  cylinder(width / 5, height / 2, 24, 16);
   rotateZ(scaleMouseY);
-  stroke(clr1);
-  cylinder(width / 5, height / 2, xsegments, ysegments);
+  if (pressed === 1) {
+    push();
+    noFill();
+    stroke(clr1);
+    strokeWeight(2);
+    cylinder(width / 5, height / 2, xsegments, ysegments);
+    pop();
+  }
   o1y += ampy;
   pop();
 }
