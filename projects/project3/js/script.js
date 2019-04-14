@@ -34,10 +34,15 @@ let part12 = 300;
 let part13 = 300;
 
 //colour pallete
-let clr1 = '#ff1d00'
-let clr2 = '#9f9aa4'
-let clr3 = '#6edba1'
-let clr4 = '#eff1ed'
+let red = '#ff192c';
+let green = '#06d6a0';
+let lightBlue = '#2274a5';
+let navy = '#073b4c';
+let orange = '#db5a42';
+let turquoise = '#50d8d7';
+let pink = '#e83f6f';
+let yellow = '#ffbf00';
+let white = '#f9fdff';
 
 
 function setup() {
@@ -64,13 +69,13 @@ function draw() {
   } else {
     //start music video
     background(0);
-    // noCursor();
+    noCursor();
     amp = amplitude.volume * 10;
     amp = constrain(amp, 0., 1);
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      cylindrive();
+      holeyHole();
     } else if (currentTime >= part2 && currentTime <= part3) {
       planar();
       spheres();
@@ -105,14 +110,14 @@ function holeyHole() {
   var rotationScaleMouseX = (map(mouseX, 0, width, -15, 15));
   translate(0, 0, 0);
   angleMode(DEGREES);
+  strokeWeight(2);
   if (pressed === 1) {
-    stroke(clr2);
+    stroke(lightBlue);
     fill(1, 1, 1, 3);
   } else {
-    stroke(clr2);
+    stroke(white);
     noFill();
   }
-  strokeWeight(2);
   translate(-(width / 2 - mouseX), -(height / 2 - mouseY), 0);
   rotateZ(-o1y)
   rotateY(rotationScaleMouseX);
@@ -140,7 +145,7 @@ function sphereXpansion() {
   translate(0, 0, 0);
   angleMode(DEGREES);
   noFill();
-  stroke(clr2);
+  stroke(white);
   strokeWeight(1);
   rotateY(scaleMouseX);
   rotateX(scaleMouseY);
@@ -150,11 +155,11 @@ function sphereXpansion() {
     for (var i = 0; i < 5; i++) {
       var scalar = map(amp, .05, 1, width / 5, width);
       var scalar2 = map(amp, .05, 1, width / 5, width / 2);
-      stroke(clr2);
+      stroke(white);
       sphere(width / 5, polyX, polyY);
-      stroke(clr1);
+      stroke(red);
       sphere(scalar, polyX, polyY);
-      stroke(clr3);
+      stroke(turquoise);
       sphere(scalar2, polyX, polyY);
     }
   } else {
@@ -167,16 +172,15 @@ function rectraction() {
   push();
   translate(0, 0, -1000);
   angleMode(DEGREES);
-  noFill();
   strokeWeight(2);
+  stroke(white);
   var scaleMouseX = (map(mouseX, 0, width, -30, 30));
   var scaleMouseY = (map(mouseY, height, 0, -30, 30));
   rotateY(scaleMouseX);
   rotateX(scaleMouseY);
   for (var i = 0; i < 10; i++) {
-    stroke(i * 20);
-    fill(i * 17, 0, i * 25, 10);
-    torus(width / 15 * i, height / 10 * i, 4, 3);
+    fill(i * 4, i * 4, i * 4, i);
+    torus(width / 15 * i, height / 10 * i, 4, 2);
     if (pressed === 0) {
       o1z += (amp * (.01 * i));
       rotateZ(o1z);
@@ -224,15 +228,15 @@ function twoPlanes() {
   var thick = map(amp, 0, 1, 1, 3);
   angleMode(DEGREES);
   if (pressed === 0) {
-    var pressedClr = clr2;
+    var pressedClr = yellow;
   } else {
-    var pressedClr = clr3;
+    var pressedClr = pink;
   }
   noFill();
   strokeWeight(thick);
   rotateZ(30);
   for (var i = 0; i < 35; i++) {
-    stroke(clr1);
+    stroke(green);
     plane(width / 5, height / 3);
     rotateZ(91);
     stroke(pressedClr);
@@ -256,8 +260,8 @@ function dunshire() {
   var yScale = map(mouseY, height, 0, height / 2, height);
   angleMode(DEGREES);
   translate(0, 0, 0);
-  strokeWeight(1);
-  stroke(clr1);
+  strokeWeight(2);
+  stroke(red);
   rotateX(90);
   rotateY(o1y);
   rotateZ(o1z);
@@ -278,7 +282,7 @@ function dunshire() {
   }
   cone(yScale, xScale, floor(polyAmp2), floor(polyAmp));
   translate(0, 0, -10);
-  stroke(clr2);
+  stroke(lightBlue);
   cone(yScale, xScale, floor(polyAmp2), floor(polyAmp));
   o1z += 3 * amp;
   o1y += 2 * amp;
@@ -300,12 +304,12 @@ function planar() {
   for (var i = 0; i < 20; i++) {
     if (pressed === 1) {
       if (i % 2 === 0) {
-        stroke(clr3);
+        stroke(green);
       } else {
-        stroke(clr1);
+        stroke(red);
       }
     } else {
-      stroke(clr3);
+      stroke(green);
     }
     box(width / 16 * i, height / 9 * i, ampy, 4, 4);
     translate(0, 0, 15);
@@ -322,21 +326,21 @@ function spheres() {
   angleMode(RADIANS);
   push();
   translate(-200, 0, 200);
-  strokeWeight(2);
-  specularMaterial(2);
+  strokeWeight(3);
+  specularMaterial(0);
   for (var i = 0; i < 2; i++) {
     rotateX(o1x);
     rotateY(o1y);
     rotateZ(o1z);
     if (pressed === 1) {
       push();
-      stroke(clr1);
+      stroke(red);
       noFill();
       sphere(700, 4, 4);
       pop();
     }
     translate(100, 0, 0);
-    stroke(226);
+    stroke(white);
     sphere(700, 5, 5);
   }
   //mouse + amplitude control rotation
@@ -374,7 +378,8 @@ function cylindrive() {
   var v = createVector(dx, dy, 0);
   v.normalize();
   directionalLight(45, 125, 210, v);
-  specularMaterial(255, 255, 255, 255);
+  // specularMaterial(255, 255, 255, 255);
+  specularMaterial(white);
   rotateZ(90);
   rotateY(o1y);
   rotateX(scaleMouseX);
@@ -383,7 +388,7 @@ function cylindrive() {
   if (pressed === 1) {
     push();
     noFill();
-    stroke(clr1);
+    stroke(red);
     strokeWeight(2);
     cylinder(width / 5, height / 2, xsegments, ysegments);
     pop();
