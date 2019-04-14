@@ -70,7 +70,7 @@ function draw() {
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      planar();
+      cylindrive();
     } else if (currentTime >= part2 && currentTime <= part3) {
       planar();
       spheres();
@@ -321,15 +321,22 @@ function planar() {
 function spheres() {
   angleMode(RADIANS);
   push();
-  translate(-200, 0, 100);
+  translate(-200, 0, 200);
+  strokeWeight(2);
+  specularMaterial(2);
   for (var i = 0; i < 2; i++) {
-    translate(100, 0, 0);
-    strokeWeight(2);
-    stroke(226);
     rotateX(o1x);
     rotateY(o1y);
     rotateZ(o1z);
-    specularMaterial(2);
+    if (pressed === 1) {
+      push();
+      stroke(clr1);
+      noFill();
+      sphere(700, 4, 4);
+      pop();
+    }
+    translate(100, 0, 0);
+    stroke(226);
     sphere(700, 5, 5);
   }
   //mouse + amplitude control rotation
