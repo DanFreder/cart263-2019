@@ -23,9 +23,9 @@ let part1 = 1;
 let part2 = 18;
 let part3 = 41;
 let part4 = 48;
-let part5 = 59;
+let part5 = 59.75;
 let part6 = 96;
-let part7 = 105;
+let part7 = 104;
 let part8 = 115;
 let part9 = 134;
 let part10 = 143;
@@ -69,7 +69,7 @@ function draw() {
   } else {
     //start music video
     background(0);
-    noCursor();
+    // noCursor();
     amp = amplitude.volume * 10;
     amp = constrain(amp, 0., 1);
     currentTime = song.currentTime();
@@ -97,9 +97,10 @@ function draw() {
     } else if (currentTime >= part10 && currentTime <= part11) {
       sphereXpansion();
     } else if (currentTime >= part11 && currentTime <= part12) {
-      normalDreams();
+      spheres();
+      sphereXpansion();
     } else if (currentTime >= part12 && currentTime <= part13) {
-      normalDreams();
+      spheres();
     }
   }
 }
@@ -221,7 +222,7 @@ function normalDreams() {
 function twoPlanes() {
   push();
   translate(0, 0, 0);
-  var scalar = map(amp, 0.01, 1, 12, 20);
+  var scalar = map(amp, 0.15, 1, 12, 15);
   var scaleY = map(mouseY, 0, height, -15, 15);
   var scaleX = map(mouseX, 0, width, 20, -20);
   var thick = map(amp, 0, 1, 1, 3);
@@ -240,9 +241,9 @@ function twoPlanes() {
     rotateZ(91);
     stroke(pressedClr);
     plane(width / 5, height / 3);
-    if (amp >= .01) {
+    if (amp >= .15) {
       translate(0, 0, scalar);
-      rotateZ(15 * amp);
+      rotateZ(10 * amp);
     } else {
       translate(0, 0, 12);
       rotateZ(0);
@@ -272,7 +273,7 @@ function dunshire() {
     var polyAmpLow = 2;
     var polyAmpLow2 = 4;
   }
-  if (amp > .3) {
+  if (amp > .4) {
     var polyAmp = map(amp, .3, 1, polyAmpLow, 16);
     var polyAmp2 = map(amp, .3, 1, polyAmpLow2, 24);
   } else {
@@ -289,7 +290,7 @@ function dunshire() {
 }
 
 function planar() {
-  var scaleX = map(mouseX, 0, width, -45, 45);
+  var scaleX = map(mouseX, 0, width, 45, -45);
   var scaleY = map(mouseY, 0, height, 45, -45);
   var ampy = map(amp, 0, 1, 0, 50);
   var zRot = map(amp, .009, 1, 0, 30);
@@ -386,13 +387,9 @@ function cylindrive() {
   rotateZ(scaleMouseY);
   push();
   noFill();
-  if (pressed === 1) {
-    stroke(white);
-  } else {
-    stroke(0);
-  }
+  stroke(0);
   strokeWeight(2);
-  cylinder(width / 5, height / 2, xsegments, ysegments);
+  cylinder(width / 5, height / 2, 5, 8);
   pop();
   o1y += ampy;
   pop();
