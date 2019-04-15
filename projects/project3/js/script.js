@@ -20,17 +20,17 @@ let pressed = 0;
 
 //second values for different song sections
 let part1 = 1;
-let part2 = 300;
-let part3 = 300;
-let part4 = 300;
-let part5 = 300;
-let part6 = 300;
-let part7 = 300;
-let part8 = 300;
-let part9 = 300;
-let part10 = 300;
-let part11 = 300;
-let part12 = 300;
+let part2 = 18;
+let part3 = 41;
+let part4 = 48;
+let part5 = 59;
+let part6 = 96;
+let part7 = 105;
+let part8 = 115;
+let part9 = 134;
+let part10 = 143;
+let part11 = 153;
+let part12 = 163;
 let part13 = 300;
 
 //colour pallete
@@ -75,32 +75,31 @@ function draw() {
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      holeyHole();
+      spheres();
     } else if (currentTime >= part2 && currentTime <= part3) {
-      planar();
-      spheres();
+      dunshire();
     } else if (currentTime >= part3 && currentTime <= part4) {
-      dunshire();
-      planar();
+      rectraction();
     } else if (currentTime >= part4 && currentTime <= part5) {
-      cylindrive();
-      dunshire();
+      rectraction();
     } else if (currentTime >= part5 && currentTime <= part6) {
-      twoPlanes();
+      holeyHole();
     } else if (currentTime >= part6 && currentTime <= part7) {
-      spheres();
+      planar();
+      holeyHole();
     } else if (currentTime >= part7 && currentTime <= part8) {
-      normalDreams();
+      planar();
+      cylindrive();
     } else if (currentTime >= part8 && currentTime <= part9) {
-      spheres();
+      twoPlanes();
     } else if (currentTime >= part9 && currentTime <= part10) {
-      spheres();
+      sphereXpansion();
     } else if (currentTime >= part10 && currentTime <= part11) {
-      spheres();
+      sphereXpansion();
     } else if (currentTime >= part11 && currentTime <= part12) {
-      spheres();
+      normalDreams();
     } else if (currentTime >= part12 && currentTime <= part13) {
-      spheres();
+      normalDreams();
     }
   }
 }
@@ -115,7 +114,7 @@ function holeyHole() {
     stroke(lightBlue);
     fill(1, 1, 1, 3);
   } else {
-    stroke(white);
+    stroke(lightBlue);
     noFill();
   }
   translate(-(width / 2 - mouseX), -(height / 2 - mouseY), 0);
@@ -323,10 +322,10 @@ function planar() {
 }
 
 function spheres() {
-  angleMode(RADIANS);
   push();
-  translate(-200, 0, 200);
-  strokeWeight(3);
+  angleMode(DEGREES);
+  translate(-200, 0, 400);
+  strokeWeight(2);
   specularMaterial(0);
   for (var i = 0; i < 2; i++) {
     rotateX(o1x);
@@ -334,9 +333,9 @@ function spheres() {
     rotateZ(o1z);
     if (pressed === 1) {
       push();
-      stroke(red);
+      stroke(green);
       noFill();
-      sphere(700, 4, 4);
+      sphere(700, 4, 3);
       pop();
     }
     translate(100, 0, 0);
@@ -346,14 +345,14 @@ function spheres() {
   //mouse + amplitude control rotation
   var fromCenter = dist(width / 2, height / 2, mouseX, mouseY);
   if (mouseY > height / 2) {
-    o1x += .0001 * amp * fromCenter;
+    o1x += .01 * amp * fromCenter;
   } else {
-    o1x -= .0001 * amp * fromCenter;
+    o1x -= .01 * amp * fromCenter;
   }
   if (mouseX > width / 2) {
-    o1z += .0001 * amp * fromCenter;
+    o1z += .01 * amp * fromCenter;
   } else {
-    o1z -= .0001 * amp * fromCenter;
+    o1z -= .01 * amp * fromCenter;
   }
   pop();
 }
@@ -385,14 +384,16 @@ function cylindrive() {
   rotateX(scaleMouseX);
   cylinder(width / 5, height / 2, 24, 16);
   rotateZ(scaleMouseY);
+  push();
+  noFill();
   if (pressed === 1) {
-    push();
-    noFill();
-    stroke(red);
-    strokeWeight(2);
-    cylinder(width / 5, height / 2, xsegments, ysegments);
-    pop();
+    stroke(white);
+  } else {
+    stroke(0);
   }
+  strokeWeight(2);
+  cylinder(width / 5, height / 2, xsegments, ysegments);
+  pop();
   o1y += ampy;
   pop();
 }
