@@ -30,7 +30,7 @@ let part8 = 115;
 let part9 = 134;
 let part10 = 143;
 let part11 = 153;
-let part12 = 163;
+let part12 = 161;
 let part13 = 300;
 
 //colour pallete
@@ -221,12 +221,12 @@ function normalDreams() {
 
 function twoPlanes() {
   push();
+  angleMode(DEGREES);
   translate(0, 0, 0);
-  var scalar = map(amp, 0.15, 1, 12, 15);
+  var scalar = map(amp, 0.1, 1, 12, 15);
   var scaleY = map(mouseY, 0, height, -15, 15);
   var scaleX = map(mouseX, 0, width, 20, -20);
   var thick = map(amp, 0, 1, 1, 3);
-  angleMode(DEGREES);
   if (pressed === 0) {
     var pressedClr = yellow;
   } else {
@@ -241,9 +241,9 @@ function twoPlanes() {
     rotateZ(91);
     stroke(pressedClr);
     plane(width / 5, height / 3);
-    if (amp >= .15) {
+    if (amp >= .1) {
       translate(0, 0, scalar);
-      rotateZ(10 * amp);
+      rotateZ(5 * amp);
     } else {
       translate(0, 0, 12);
       rotateZ(0);
@@ -267,15 +267,15 @@ function dunshire() {
   rotateZ(o1z);
   noFill();
   if (pressed === 0) {
-    var polyAmpLow = 1;
-    var polyAmpLow2 = 3;
+    var polyAmpLow = 2;
+    var polyAmpLow2 = 5;
   } else {
     var polyAmpLow = 2;
     var polyAmpLow2 = 4;
   }
-  if (amp > .4) {
-    var polyAmp = map(amp, .3, 1, polyAmpLow, 16);
-    var polyAmp2 = map(amp, .3, 1, polyAmpLow2, 24);
+  if (amp >= .4) {
+    var polyAmp = map(amp, .3, 1, polyAmpLow, 8);
+    var polyAmp2 = map(amp, .3, 1, polyAmpLow2, 12);
   } else {
     var polyAmp = polyAmpLow;
     var polyAmp2 = polyAmpLow2;
