@@ -75,7 +75,8 @@ function draw() {
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      spheres();
+      // spheres();
+      rectraction();
     } else if (currentTime >= part2 && currentTime <= part3) {
       dunshire();
     } else if (currentTime >= part3 && currentTime <= part4) {
@@ -173,22 +174,23 @@ function rectraction() {
   translate(0, 0, -1000);
   angleMode(DEGREES);
   strokeWeight(2);
-  stroke(white);
   var scaleMouseX = (map(mouseX, 0, width, -30, 30));
   var scaleMouseY = (map(mouseY, height, 0, -30, 30));
   rotateY(scaleMouseX);
   rotateX(scaleMouseY);
-  for (var i = 0; i < 10; i++) {
-    fill(i * 4, i * 4, i * 4, i);
-    torus(width / 15 * i, height / 10 * i, 4, 2);
+  for (var i = 0; i < 4; i++) {
     if (pressed === 0) {
-      o1z += (amp * (.01 * i));
+      stroke(pink);
+      o1z += (amp * (.1 * i));
       rotateZ(o1z);
     } else {
-      o1z -= (amp * (.01 * i));
+      o1z -= (amp * (.1 * i));
       rotateZ(o1z);
+      stroke(orange);
     }
-    translate(0, 0, 100);
+    fill(i * 10, i * 10, i * 10, 10);
+    torus(width / 4, height / 2, 4, 4);
+    translate(0, 0, 300);
   }
   pop();
 }
@@ -346,14 +348,14 @@ function spheres() {
   //mouse + amplitude control rotation
   var fromCenter = dist(width / 2, height / 2, mouseX, mouseY);
   if (mouseY > height / 2) {
-    o1x += .01 * amp * fromCenter;
+    o1x += .005 * amp * fromCenter;
   } else {
-    o1x -= .01 * amp * fromCenter;
+    o1x -= .005 * amp * fromCenter;
   }
   if (mouseX > width / 2) {
-    o1z += .01 * amp * fromCenter;
+    o1z += .005 * amp * fromCenter;
   } else {
-    o1z -= .01 * amp * fromCenter;
+    o1z -= .005 * amp * fromCenter;
   }
   pop();
 }
