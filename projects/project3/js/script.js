@@ -43,6 +43,7 @@ let turquoise = '#50d8d7';
 let pink = '#e83f6f';
 let yellow = '#ffbf00';
 let white = '#f9fdff';
+let purple = '#9d44b5'
 
 
 function setup() {
@@ -75,8 +76,7 @@ function draw() {
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      // spheres();
-      holeyHole();
+      spheres();
     } else if (currentTime >= part2 && currentTime <= part3) {
       dunshire();
     } else if (currentTime >= part3 && currentTime <= part4) {
@@ -121,12 +121,11 @@ function holeyHole() {
   translate(0, 0, 0);
   angleMode(DEGREES);
   strokeWeight(2);
+  fill(1, 1, 1, 3);
   if (pressed === 1) {
     stroke(lightBlue);
-    fill(1, 1, 1, 3);
   } else {
-    stroke(lightBlue);
-    fill(1, 1, 1, 6);
+    stroke(purple);
   }
   translate(-(width / 2 - mouseX), -(height / 2 - mouseY), 0);
   rotateZ(-o1y)
@@ -182,7 +181,7 @@ function rectraction() {
   push();
   translate(0, 0, -1000);
   angleMode(DEGREES);
-  strokeWeight(2);
+  strokeWeight(3);
   var scaleMouseX = (map(mouseX, 0, width, -30, 30));
   var scaleMouseY = (map(mouseY, height, 0, -30, 30));
   rotateY(scaleMouseX);
@@ -263,10 +262,10 @@ function dunshire() {
     var polyAmpLow = 2;
     var polyAmpLow2 = 4;
   }
-  if (amp >= .15) {
-    var polyAmp = map(amp, .15, .6, polyAmpLow, 16);
+  if (amp >= .17) {
+    var polyAmp = map(amp, .17, .6, polyAmpLow, 16);
     polyAmp = constrain(polyAmp, polyAmpLow, 16);
-    var polyAmp2 = map(amp, .15, .6, polyAmpLow2, 24);
+    var polyAmp2 = map(amp, .17, .6, polyAmpLow2, 24);
     polyAmp2 = constrain(polyAmp2, polyAmpLow2, 24);
   } else {
     var polyAmp = polyAmpLow;
@@ -276,8 +275,8 @@ function dunshire() {
   translate(0, 0, -10);
   stroke(white);
   cone(yScale, xScale, floor(polyAmp2), floor(polyAmp));
-  o1z += 2 * amp;
-  o1y += 1.75 * amp;
+  o1z += 1.25 * amp;
+  o1y += amp;
   pop();
 }
 
@@ -296,7 +295,7 @@ function planar() {
   for (var i = 0; i < 20; i++) {
     if (pressed === 1) {
       if (i % 2 === 0) {
-        stroke(red);
+        stroke(purple);
       } else {
         stroke(100);
       }
