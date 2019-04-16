@@ -31,7 +31,7 @@ let part9 = 134;
 let part10 = 143;
 let part11 = 153;
 let part12 = 161;
-let part13 = 300;
+let part13 = 170;
 
 //colour pallete
 let red = '#ff192c';
@@ -75,8 +75,7 @@ function draw() {
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      // spheres();
-      rectraction();
+      spheres();
     } else if (currentTime >= part2 && currentTime <= part3) {
       dunshire();
     } else if (currentTime >= part3 && currentTime <= part4) {
@@ -87,10 +86,8 @@ function draw() {
       holeyHole();
     } else if (currentTime >= part6 && currentTime <= part7) {
       planar();
-      holeyHole();
     } else if (currentTime >= part7 && currentTime <= part8) {
       planar();
-      cylindrive();
     } else if (currentTime >= part8 && currentTime <= part9) {
       twoPlanes();
     } else if (currentTime >= part9 && currentTime <= part10) {
@@ -98,12 +95,23 @@ function draw() {
     } else if (currentTime >= part10 && currentTime <= part11) {
       sphereXpansion();
     } else if (currentTime >= part11 && currentTime <= part12) {
-      spheres();
+      sphereXpansion();
+      cylindrive();
+    } else if (currentTime >= part12 && currentTime <= part13) {
       sphereXpansion();
     } else if (currentTime >= part12 && currentTime <= part13) {
-      spheres();
+      blackNothing();
     }
   }
+}
+
+function blackNothing() {
+  push();
+  translate(0, 0, 0);
+  noStroke();
+  fill(0);
+  sphere(width);
+  pop();
 }
 
 function holeyHole() {
@@ -180,13 +188,13 @@ function rectraction() {
   rotateX(scaleMouseY);
   for (var i = 0; i < 4; i++) {
     if (pressed === 0) {
-      stroke(pink);
+      stroke(red);
       o1z += (amp * (.1 * i));
       rotateZ(o1z);
     } else {
       o1z -= (amp * (.1 * i));
       rotateZ(o1z);
-      stroke(orange);
+      stroke(lightBlue);
     }
     fill(i * 10, i * 10, i * 10, 10);
     torus(width / 4, height / 2, 4, 4);
@@ -195,31 +203,6 @@ function rectraction() {
   pop();
 }
 
-
-function normalDreams() {
-  push();
-  angleMode(DEGREES);
-  if (pressed === 0) {
-    translate(-width / 5, 0, -200);
-  } else {
-    translate(width / 5, 0, -200);
-  }
-  normalMaterial();
-  noStroke();
-  var scaleMouseX = (map(mouseX, 0, width, -3, 3));
-  var scaleMouseY = (map(mouseY, height, 0, -5, 5));
-  for (var i = 0; i < 10; i++) {
-    var xScale = i * 50;
-    var yScale = i * 50;
-    torus(xScale, yScale, 3);
-    rotateZ(i * o1z);
-    rotateY(scaleMouseX);
-    rotateX(scaleMouseY);
-    translate(0, 0, 100);
-  }
-  o1z += .1 * amp;
-  pop();
-}
 
 function twoPlanes() {
   push();
@@ -230,15 +213,15 @@ function twoPlanes() {
   var scaleX = map(mouseX, 0, width, 20, -20);
   var thick = map(amp, 0, 1, 1, 3);
   if (pressed === 0) {
-    var pressedClr = yellow;
-  } else {
     var pressedClr = pink;
+  } else {
+    var pressedClr = green;
   }
   noFill();
   strokeWeight(thick);
   rotateZ(30);
   for (var i = 0; i < 35; i++) {
-    stroke(green);
+    stroke(100);
     plane(width / 5, height / 3);
     rotateZ(91);
     stroke(pressedClr);
@@ -444,3 +427,28 @@ function loadingScreen() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
+
+// function normalDreams() {
+//   push();
+//   angleMode(DEGREES);
+//   if (pressed === 0) {
+//     translate(-width / 5, 0, -200);
+//   } else {
+//     translate(width / 5, 0, -200);
+//   }
+//   normalMaterial();
+//   noStroke();
+//   var scaleMouseX = (map(mouseX, 0, width, -3, 3));
+//   var scaleMouseY = (map(mouseY, height, 0, -5, 5));
+//   for (var i = 0; i < 10; i++) {
+//     var xScale = i * 50;
+//     var yScale = i * 50;
+//     torus(xScale, yScale, 3);
+//     rotateZ(i * o1z);
+//     rotateY(scaleMouseX);
+//     rotateX(scaleMouseY);
+//     translate(0, 0, 100);
+//   }
+//   o1z += .1 * amp;
+//   pop();
+// }
