@@ -31,12 +31,12 @@ let part9 = 134;
 let part10 = 143;
 let part11 = 153;
 let part12 = 161;
-let part13 = 170;
+let part13 = 169;
 
 //colour pallete
 let red = '#ff192c';
 let green = '#06d6a0';
-let lightBlue = '#2274a5';
+let lightBlue = '#00a1e4';
 let navy = '#073b4c';
 let orange = '#db5a42';
 let turquoise = '#50d8d7';
@@ -75,7 +75,8 @@ function draw() {
     currentTime = song.currentTime();
     // change graphics based on currentTime
     if (currentTime >= part1 && currentTime <= part2) {
-      spheres();
+      // spheres();
+      holeyHole();
     } else if (currentTime >= part2 && currentTime <= part3) {
       dunshire();
     } else if (currentTime >= part3 && currentTime <= part4) {
@@ -125,7 +126,7 @@ function holeyHole() {
     fill(1, 1, 1, 3);
   } else {
     stroke(lightBlue);
-    noFill();
+    fill(1, 1, 1, 6);
   }
   translate(-(width / 2 - mouseX), -(height / 2 - mouseY), 0);
   rotateZ(-o1y)
@@ -186,19 +187,23 @@ function rectraction() {
   var scaleMouseY = (map(mouseY, height, 0, -30, 30));
   rotateY(scaleMouseX);
   rotateX(scaleMouseY);
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < 2; i++) {
     if (pressed === 0) {
-      stroke(red);
-      o1z += (amp * (.1 * i));
-      rotateZ(o1z);
-    } else {
-      o1z -= (amp * (.1 * i));
-      rotateZ(o1z);
       stroke(lightBlue);
+      o1z += (amp * i);
+      o1y += (amp * (2 * i));
+      rotateZ(o1z);
+      rotateY(o1y);
+    } else {
+      o1z -= (amp * i);
+      o1y -= (amp * (2 * i));
+      stroke(green);
+      rotateZ(o1z);
+      rotateY(o1y);
     }
     fill(i * 10, i * 10, i * 10, 10);
-    torus(width / 4, height / 2, 4, 4);
-    translate(0, 0, 300);
+    torus(width / 2, height, 4, 4);
+    translate(0, 0, 200);
   }
   pop();
 }
@@ -213,7 +218,7 @@ function twoPlanes() {
   var scaleX = map(mouseX, 0, width, 20, -20);
   var thick = map(amp, 0, 1, 1, 3);
   if (pressed === 0) {
-    var pressedClr = pink;
+    var pressedClr = lightBlue;
   } else {
     var pressedClr = green;
   }
@@ -258,19 +263,21 @@ function dunshire() {
     var polyAmpLow = 2;
     var polyAmpLow2 = 4;
   }
-  if (amp >= .4) {
-    var polyAmp = map(amp, .3, 1, polyAmpLow, 8);
-    var polyAmp2 = map(amp, .3, 1, polyAmpLow2, 12);
+  if (amp >= .15) {
+    var polyAmp = map(amp, .15, .6, polyAmpLow, 16);
+    polyAmp = constrain(polyAmp, polyAmpLow, 16);
+    var polyAmp2 = map(amp, .15, .6, polyAmpLow2, 24);
+    polyAmp2 = constrain(polyAmp2, polyAmpLow2, 24);
   } else {
     var polyAmp = polyAmpLow;
     var polyAmp2 = polyAmpLow2;
   }
   cone(yScale, xScale, floor(polyAmp2), floor(polyAmp));
   translate(0, 0, -10);
-  stroke(lightBlue);
+  stroke(white);
   cone(yScale, xScale, floor(polyAmp2), floor(polyAmp));
-  o1z += 3 * amp;
-  o1y += 2 * amp;
+  o1z += 2 * amp;
+  o1y += 1.75 * amp;
   pop();
 }
 
@@ -289,12 +296,16 @@ function planar() {
   for (var i = 0; i < 20; i++) {
     if (pressed === 1) {
       if (i % 2 === 0) {
+        stroke(red);
+      } else {
+        stroke(100);
+      }
+    } else if (pressed === 0) {
+      if (i % 2 === 0) {
         stroke(green);
       } else {
-        stroke(red);
+        stroke(100);
       }
-    } else {
-      stroke(green);
     }
     box(width / 16 * i, height / 9 * i, ampy, 4, 4);
     translate(0, 0, 15);
@@ -368,13 +379,13 @@ function cylindrive() {
   rotateZ(90);
   rotateY(o1y);
   rotateX(scaleMouseX);
-  cylinder(width / 5, height / 2, 24, 16);
+  cylinder(width / 2, height, 24, 16);
   rotateZ(scaleMouseY);
   push();
   noFill();
   stroke(0);
   strokeWeight(2);
-  cylinder(width / 5, height / 2, 5, 8);
+  cylinder(width / 2, height, 5, 8);
   pop();
   o1y += ampy;
   pop();
