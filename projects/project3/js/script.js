@@ -443,7 +443,7 @@ function loadingScreen() {
 function phoneScreen() {
   graphics2d.background(0);
   graphics2d.textFont("Futura");
-  graphics2d.textSize(width / 20);
+  graphics2d.textSize(width / 10);
   graphics2d.textStyle('italic');
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
