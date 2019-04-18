@@ -64,7 +64,7 @@ function setup() {
 
 function draw() {
   //check if user is on mobile and tell 'em to get a real computer
-  if (window.mobilecheck() === true) {
+  if (window.mobilecheck() !== false) {
     phoneScreen();
   } else {
     //display loading screen if song hasn't loaded &/or user hasn't clicked on canvas
