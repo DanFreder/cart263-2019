@@ -60,12 +60,14 @@ function setup() {
   amplitude.smooth(.5);
   //load audio file and trigger songLoaded function once it's loaded
   song = loadSound('assets/sounds/slowBurnUnmixed2.mp3', songLoaded);
+  console.log(navigator.userAgent);
 }
 
 function draw() {
   //check if user is on mobile and tell 'em to get a real computer
   if (window.mobilecheck() !== false) {
     phoneScreen();
+    noLoop();
   } else {
     //display loading screen if song hasn't loaded &/or user hasn't clicked on canvas
     if (triggerStart === 0) {
@@ -445,7 +447,7 @@ function phoneScreen() {
   graphics2d.textStyle('italic');
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
-  graphics2d.fill(255);
+  graphics2d.fill(255, 0, 0);
   graphics2d.text('please revisit', windowWidth / 2, windowHeight / 2 - 150);
   graphics2d.text('on desktop', windowWidth / 2, windowHeight / 2 - 50);
   texture(graphics2d);
