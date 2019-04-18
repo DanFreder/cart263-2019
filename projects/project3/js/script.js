@@ -58,6 +58,7 @@ function setup() {
   background(0);
   amplitude = new p5.Amplitude();
   amplitude.smooth(.5);
+
   //load audio file and trigger songLoaded function once it's loaded
   song = loadSound('assets/sounds/slowBurnUnmixed2.mp3', songLoaded);
 }
@@ -396,15 +397,18 @@ function cylindrive() {
 }
 
 function mousePressed() {
-  if (loaded === 1) {
-    triggerStart = 1;
-    song.play();
-    //update loaded variable to avoid retriggering on future mouse clicks
-    loaded = 2;
-  } else if (loaded === 2 && pressed === 0) {
-    pressed = 1;
-  } else {
-    pressed = 0;
+  //only let mousePress trigger start/play if user is on a real computer
+  if (window.mobilecheck() === false) {
+    if (loaded === 1) {
+      triggerStart = 1;
+      song.play();
+      //update loaded variable to avoid retriggering on future mouse clicks
+      loaded = 2;
+    } else if (loaded === 2 && pressed === 0) {
+      pressed = 1;
+    } else {
+      pressed = 0;
+    }
   }
 }
 
