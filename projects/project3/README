@@ -1,0 +1,36 @@
+Daniel Freder
+Project 3 - “Slow Burn”
+
+WHAT IS YOUR PROJECT?
+
+My project is an interactive music video for the DF song “Slow Burn”. 
+It was built through experiments playing with geometries and arrays in p5.js’ WebGL canvas. 
+
+WHY DID YOU DO IT?
+
+DF is an audiovisual collaboration I’m part of with saxophonist Dustin Finer. 
+Our shows are equal parts music and light, wherein I try to visualize the hypnotic sounds of looped saxophone with audio-reactive light installations and digital projections. 
+Project 3 was a great opportunity to put my newfound JS skills to use, and create content for a new DF tune, using the interactive spirit of our live shows as a jumping off point. 
+The song I picked: “Slow Burn”, when played live features 3D geometries that distort in-time to the music.
+
+HOW DID YOU DO IT?
+
+Initially I planned to use A-Frame, because it looked really appealing from the outside, and had an “easy DIY 3D-in-the-browser” vibe. 
+After getting ⅔ of the way through A-Frame school, I wasn’t a huge fan of the workflow, and instead turned my efforts towards p5, where I felt I had a better lay of the land + more inspiring creative constraints.
+
+The 3 interactions that drive animations in my project are:
+ 
+-Song Amplitude
+-Mouse Position
+-Mouse Presses
+
+Building this project was a constant internal battle for me, over how much control to give users. 
+In the end, I took a pretty dictatorial approach, that favours stronger audiovisual pairings over user freedom. 
+The result is one that feels more like a mildly participatory music video and less like an interactive experience. 
+Though it wasn’t part of my gameplan when I started to make this, it’s not something that bothers me, as I find the “video” remains intriguing. 
+Notably, because we’re so used to consuming music videos online through small rectangles surrounded by distraction. 
+The full browser window as a frame helps participants focus, and commit to participating in the art experience. 
+I hope the lack of pause/rewind/ffwd controls and a mobile version of the site also help in this endeavour.
+
+This project is incomplete, as “Slow Burn” is still in post-production, and as a result, I don’t have a final mix. 
+I currently have an excellent window of time to playtest things pre-release, any/all feedback appreciated, I intend to continue working on this throughout the summer.
