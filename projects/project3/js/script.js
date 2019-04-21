@@ -49,7 +49,7 @@ function setup() {
   // Create a canvas the size of the window
   canvas = createCanvas(windowWidth, windowHeight, WEBGL);
   graphics2d = createGraphics(windowWidth, windowHeight);
-  // Style it so it sits fixed behind HTML & ignores scrolling
+  // Canvas stays fixed behind HTML & ignores scrolling
   canvas.style("display:block");
   canvas.style("position:fixed");
   canvas.style("top:0");
@@ -64,7 +64,7 @@ function setup() {
 }
 
 function draw() {
-  //check if user is on mobile and tell 'em to get a real computer
+  //check if user is on mobile and tell 'em to come back on a real computer
   if (window.mobilecheck() !== false) {
     phoneScreen();
     noLoop();
@@ -417,7 +417,8 @@ function songLoaded() {
   loaded = 1;
 }
 
-//map text to 2D plane so it works in p5's WEBGL canvas
+// loading screen
+// text is mapped to a 2D plane so it works in p5's WEBGL canvas
 function loadingScreen() {
   graphics2d.background(0);
   graphics2d.textFont("Futura");
