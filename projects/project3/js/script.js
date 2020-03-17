@@ -1,6 +1,6 @@
 /*****************
-dan freder's project 3
-interactive music video for df's "slow burn"
+dan freder
+interactive webpage for df's "slow burn"
 move and click the mouse to modify animations with the music
 ******************/
 
@@ -31,7 +31,7 @@ let part9 = 134;
 let part10 = 143;
 let part11 = 153;
 let part12 = 161;
-let part13 = 169;
+let part13 = 168;
 
 //colour pallete
 let red = '#ff192c';
@@ -58,13 +58,14 @@ function setup() {
   background(0);
   amplitude = new p5.Amplitude();
   amplitude.smooth(.5);
+  angleMode(DEGREES);
 
-  //load audio file and trigger songLoaded function once it's loaded
+  //load audio file and trigger songLoaded function once loaded
   song = loadSound('assets/sounds/slowBurnUnmixed2.mp3', songLoaded);
 }
 
 function draw() {
-  //check if user is on mobile and tell 'em to come back on a real computer
+  //check if user is on mobile, tell 'em to return on real computer if necessary
   if (window.mobilecheck() !== false) {
     phoneScreen();
     noLoop();
@@ -79,9 +80,9 @@ function draw() {
       amp = amplitude.volume * 10;
       amp = constrain(amp, 0., 1);
       currentTime = song.currentTime();
-      // change graphics based on currentTime
       if (currentTime >= part1 && currentTime <= part2) {
-        spheres();
+        // spheres();
+        endScreen();
       } else if (currentTime >= part2 && currentTime <= part3) {
         dunshire();
       } else if (currentTime >= part3 && currentTime <= part4) {
@@ -105,8 +106,8 @@ function draw() {
         cylindrive();
       } else if (currentTime >= part12 && currentTime <= part13) {
         sphereXpansion();
-      } else if (currentTime >= part12 && currentTime <= part13) {
-        blackNothing();
+      } else if (currentTime > part13) {
+        endScreen();
       }
     }
   }
@@ -123,25 +124,27 @@ function blackNothing() {
 
 function holeyHole() {
   push();
-  var rotationScaleMouseX = (map(mouseX, 0, width, -15, 15));
+  var rotationScaleMouseX = (map(mouseX, 0, width, 20., -20.));
+  var rotationScaleMouseY = (map(mouseY, 0, height, -20., 20.));
   translate(0, 0, 0);
-  angleMode(DEGREES);
   strokeWeight(2);
-  fill(1, 1, 1, 3);
+  fill(1, 1, 1, 4);
   if (pressed === 1) {
     stroke(lightBlue);
+    o1z += .333 * amp;
   } else {
     stroke(purple);
+    o1z -= .333 * amp;
   }
-  translate(-(width / 2 - mouseX), -(height / 2 - mouseY), 0);
-  rotateZ(-o1y)
+  // translate(-(width / 2 - mouseX), -(height / 2 - mouseY), 0);
+  rotateZ(-o1y);
   rotateY(rotationScaleMouseX);
+  rotateX(rotationScaleMouseY);
   for (var i = 0; i < 12; i++) {
     rotateZ(o1z);
     torus(width / 2, width / 3, 3, 3);
     translate(0, 0, -150);
   }
-  o1z += .333 * amp;
   o1y += .777 * amp;
   pop();
 }
@@ -158,7 +161,6 @@ function sphereXpansion() {
     var polyY = 3;
   }
   translate(0, 0, 0);
-  angleMode(DEGREES);
   noFill();
   stroke(white);
   strokeWeight(1);
@@ -185,9 +187,8 @@ function sphereXpansion() {
 
 function rectraction() {
   push();
-  translate(0, 0, -1000);
-  angleMode(DEGREES);
-  strokeWeight(5);
+  translate(0, 0, -500);
+  strokeWeight(2);
   var scaleMouseX = (map(mouseX, 0, width, -30, 30));
   var scaleMouseY = (map(mouseY, height, 0, -30, 30));
   rotateY(scaleMouseX);
@@ -195,20 +196,20 @@ function rectraction() {
   for (var i = 0; i < 2; i++) {
     if (pressed === 0) {
       stroke(lightBlue);
-      o1z += (amp * i);
-      o1y += (amp * (2 * i));
+      o1z += (amp * i + .1);
+      o1y += (amp * (.75 * i + .1));
       rotateZ(o1z);
       rotateY(o1y);
     } else {
-      o1z -= (amp * i);
-      o1y -= (amp * (2 * i));
+      o1z -= (amp * i + .1);
+      o1y -= (amp * (2 * i + .1));
       stroke(green);
       rotateZ(o1z);
       rotateY(o1y);
     }
-    fill(i * 10, i * 10, i * 10, 10);
+    fill(10, 10, 10, i * 11);
     torus(width / 2, height, 4, 4);
-    translate(0, 0, 200);
+    translate(0, 0, 100);
   }
   pop();
 }
@@ -216,33 +217,24 @@ function rectraction() {
 
 function twoPlanes() {
   push();
-  angleMode(DEGREES);
   translate(0, 0, 0);
-  var scalar = map(amp, 0.1, 1, 12, 15);
-  var scaleY = map(mouseY, 0, height, -15, 15);
-  var scaleX = map(mouseX, 0, width, 20, -20);
-  var thick = map(amp, 0, 1, 1, 3);
+  var scaleY = map(mouseY, 0, height, -6, 6);
+  var scaleX = map(mouseX, 0, width, 3, -3);
   if (pressed === 0) {
     var pressedClr = lightBlue;
   } else {
     var pressedClr = green;
   }
+  strokeWeight(1);
   noFill();
-  strokeWeight(thick);
-  rotateZ(30);
-  for (var i = 0; i < 35; i++) {
+  for (var i = 0; i < 50; i++) {
     stroke(100);
-    plane(width / 5, height / 3);
-    rotateZ(91);
+    box(width / 1.25, height / 2, 10 * i);
+    translate(0, 0, -20);
     stroke(pressedClr);
-    plane(width / 5, height / 3);
-    if (amp >= .1) {
-      translate(0, 0, scalar);
-      rotateZ(5 * amp);
-    } else {
-      translate(0, 0, 12);
-      rotateZ(0);
-    }
+    box(width / 1.25, height / 2, 10 * i);
+    translate(0, 0, amp);
+    rotateZ(1.5 * amp);
     rotateX(scaleY);
     rotateY(scaleX);
   }
@@ -251,38 +243,32 @@ function twoPlanes() {
 
 function dunshire() {
   push();
-  var xScale = map(mouseX, 0, width, -width / 2, width / 2);
-  var yScale = map(mouseY, height, 0, height / 2, height);
-  angleMode(DEGREES);
   translate(0, 0, 0);
-  strokeWeight(2);
-  stroke(purple);
-  rotateX(90);
-  rotateY(o1y);
   rotateZ(o1z);
+  translate(0, 20, 0);
+  var xScale = map(mouseX, 0, width, width / 3, width / 2);
+  var yScale = map(mouseY, height, 0, height / 2, height);
   noFill();
-  if (pressed === 0) {
-    var polyAmpLow = 2;
-    var polyAmpLow2 = 5;
-  } else {
-    var polyAmpLow = 2;
-    var polyAmpLow2 = 4;
+  strokeWeight(1);
+  rotateX(90);
+  for (var i = 0; i < 2; i++) {
+    if (pressed === 0) {
+      stroke(purple);
+    } else {
+      stroke(lightBlue);
+    }
+    rotateX(o1x);
+    cone(xScale, yScale, 3, 3);
+    translate(0, 0, 50);
+    if (pressed === 0) {
+      stroke(lightBlue);
+    } else {
+      stroke(purple);
+    }
+    cone(xScale, yScale, 3, 3);
   }
-  if (amp >= .17) {
-    var polyAmp = map(amp, .17, .6, polyAmpLow, 16);
-    polyAmp = constrain(polyAmp, polyAmpLow, 16);
-    var polyAmp2 = map(amp, .17, .6, polyAmpLow2, 24);
-    polyAmp2 = constrain(polyAmp2, polyAmpLow2, 24);
-  } else {
-    var polyAmp = polyAmpLow;
-    var polyAmp2 = polyAmpLow2;
-  }
-  cone(yScale, xScale, floor(polyAmp2), floor(polyAmp));
-  translate(0, 0, -10);
-  stroke(white);
-  cone(yScale, xScale, floor(polyAmp2), floor(polyAmp));
-  o1z += 1.25 * amp;
-  o1y += amp;
+  o1x += amp + .02;
+  o1z += (amp * 1.25) + .02;
   pop();
 }
 
@@ -292,13 +278,12 @@ function planar() {
   var ampy = map(amp, 0, 1, 0, 50);
   var zRot = map(amp, .009, 1, 0, 30);
   push();
-  angleMode(DEGREES);
-  translate(0, 0, 200);
+  translate(0, 0, 0);
   noFill();
   strokeWeight(1);
   rotateY(scaleX);
   rotateZ(scaleY);
-  for (var i = 0; i < 20; i++) {
+  for (var i = 0; i < 50; i++) {
     if (pressed === 1) {
       if (i % 2 === 0) {
         stroke(purple);
@@ -313,7 +298,7 @@ function planar() {
       }
     }
     box(width / 16 * i, height / 9 * i, ampy, 4, 4);
-    translate(0, 0, 15);
+    translate(0, 0, 10);
     if (amp >= .009) {
       rotateZ(zRot);
     } else {
@@ -325,7 +310,6 @@ function planar() {
 
 function spheres() {
   push();
-  angleMode(DEGREES);
   translate(-200, 0, 400);
   strokeWeight(2);
   specularMaterial(0);
@@ -345,17 +329,10 @@ function spheres() {
     sphere(700, 5, 5);
   }
   //mouse + amplitude control rotation
-  var fromCenter = dist(width / 2, height / 2, mouseX, mouseY);
-  if (mouseY > height / 2) {
-    o1x += .005 * amp * fromCenter;
-  } else {
-    o1x -= .005 * amp * fromCenter;
-  }
-  if (mouseX > width / 2) {
-    o1z += .005 * amp * fromCenter;
-  } else {
-    o1z -= .005 * amp * fromCenter;
-  }
+  var scaleMouseX = map(mouseX, 0, width, -3, 3);
+  var scaleMouseY = map(mouseY, 0, height, -2, 2);
+  o1x += (amp * scaleMouseY) + .5;
+  o1z += (amp * scaleMouseX) + .5;
   pop();
 }
 
@@ -372,7 +349,6 @@ function cylindrive() {
   var ampy = map(amp, 0, 1, 0, 4);
   var scaleMouseX = map(mouseX, 0, width, -45, 45);
   var scaleMouseY = map(mouseY, 0, height, 45, 90);
-  angleMode(DEGREES);
   noStroke();
   var dx = mouseX - width / 2;
   var dy = mouseY - height / 2;
@@ -413,7 +389,7 @@ function mousePressed() {
 }
 
 function songLoaded() {
-  console.log('Slow Burn Loaded Successfully');
+  console.log('Loaded Successfully');
   loaded = 1;
 }
 
@@ -458,6 +434,21 @@ function phoneScreen() {
   plane(windowWidth, windowHeight);
 }
 
+function endScreen() {
+  graphics2d.background(0);
+  graphics2d.textFont("Futura");
+  graphics2d.textSize(width / 20);
+  graphics2d.textStyle('italic');
+  graphics2d.textAlign(CENTER, CENTER);
+  graphics2d.noStroke();
+  graphics2d.fill(255);
+  graphics2d.text('thanks for listening', windowWidth / 2, windowHeight / 2 - 150);
+  graphics2d.text('df site', windowWidth / 2, windowHeight / 2 - 50);
+  texture(graphics2d);
+  plane(windowWidth, windowHeight);
+  console.log('endScreen Active');
+}
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
@@ -471,27 +462,26 @@ window.mobilecheck = function() {
   return check;
 };
 
-// function normalDreams() {
-//   push();
-//   angleMode(DEGREES);
-//   if (pressed === 0) {
-//     translate(-width / 5, 0, -200);
-//   } else {
-//     translate(width / 5, 0, -200);
-//   }
-//   normalMaterial();
-//   noStroke();
-//   var scaleMouseX = (map(mouseX, 0, width, -3, 3));
-//   var scaleMouseY = (map(mouseY, height, 0, -5, 5));
-//   for (var i = 0; i < 10; i++) {
-//     var xScale = i * 50;
-//     var yScale = i * 50;
-//     torus(xScale, yScale, 3);
-//     rotateZ(i * o1z);
-//     rotateY(scaleMouseX);
-//     rotateX(scaleMouseY);
-//     translate(0, 0, 100);
-//   }
-//   o1z += .1 * amp;
-//   pop();
-// }
+function normalDreams() {
+  push();
+  if (pressed === 0) {
+    translate(-width / 5, 0, -200);
+  } else {
+    translate(width / 5, 0, -200);
+  }
+  normalMaterial();
+  noStroke();
+  var scaleMouseX = (map(mouseX, 0, width, -3, 3));
+  var scaleMouseY = (map(mouseY, height, 0, -5, 5));
+  for (var i = 0; i < 10; i++) {
+    var xScale = i * 50;
+    var yScale = i * 50;
+    torus(xScale, yScale, 3);
+    rotateZ(i * o1z);
+    rotateY(scaleMouseX);
+    rotateX(scaleMouseY);
+    translate(0, 0, 100);
+  }
+  o1z += .1 * amp;
+  pop();
+}
