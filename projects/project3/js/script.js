@@ -19,31 +19,31 @@ let triggerStart = 0;
 let pressed = 0;
 
 //second values for different song sections
-let part1 = 1;
-let part2 = 18;
-let part3 = 41;
-let part4 = 48;
-let part5 = 59.75;
-let part6 = 96;
-let part7 = 104;
-let part8 = 115;
-let part9 = 134;
-let part10 = 143;
-let part11 = 153;
-let part12 = 161;
-let part13 = 168;
+const part1 = 1;
+const part2 = 18;
+const part3 = 41;
+const part4 = 48;
+const part5 = 59.75;
+const part6 = 96;
+const part7 = 104;
+const part8 = 115;
+const part9 = 134;
+const part10 = 143;
+const part11 = 153;
+const part12 = 161;
+const part13 = 168;
 
 //colour pallete
-let red = '#ff192c';
-let green = '#06d6a0';
-let lightBlue = '#00a1e4';
-let navy = '#073b4c';
-let orange = '#db5a42';
-let turquoise = '#50d8d7';
-let pink = '#e83f6f';
-let yellow = '#ffbf00';
-let white = '#f9fdff';
-let purple = '#9d44b5'
+const red = '#ff192c';
+const green = '#06d6a0';
+const lightBlue = '#00a1e4';
+const navy = '#073b4c';
+const orange = '#db5a42';
+const turquoise = '#50d8d7';
+const pink = '#e83f6f';
+const yellow = '#ffbf00';
+const white = '#f9fdff';
+const purple = '#9d44b5'
 
 function setup() {
   // Create a canvas the size of the window
@@ -439,7 +439,6 @@ function endScreen() {
   graphics2d.text('df site', windowWidth / 2, windowHeight / 2 - 100);
   texture(graphics2d);
   plane(windowWidth, windowHeight);
-  console.log('endScreen Active');
 }
 
 function windowResized() {
