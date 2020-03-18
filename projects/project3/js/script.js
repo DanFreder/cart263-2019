@@ -123,10 +123,9 @@ function blackNothing() {
 
 function holeyHole() {
   push();
-  var rotationScaleMouseX = (map(mouseX, 0, width, 5., -5.));
-  var rotationScaleMouseY = (map(mouseY, 0, height, -5., 5.));
-  translate((mouseX - width / 2), (mouseY - height / 2), 0);
-  strokeWeight(2);
+  var rotationScaleMouseX = (map(mouseX, 0, width, 50., -50.));
+  var rotationScaleMouseY = (map(mouseY, 0, height, -40., 40.));
+  strokeWeight(1);
   fill(1, 1, 1, 4);
   if (pressed === 1) {
     stroke(lightBlue);
@@ -135,11 +134,10 @@ function holeyHole() {
     stroke(purple);
     o1z -= .333 * amp;
   }
-  // translate(-(width / 2 - mouseX), -(height / 2 - mouseY), 0);
-  rotateZ(-o1y);
   rotateY(rotationScaleMouseX);
   rotateX(rotationScaleMouseY);
-  for (var i = 0; i < 12; i++) {
+  rotateZ(-o1y);
+  for (var i = 0; i < 10; i++) {
     rotateZ(o1z);
     torus(width / 2, width / 3, 3, 3);
     translate(0, 0, -150);
