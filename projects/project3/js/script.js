@@ -426,7 +426,8 @@ window.mobilecheck = function() {
 };
 
 function phoneScreen() {
-  graphics2d.background(255);
+  console.log('phoneScreen!');
+  graphics2d.background(255, 0, 0);
   graphics2d.textFont("Futura");
   graphics2d.textSize(width / 10);
   graphics2d.textStyle('italic');
