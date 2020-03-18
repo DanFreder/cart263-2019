@@ -81,8 +81,7 @@ function draw() {
       amp = constrain(amp, 0., 1);
       currentTime = song.currentTime();
       if (currentTime >= part1 && currentTime <= part2) {
-        // spheres();
-        endScreen();
+        spheres();
       } else if (currentTime >= part2 && currentTime <= part3) {
         dunshire();
       } else if (currentTime >= part3 && currentTime <= part4) {
@@ -106,7 +105,7 @@ function draw() {
         cylindrive();
       } else if (currentTime >= part12 && currentTime <= part13) {
         sphereXpansion();
-      } else if (currentTime > part13) {
+      } else if (currentTime >= part13) {
         endScreen();
       }
     }
@@ -124,9 +123,9 @@ function blackNothing() {
 
 function holeyHole() {
   push();
-  var rotationScaleMouseX = (map(mouseX, 0, width, 20., -20.));
-  var rotationScaleMouseY = (map(mouseY, 0, height, -20., 20.));
-  translate(0, 0, 0);
+  var rotationScaleMouseX = (map(mouseX, 0, width, 5., -5.));
+  var rotationScaleMouseY = (map(mouseY, 0, height, -5., 5.));
+  translate((mouseX - width / 2), (mouseY - height / 2), 0);
   strokeWeight(2);
   fill(1, 1, 1, 4);
   if (pressed === 1) {
@@ -273,10 +272,10 @@ function dunshire() {
 }
 
 function planar() {
-  var scaleX = map(mouseX, 0, width, 45, -45);
-  var scaleY = map(mouseY, 0, height, 45, -45);
-  var ampy = map(amp, 0, 1, 0, 50);
-  var zRot = map(amp, .009, 1, 0, 30);
+  var scaleX = map(mouseX, 0, width, -30, 30);
+  var scaleY = map(mouseY, 0, height, 90, -90);
+  var zRot = map(amp, 0., 1., 0., 10.);
+  var ampy = map(amp, 0., 1., 50, 100);
   push();
   translate(0, 0, 0);
   noFill();
@@ -298,12 +297,8 @@ function planar() {
       }
     }
     box(width / 16 * i, height / 9 * i, ampy, 4, 4);
-    translate(0, 0, 10);
-    if (amp >= .009) {
-      rotateZ(zRot);
-    } else {
-      rotateZ(0);
-    }
+    translate(0, 0, 5);
+    rotateZ(zRot);
   }
   pop();
 }
@@ -329,10 +324,10 @@ function spheres() {
     sphere(700, 5, 5);
   }
   //mouse + amplitude control rotation
-  var scaleMouseX = map(mouseX, 0, width, -3, 3);
-  var scaleMouseY = map(mouseY, 0, height, -2, 2);
-  o1x += (amp * scaleMouseY) + .5;
-  o1z += (amp * scaleMouseX) + .5;
+  var scaleMouseX = map(mouseX, 0, width, -4, 4);
+  var scaleMouseY = map(mouseY, 0, height, -3, 3);
+  o1x += (amp * scaleMouseY) + .05;
+  o1z += (amp * scaleMouseX) + .05;
   pop();
 }
 
@@ -442,8 +437,8 @@ function endScreen() {
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
   graphics2d.fill(255);
-  graphics2d.text('thanks for listening', windowWidth / 2, windowHeight / 2 - 150);
-  graphics2d.text('df site', windowWidth / 2, windowHeight / 2 - 50);
+  graphics2d.text('thanks for listening', windowWidth / 2, windowHeight / 2);
+  graphics2d.text('df site', windowWidth / 2, windowHeight / 2 - 100);
   texture(graphics2d);
   plane(windowWidth, windowHeight);
   console.log('endScreen Active');
