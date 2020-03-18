@@ -81,8 +81,7 @@ function draw() {
     amp = constrain(amp, 0., 1);
     currentTime = song.currentTime();
     if (currentTime >= part1 && currentTime <= part2) {
-      // spheres();
-      endScreen();
+      spheres();
     } else if (currentTime >= part2 && currentTime <= part3) {
       dunshire();
     } else if (currentTime >= part3 && currentTime <= part4) {
@@ -427,8 +426,6 @@ window.mobilecheck = function() {
 };
 
 function phoneScreen() {
-  translate(0, 0, 0);
-  push();
   graphics2d.background(255);
   graphics2d.textFont("Futura");
   graphics2d.textSize(width / 10);
@@ -440,7 +437,6 @@ function phoneScreen() {
   graphics2d.text('on desktop', windowWidth / 2, windowHeight / 2 - 50);
   texture(graphics2d);
   plane(windowWidth, windowHeight);
-  pop();
 }
 
 function windowResized() {
