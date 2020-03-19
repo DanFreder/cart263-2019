@@ -58,7 +58,7 @@ function setup() {
   canvas.style("z-index:-100");
   background(0);
 
-  //check if user is on mobile
+  //Check if user is on mobile, loadSound if they aren't
   if (window.mobilecheck() !== true) {
     amplitude = new p5.Amplitude();
     amplitude.smooth(.5);
@@ -118,9 +118,9 @@ function spheres() {
   translate(-200, 0, 400);
   strokeWeight(2);
   specularMaterial(0);
+  rotateX(o1x);
+  rotateY(o1y);
   for (var i = 0; i < 3; i++) {
-    rotateX(o1x);
-    rotateZ(o1z);
     if (pressed === 1) {
       push();
       stroke(green);
@@ -133,10 +133,10 @@ function spheres() {
     sphere(700, 5, 5);
   }
   //mouse + amplitude control rotation
-  var scaleMouseX = map(mouseX, 0, width, -4., 4.);
-  var scaleMouseY = map(mouseY, 0, height, -3., 3.);
-  o1x += (amp * scaleMouseY) + .2;
-  o1z += (amp * scaleMouseX) + .2;
+  var scaleMouseX = map(mouseX, 0, width, 2., -2.);
+  var scaleMouseY = map(mouseY, 0, height, -1.5, 1.5);
+  o1x += (amp + scaleMouseY) + .5;
+  o1y += (amp + scaleMouseX) + .5;
   pop();
 }
 
@@ -202,7 +202,7 @@ function rectraction() {
 
 function holeyHole() {
   push();
-  var rotationScaleMouseX = (map(mouseX, 0, width, 50., -50.));
+  var rotationScaleMouseX = (map(mouseX, 0, width, 60., -60.));
   var rotationScaleMouseY = (map(mouseY, 0, height, -40., 40.));
   strokeWeight(1);
   fill(1, 1, 1, 4);
