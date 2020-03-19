@@ -45,6 +45,7 @@ const yellow = '#ffbf00';
 const white = '#f9fdff';
 const purple = '#9d44b5'
 
+
 function setup() {
   // Create a canvas the size of the window
   canvas = createCanvas(windowWidth, windowHeight, WEBGL);
@@ -57,27 +58,28 @@ function setup() {
   canvas.style("z-index:-100");
   background(0);
 
-  //check if user is on mobile, tell 'em to return on real computer if necessary
-  if (window.mobilecheck() !== false) {
-    phoneScreen();
-    noLoop();
-  } else {
+  //check if user is on mobile
+  if (window.mobilecheck() !== true) {
     amplitude = new p5.Amplitude();
     amplitude.smooth(.5);
     angleMode(DEGREES);
     //load audio file if real PC, and trigger songLoaded function once loaded
-    song = loadSound('assets/sounds/slowBurnUnmixed2.mp3', songLoaded);
+    song = loadSound('assets/sounds/slowBurn_unmastered.mp3', songLoaded);
   }
 }
 
 function draw() {
-  //display loading screen if song hasn't loaded &/or user hasn't clicked on canvas
-  if (triggerStart === 0 && window.mobilecheck() !== true) {
+  //if user is on mobile, display phoneScreen, halt draw loop
+  if (window.mobilecheck() !== false) {
+    phoneScreen();
+    noLoop();
+    //display loading screen if song hasn't loaded &/or user hasn't clicked on canvas
+  } else if (triggerStart === 0) {
     loadingScreen();
   } else {
     //start music video
     background(0);
-    amp = amplitude.volume * 10;
+    amp = amplitude.volume * 10.;
     amp = constrain(amp, 0., 1);
     currentTime = song.currentTime();
     if (currentTime >= part1 && currentTime <= part2) {
@@ -116,7 +118,7 @@ function spheres() {
   translate(-200, 0, 400);
   strokeWeight(2);
   specularMaterial(0);
-  for (var i = 0; i < 2; i++) {
+  for (var i = 0; i < 3; i++) {
     rotateX(o1x);
     rotateZ(o1z);
     if (pressed === 1) {
@@ -336,36 +338,31 @@ function cylindrive() {
   var v = createVector(dx, dy, 0);
   v.normalize();
   directionalLight(45, 125, 210, v);
-  // specularMaterial(255, 255, 255, 255);
   specularMaterial(white);
   rotateZ(90);
   rotateY(o1y);
   rotateX(scaleMouseX);
   cylinder(width / 2, height, 24, 16);
   rotateZ(scaleMouseY);
-  push();
   noFill();
   stroke(0);
   strokeWeight(2);
   cylinder(width / 2, height, 5, 8);
-  pop();
   o1y += ampy;
   pop();
 }
 
 function mousePressed() {
-  //only let mousePress trigger start/play if user is on a real computer
-  if (window.mobilecheck() === false) {
-    if (loaded === 1) {
-      triggerStart = 1;
-      song.play();
-      //update loaded variable to avoid retriggering on future mouse clicks
-      loaded = 2;
-    } else if (loaded === 2 && pressed === 0) {
-      pressed = 1;
-    } else {
-      pressed = 0;
-    }
+  //only lets mousePress trigger start/play if user is on a real computer
+  if (window.mobilecheck() === false && loaded === 1) {
+    triggerStart = 1;
+    song.play();
+    //update loaded variable to avoid retriggering on future mouse clicks
+    loaded = 2;
+  } else if (loaded === 2 && pressed === 0) {
+    pressed = 1;
+  } else {
+    pressed = 0;
   }
 }
 
@@ -374,7 +371,6 @@ function songLoaded() {
   loaded = 1;
 }
 
-// loading screen
 // text is mapped to a 2D plane so it works in p5's WEBGL canvas
 function loadingScreen() {
   graphics2d.background(0);
@@ -402,7 +398,8 @@ function loadingScreen() {
 }
 
 function endScreen() {
-  translate(0, 0, 0);
+  push();
+  ambientLight(255);
   graphics2d.background(0);
   graphics2d.textFont("Futura");
   graphics2d.textSize(width / 20);
@@ -410,10 +407,12 @@ function endScreen() {
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
   graphics2d.fill(255);
-  graphics2d.text('thanks for listening', windowWidth / 2, windowHeight / 2);
-  graphics2d.text('df site', windowWidth / 2, windowHeight / 2 - 100);
+  graphics2d.text('thanks for listening', windowWidth / 2, (windowHeight / 2) - 50);
   texture(graphics2d);
   plane(windowWidth, windowHeight);
+  console.log('endScreen Active');
+  currentTime = 169;
+  pop();
 }
 
 //function checks if user is on mobile. False = Real Computer!
@@ -427,7 +426,7 @@ window.mobilecheck = function() {
 
 function phoneScreen() {
   console.log('phoneScreen!');
-  graphics2d.background(255, 0, 0);
+  graphics2d.background(0);
   graphics2d.textFont("Futura");
   graphics2d.textSize(width / 10);
   graphics2d.textStyle('italic');

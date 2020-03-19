@@ -1,9 +1,5 @@
 /*********************************************
-
-Here is a description of any special CSS used.
-In this case it's just padding and margin to 0
-so the canvas is flush with the top left corner.
-
+Padding and margin to 0 so the canvas is flush with the top left corner.
 **********************************************/
 
 body {
@@ -13,4 +9,13 @@ body {
 
 canvas {
   display: block;
+}
+
+h2 {
+  font-family: 'Be Vietnam', sans-serif;
+  font-size: 1.8em;
+  color: Lavender;
+}
+h2 span {
+background-color:black;
 }
