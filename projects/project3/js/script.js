@@ -367,7 +367,6 @@ function mousePressed() {
 }
 
 function songLoaded() {
-  console.log('Loaded Successfully');
   loaded = 1;
 }
 
@@ -410,7 +409,6 @@ function endScreen() {
   graphics2d.text('thanks for listening', windowWidth / 2, (windowHeight / 2) - 50);
   texture(graphics2d);
   plane(windowWidth, windowHeight);
-  console.log('endScreen Active');
   currentTime = 169;
   pop();
 }
@@ -425,7 +423,8 @@ window.mobilecheck = function() {
 };
 
 function phoneScreen() {
-  console.log('phoneScreen!');
+  push();
+  ambientLight(255);
   graphics2d.background(0);
   graphics2d.textFont("Futura");
   graphics2d.textSize(width / 10);
@@ -437,6 +436,7 @@ function phoneScreen() {
   graphics2d.text('on desktop', windowWidth / 2, windowHeight / 2 - 50);
   texture(graphics2d);
   plane(windowWidth, windowHeight);
+  pop();
 }
 
 function windowResized() {
