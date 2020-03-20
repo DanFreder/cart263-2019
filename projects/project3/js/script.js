@@ -80,7 +80,7 @@ function draw() {
     //start music video
     background(0);
     amp = amplitude.volume * 10.;
-    amp = constrain(amp, 0., 1);
+    // amp = constrain(amp, 0., 1);
     currentTime = song.currentTime();
     if (currentTime >= part1 && currentTime <= part2) {
       spheres();
@@ -373,14 +373,14 @@ function songLoaded() {
 // text is mapped to a 2D plane so it works in p5's WEBGL canvas
 function loadingScreen() {
   graphics2d.background(0);
-  graphics2d.textFont("Futura");
+  graphics2d.textFont('Be Vietnam');
   graphics2d.textSize(width / 20);
-  graphics2d.textStyle('italic');
+  // graphics2d.textStyle('italic');
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
   graphics2d.fill(255);
-  graphics2d.text('df', windowWidth / 2, windowHeight / 2 - 150);
-  graphics2d.text('"slow burn"', windowWidth / 2, windowHeight / 2 - 50);
+  graphics2d.text('DF', windowWidth / 2, windowHeight / 2 - 150);
+  graphics2d.text('" Slow Burn "', windowWidth / 2, windowHeight / 2 - 50);
   push();
   if (loaded === 0) {
     graphics2d.textSize(width / 30);
@@ -400,16 +400,22 @@ function endScreen() {
   push();
   ambientLight(255);
   graphics2d.background(0);
-  graphics2d.textFont("Futura");
+  graphics2d.textFont("'Be Vietnam'");
   graphics2d.textSize(width / 20);
-  graphics2d.textStyle('italic');
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
   graphics2d.fill(255);
   graphics2d.text('thanks for listening', windowWidth / 2, (windowHeight / 2) - 50);
+  var dfSite = createA('https://dfduo.com/', '< df site');
+  dfSite.style('font-family', 'Be Vietnam');
+  dfSite.style('font-size', '3em');
+  dfSite.style('color', 'Lavender');
+  dfSite.position(width / 35, height / 25);
+  dfSite.style('text-align', 'center');
   texture(graphics2d);
   plane(windowWidth, windowHeight);
   currentTime = 169;
+  noLoop();
   pop();
 }
 
@@ -426,9 +432,8 @@ function phoneScreen() {
   push();
   ambientLight(255);
   graphics2d.background(0);
-  graphics2d.textFont("Futura");
+  graphics2d.textFont("'Be Vietnam'");
   graphics2d.textSize(width / 10);
-  graphics2d.textStyle('italic');
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
   graphics2d.fill(255);
