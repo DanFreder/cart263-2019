@@ -19,19 +19,23 @@ let triggerStart = 0;
 let pressed = 0;
 
 //second values for different song sections
-const part1 = 1;
-const part2 = 18;
-const part3 = 41;
-const part4 = 48;
-const part5 = 59.75;
-const part6 = 96;
-const part7 = 104;
-const part8 = 115;
-const part9 = 134;
-const part10 = 143;
-const part11 = 153;
-const part12 = 161;
-const part13 = 168;
+const part1 = 1; //intro/sparse
+const part2 = 20.125; //intro2/sparse
+const part3 = 39.14; //intro3/sparse
+const part4 = 58.2; //thicker /textured
+const part5 = 77.24; //sparser
+const part6 = 94.75; //honk
+const part7 = 115.28; //turnt
+const part8 = 134.35; // softer
+const part9 = 153.35; // louder
+const part10 = 173.5; // softer
+const part11 = 193.5;
+const part12 = 210.5;
+const part13 = 221.5;
+const part14 = 232;
+const part15 = 240;
+const part16 = 251;
+
 
 //colour pallete
 const red = '#ff192c';
@@ -64,7 +68,7 @@ function setup() {
     amplitude.smooth(.5);
     angleMode(DEGREES);
     //load audio file if real PC, and trigger songLoaded function once loaded
-    song = loadSound('assets/sounds/slowBurn_unmastered.mp3', songLoaded);
+    song = loadSound('assets/sounds/slowBurn_unmastered2.mp3', songLoaded);
   }
 }
 
@@ -83,31 +87,39 @@ function draw() {
     // amp = constrain(amp, 0., 1);
     currentTime = song.currentTime();
     if (currentTime >= part1 && currentTime <= part2) {
-      spheres();
+      sphereXpansion();
     } else if (currentTime >= part2 && currentTime <= part3) {
-      dunshire();
+      spheres();
+      sphereXpansion();
     } else if (currentTime >= part3 && currentTime <= part4) {
-      rectraction();
+      spheres();
+      sphereXpansion();
     } else if (currentTime >= part4 && currentTime <= part5) {
-      rectraction();
+      spheres2();
+      sphereXpansion();
     } else if (currentTime >= part5 && currentTime <= part6) {
-      holeyHole();
+      spheres2();
     } else if (currentTime >= part6 && currentTime <= part7) {
       planar();
     } else if (currentTime >= part7 && currentTime <= part8) {
-      planar();
+      holeyHole();
     } else if (currentTime >= part8 && currentTime <= part9) {
-      twoPlanes();
+      rectraction();
     } else if (currentTime >= part9 && currentTime <= part10) {
-      sphereXpansion();
+      twoPlanes();
     } else if (currentTime >= part10 && currentTime <= part11) {
-      sphereXpansion();
+      dunshire();
     } else if (currentTime >= part11 && currentTime <= part12) {
-      sphereXpansion();
-      cylindrive();
+      spheres2();
     } else if (currentTime >= part12 && currentTime <= part13) {
+      spheres2();
       sphereXpansion();
-    } else if (currentTime >= part13) {
+    } else if (currentTime >= part13 && currentTime <= part14) {
+      spheres();
+      sphereXpansion();
+    } else if (currentTime >= part14 && currentTime <= part15) {
+      sphereXpansion();
+    } else if (currentTime >= part14) {
       endScreen();
     }
   }
@@ -115,28 +127,28 @@ function draw() {
 
 function spheres() {
   push();
-  translate(-200, 0, 400);
-  strokeWeight(2);
-  specularMaterial(0);
-  rotateX(o1x);
-  rotateY(o1y);
-  for (var i = 0; i < 3; i++) {
-    if (pressed === 1) {
-      push();
-      stroke(green);
-      noFill();
-      sphere(700, 4, 3);
-      pop();
-    }
-    translate(100, 0, 0);
-    stroke(white);
-    sphere(700, 5, 5);
-  }
   //mouse + amplitude control rotation
-  var scaleMouseX = map(mouseX, 0, width, 2., -2.);
-  var scaleMouseY = map(mouseY, 0, height, -1.5, 1.5);
-  o1x += (amp + scaleMouseY) + .5;
-  o1y += (amp + scaleMouseX) + .5;
+  o1x += amp * (map(mouseX, 0, width, 2., -2.)) + .05;
+  o1y += amp * (map(mouseY, 0, height, -1.5, 1.5)) + .05;
+  translate(0, 0, 400);
+  strokeWeight(2);
+  rotateX(o1y);
+  rotateY(o1x);
+  if (pressed === 0) {
+    stroke(green);
+  } else {
+    stroke(white);
+  }
+  fill(0);
+  sphere(700, 9, 3);
+  if (pressed === 0) {
+    stroke(white);
+  } else {
+    stroke(green);
+  }
+  rotateX(o1y);
+  rotateY(o1x);
+  sphere(700, 4, 3);
   pop();
 }
 
@@ -301,16 +313,16 @@ function sphereXpansion() {
   rotateY(scaleMouseX);
   rotateX(scaleMouseY);
   rotateZ(o1z);
-  o1z += 2 * amp;
+  o1z += amp;
   if (amp >= .05) {
     for (var i = 0; i < 5; i++) {
-      var scalar = map(amp, .05, 1, width / 5, width);
-      var scalar2 = map(amp, .05, 1, width / 5, width / 2);
+      var scalar = map(amp, .05, 1.5, width / 5, width);
+      var scalar2 = map(amp, .05, 1.5, width / 5, width / 2);
       stroke(white);
       sphere(width / 5, polyX, polyY);
-      stroke(red);
+      stroke(lightBlue);
       sphere(scalar, polyX, polyY);
-      stroke(turquoise);
+      stroke(green);
       sphere(scalar2, polyX, polyY);
     }
   } else {
@@ -319,37 +331,32 @@ function sphereXpansion() {
   pop();
 }
 
-function cylindrive() {
+function spheres2() {
   push();
-  translate(0, 0, 400);
-  if (amp >= .35) {
-    var xsegments = floor(map(amp, .35, 1, 1, 5));
-    var ysegments = floor(map(amp, .35, 1, 1, 8));
-  } else {
-    var xsegments = 1;
-    var ysegments = 1;
-  }
-  var ampy = map(amp, 0, 1, 0, 4);
-  var scaleMouseX = map(mouseX, 0, width, -45, 45);
-  var scaleMouseY = map(mouseY, 0, height, 45, 90);
-  noStroke();
-  var dx = mouseX - width / 2;
-  var dy = mouseY - height / 2;
-  var v = createVector(dx, dy, 0);
-  v.normalize();
-  directionalLight(45, 125, 210, v);
-  specularMaterial(white);
-  rotateZ(90);
-  rotateY(o1y);
-  rotateX(scaleMouseX);
-  cylinder(width / 2, height, 24, 16);
-  rotateZ(scaleMouseY);
-  noFill();
-  stroke(0);
+  translate(0, 0, 0);
+  var ampy = map(amp, 0, 1.25, 0., 90.);
+  var scaleMouseX = map(mouseX, 0, width, 45., -45.);
+  var scaleMouseY = map(mouseY, 0, height, -30., 30.);
   strokeWeight(2);
-  cylinder(width / 2, height, 5, 8);
-  o1y += ampy;
+  fill(0);
+  for (var i = 0; i < 2; i++) {
+    stroke(white);
+    rotateY(scaleMouseX);
+    rotateX(scaleMouseY);
+    rotateZ(-ampy + i + o1z);
+    sphere(width, 3, 3);
+    translate(0, 0, 10);
+  }
+  for (var i = 0; i < 2; i++) {
+    stroke(green);
+    rotateY(scaleMouseX);
+    rotateX(scaleMouseY);
+    rotateZ(ampy + i + o1z);
+    sphere(width, 3, 3);
+    translate(0, 0, 10);
+  }
   pop();
+  o1z += .05;
 }
 
 function mousePressed() {
@@ -406,7 +413,7 @@ function endScreen() {
   graphics2d.noStroke();
   graphics2d.fill(255);
   graphics2d.text('thanks for listening', windowWidth / 2, (windowHeight / 2) - 50);
-  var dfSite = createA('https://dfduo.com/', '< df site');
+  let dfSite = createA('https://dfduo.com/', '< df site');
   dfSite.style('font-family', 'Be Vietnam');
   dfSite.style('font-size', '3em');
   dfSite.style('color', 'Lavender');
@@ -414,7 +421,6 @@ function endScreen() {
   dfSite.style('text-align', 'center');
   texture(graphics2d);
   plane(windowWidth, windowHeight);
-  currentTime = 169;
   noLoop();
   pop();
 }
