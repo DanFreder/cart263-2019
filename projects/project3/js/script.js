@@ -36,19 +36,15 @@ const part14 = 232;
 const part15 = 240;
 const part16 = 251;
 
-
 //colour pallete
-const red = '#ff192c';
 const green = '#06d6a0';
 const lightBlue = '#00a1e4';
 const navy = '#073b4c';
 const orange = '#db5a42';
-const turquoise = '#50d8d7';
 const pink = '#e83f6f';
 const yellow = '#ffbf00';
 const white = '#f9fdff';
 const purple = '#9d44b5'
-
 
 function setup() {
   // Create a canvas the size of the window
@@ -87,16 +83,15 @@ function draw() {
     // amp = constrain(amp, 0., 1);
     currentTime = song.currentTime();
     if (currentTime >= part1 && currentTime <= part2) {
-      sphereXpansion();
+      spheres();
     } else if (currentTime >= part2 && currentTime <= part3) {
       spheres();
       sphereXpansion();
     } else if (currentTime >= part3 && currentTime <= part4) {
-      spheres();
-      sphereXpansion();
-    } else if (currentTime >= part4 && currentTime <= part5) {
       spheres2();
       sphereXpansion();
+    } else if (currentTime >= part4 && currentTime <= part5) {
+      dunshire();
     } else if (currentTime >= part5 && currentTime <= part6) {
       spheres2();
     } else if (currentTime >= part6 && currentTime <= part7) {
@@ -119,7 +114,9 @@ function draw() {
       sphereXpansion();
     } else if (currentTime >= part14 && currentTime <= part15) {
       sphereXpansion();
-    } else if (currentTime >= part14) {
+    } else if (currentTime >= part15 && currentTime <= part16) {
+      sphereXpansion();
+    } else if (currentTime >= part16) {
       endScreen();
     }
   }
@@ -131,7 +128,7 @@ function spheres() {
   o1x += amp * (map(mouseX, 0, width, 2., -2.)) + .05;
   o1y += amp * (map(mouseY, 0, height, -1.5, 1.5)) + .05;
   translate(0, 0, 400);
-  strokeWeight(2);
+  strokeWeight(4);
   rotateX(o1y);
   rotateY(o1x);
   if (pressed === 0) {
@@ -140,7 +137,7 @@ function spheres() {
     stroke(white);
   }
   fill(0);
-  sphere(700, 9, 3);
+  sphere(700, 5, 4);
   if (pressed === 0) {
     stroke(white);
   } else {
@@ -148,7 +145,7 @@ function spheres() {
   }
   rotateX(o1y);
   rotateY(o1x);
-  sphere(700, 4, 3);
+  sphere(700, 5, 4);
   pop();
 }
 
@@ -164,7 +161,7 @@ function dunshire() {
   rotateX(90);
   for (var i = 0; i < 2; i++) {
     if (pressed === 0) {
-      stroke(purple);
+      stroke(white);
     } else {
       stroke(lightBlue);
     }
@@ -174,7 +171,7 @@ function dunshire() {
     if (pressed === 0) {
       stroke(lightBlue);
     } else {
-      stroke(purple);
+      stroke(white);
     }
     cone(xScale, yScale, 3, 3);
   }
@@ -185,25 +182,21 @@ function dunshire() {
 
 function rectraction() {
   push();
-  translate(0, 0, -500);
+  translate(0, 0, -300);
   strokeWeight(2);
-  var scaleMouseX = (map(mouseX, 0, width, -30, 30));
-  var scaleMouseY = (map(mouseY, height, 0, -30, 30));
+  var scaleMouseX = (map(mouseX, 0, width, 45, 135));
+  var scaleMouseY = (map(mouseY, height, 0, -45, 45));
   rotateY(scaleMouseX);
-  rotateX(scaleMouseY);
+  rotateZ(scaleMouseY);
   for (var i = 0; i < 2; i++) {
     if (pressed === 0) {
+      o1z += (amp * .5);
       stroke(lightBlue);
-      o1z += (amp * i + .1);
-      o1y += (amp * (.75 * i + .1));
-      rotateZ(o1z);
-      rotateY(o1y);
+      rotateX(o1z);
     } else {
-      o1z -= (amp * i + .1);
-      o1y -= (amp * (2 * i + .1));
+      o1z -= (amp * .5);
       stroke(green);
-      rotateZ(o1z);
-      rotateY(o1y);
+      rotateX(o1z);
     }
     fill(10, 10, 10, i * 11);
     torus(width / 2, height, 4, 4);
@@ -220,10 +213,10 @@ function holeyHole() {
   fill(1, 1, 1, 4);
   if (pressed === 1) {
     stroke(lightBlue);
-    o1z += .333 * amp;
+    o1z += .2 * amp;
   } else {
     stroke(purple);
-    o1z -= .333 * amp;
+    o1z -= .2 * amp;
   }
   rotateY(rotationScaleMouseX);
   rotateX(rotationScaleMouseY);
@@ -233,7 +226,7 @@ function holeyHole() {
     torus(width / 2, width / 3, 3, 3);
     translate(0, 0, -150);
   }
-  o1y += .777 * amp;
+  o1y += .3 * amp;
   pop();
 }
 
@@ -339,24 +332,31 @@ function spheres2() {
   var scaleMouseY = map(mouseY, 0, height, -30., 30.);
   strokeWeight(2);
   fill(0);
-  for (var i = 0; i < 2; i++) {
-    stroke(white);
+  for (var i = 0; i < 4; i++) {
+    if (pressed === 0) {
+      stroke(white);
+    } else {
+      stroke(lightBlue);
+    }
     rotateY(scaleMouseX);
     rotateX(scaleMouseY);
-    rotateZ(-ampy + i + o1z);
+    rotateZ(-ampy);
     sphere(width, 3, 3);
     translate(0, 0, 10);
   }
-  for (var i = 0; i < 2; i++) {
-    stroke(green);
+  for (var i = 0; i < 4; i++) {
+    if (pressed === 0) {
+      stroke(green);
+    } else {
+      stroke(white);
+    }
     rotateY(scaleMouseX);
     rotateX(scaleMouseY);
-    rotateZ(ampy + i + o1z);
+    rotateZ(ampy);
     sphere(width, 3, 3);
     translate(0, 0, 10);
   }
   pop();
-  o1z += .05;
 }
 
 function mousePressed() {
