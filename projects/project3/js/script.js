@@ -293,8 +293,8 @@ function sphereXpansion() {
   var scaleMouseX = (map(mouseX, 0, width, -90, 90));
   var scaleMouseY = (map(mouseY, height, 0, -90, 90));
   if (pressed === 0) {
-    var polyX = 6;
-    var polyY = 4;
+    var polyX = 3;
+    var polyY = 2;
   } else {
     var polyX = 3;
     var polyY = 3;
