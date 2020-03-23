@@ -35,6 +35,7 @@ const part13 = 221.5;
 const part14 = 232;
 const part15 = 240;
 const part16 = 251;
+const part17 = 268;
 
 //colour pallete
 const green = '#06d6a0';
@@ -45,6 +46,7 @@ const pink = '#e83f6f';
 const yellow = '#ffbf00';
 const white = '#f9fdff';
 const purple = '#9d44b5'
+const grey = '#5c6b73'
 
 function setup() {
   // Create a canvas the size of the window
@@ -85,27 +87,27 @@ function draw() {
     if (currentTime >= part1 && currentTime <= part2) {
       spheres();
     } else if (currentTime >= part2 && currentTime <= part3) {
+      sphereXpansion2();
+    } else if (currentTime >= part3 && currentTime <= part4) {
+      spheres();
+      sphereXpansion2();
+    } else if (currentTime >= part4 && currentTime <= part5) {
       spheres();
       sphereXpansion();
-    } else if (currentTime >= part3 && currentTime <= part4) {
-      spheres2();
-      sphereXpansion();
-    } else if (currentTime >= part4 && currentTime <= part5) {
-      dunshire();
     } else if (currentTime >= part5 && currentTime <= part6) {
-      spheres2();
+      sphereXpansion();
     } else if (currentTime >= part6 && currentTime <= part7) {
       planar();
     } else if (currentTime >= part7 && currentTime <= part8) {
-      holeyHole();
-    } else if (currentTime >= part8 && currentTime <= part9) {
       rectraction();
-    } else if (currentTime >= part9 && currentTime <= part10) {
-      twoPlanes();
-    } else if (currentTime >= part10 && currentTime <= part11) {
+    } else if (currentTime >= part8 && currentTime <= part9) {
       dunshire();
+    } else if (currentTime >= part9 && currentTime <= part10) {
+      holeyHole();
+    } else if (currentTime >= part10 && currentTime <= part11) {
+      twoPlanes();
     } else if (currentTime >= part11 && currentTime <= part12) {
-      spheres2();
+      twoPlanes();
     } else if (currentTime >= part12 && currentTime <= part13) {
       spheres2();
       sphereXpansion();
@@ -116,7 +118,9 @@ function draw() {
       sphereXpansion();
     } else if (currentTime >= part15 && currentTime <= part16) {
       sphereXpansion();
-    } else if (currentTime >= part16) {
+    } else if (currentTime >= part16 && currentTime <= part17) {
+      sphereXpansion();
+    } else if (currentTime >= part17) {
       endScreen();
     }
   }
@@ -149,34 +153,139 @@ function spheres() {
   pop();
 }
 
-function dunshire() {
+function spheres2() {
   push();
   translate(0, 0, 0);
+  var ampy = map(amp, 0, 1.25, 0., -30.);
+  var scaleMouseX = map(mouseX, 0, width, 10., -10.);
+  var scaleMouseY = map(mouseY, 0, height, -7., 7.);
+  strokeWeight(2);
+  fill(0);
+  for (var i = 0; i < 7; i++) {
+    if (pressed === 0) {
+      stroke(white);
+    } else {
+      stroke(lightBlue);
+    }
+    rotateY(scaleMouseX);
+    rotateX(scaleMouseY);
+    rotateZ(-ampy);
+    sphere(width, 3, 3);
+    translate(0, 0, 10);
+  }
+  for (var i = 0; i < 4; i++) {
+    if (pressed === 0) {
+      stroke(green);
+    } else {
+      stroke(white);
+    }
+    rotateY(scaleMouseX);
+    rotateX(scaleMouseY);
+    rotateZ(ampy);
+    sphere(width, 3, 3);
+    translate(0, 0, 10);
+  }
+  pop();
+}
+
+function sphereXpansion() {
+  push();
+  var scaleMouseX = (map(mouseX, 0, width, -90, 90));
+  var scaleMouseY = (map(mouseY, height, 0, -90, 90));
+  if (pressed === 0) {
+    var polyX = 3;
+    var polyY = 2;
+  } else {
+    var polyX = 3;
+    var polyY = 3;
+  }
+  translate(0, 0, 0);
+  noFill();
+  stroke(white);
+  strokeWeight(1);
+  rotateY(scaleMouseX);
+  rotateX(scaleMouseY);
   rotateZ(o1z);
-  translate(0, 20, 0);
-  var xScale = map(mouseX, 0, width, width / 3, width / 2);
-  var yScale = map(mouseY, height, 0, height / 2, height);
+  o1z += amp;
+  if (amp >= .05) {
+    for (var i = 0; i < 5; i++) {
+      var scalar = map(amp, .05, 1.5, width / 5, width / 2);
+      var scalar2 = map(amp, .05, 1.5, width / 5, width / 3);
+      stroke(white);
+      sphere(width / 5, polyX, polyY);
+      stroke(lightBlue);
+      sphere(scalar, polyX, polyY);
+      stroke(green);
+      sphere(scalar2, polyX, polyY);
+    }
+  } else {
+    sphere(width / 5, polyX, polyY);
+  }
+  pop();
+}
+
+function sphereXpansion2() {
+  push();
+  var scaleMouseX = (map(mouseX, 0, width, -90, 90));
+  var scaleMouseY = (map(mouseY, height, 0, -90, 90));
+  if (pressed === 0) {
+    var polyX = 3;
+    var polyY = 2;
+  } else {
+    var polyX = 3;
+    var polyY = 3;
+  }
+  translate(0, 0, 0);
+  noFill();
+  stroke(white);
+  strokeWeight(1);
+  rotateY(scaleMouseX);
+  rotateX(scaleMouseY);
+  rotateZ(o1z);
+  o1z += amp;
+  if (amp >= .05) {
+    for (var i = 0; i < 5; i++) {
+      var scalar = map(amp, .05, 1.5, width / 5, width / 2);
+      var scalar2 = map(amp, .05, 1.5, width / 5, width / 3);
+      stroke(white);
+      sphere(width / 5, polyX, polyY);
+      stroke(lightBlue);
+      sphere(scalar, polyX, polyY);
+    }
+  } else {
+    sphere(width / 5, polyX, polyY);
+  }
+  pop();
+}
+
+function dunshire() {
+  push();
+  translate(0, 0, -100);
+  rotateZ(o1z);
+  var xScale = map(mouseX, 0, width, width, width * 2.5);
+  var yScale = map(mouseY, height, 0, height / 2, height * 2);
   noFill();
   strokeWeight(1);
   rotateX(90);
   for (var i = 0; i < 2; i++) {
     if (pressed === 0) {
-      stroke(white);
+      stroke(purple);
+      o1z += (amp * .25) + .05;
     } else {
-      stroke(lightBlue);
+      stroke(grey);
+      o1z -= (amp * .25) + .05;
     }
     rotateX(o1x);
-    cone(xScale, yScale, 3, 3);
+    cone(xScale, yScale, 3, 9);
     translate(0, 0, 50);
     if (pressed === 0) {
-      stroke(lightBlue);
+      stroke(grey);
     } else {
-      stroke(white);
+      stroke(purple);
     }
-    cone(xScale, yScale, 3, 3);
+    cone(xScale, yScale, 3, 9);
   }
-  o1x += amp + .02;
-  o1z += (amp * 1.25) + .02;
+  o1x += amp * .25;
   pop();
 }
 
@@ -231,7 +340,7 @@ function holeyHole() {
 }
 
 function planar() {
-  var scaleX = map(mouseX, 0, width, -30, 30);
+  var scaleX = map(mouseX, 0, width, 30, -30);
   var scaleY = map(mouseY, 0, height, 90, -90);
   var zRot = map(amp, 0., 1., 0., 10.);
   var ampy = map(amp, 0., 1., 50, 100);
@@ -284,77 +393,6 @@ function twoPlanes() {
     rotateZ(1.5 * amp);
     rotateX(scaleY);
     rotateY(scaleX);
-  }
-  pop();
-}
-
-function sphereXpansion() {
-  push();
-  var scaleMouseX = (map(mouseX, 0, width, -90, 90));
-  var scaleMouseY = (map(mouseY, height, 0, -90, 90));
-  if (pressed === 0) {
-    var polyX = 3;
-    var polyY = 2;
-  } else {
-    var polyX = 3;
-    var polyY = 3;
-  }
-  translate(0, 0, 0);
-  noFill();
-  stroke(white);
-  strokeWeight(1);
-  rotateY(scaleMouseX);
-  rotateX(scaleMouseY);
-  rotateZ(o1z);
-  o1z += amp;
-  if (amp >= .05) {
-    for (var i = 0; i < 5; i++) {
-      var scalar = map(amp, .05, 1.5, width / 5, width);
-      var scalar2 = map(amp, .05, 1.5, width / 5, width / 2);
-      stroke(white);
-      sphere(width / 5, polyX, polyY);
-      stroke(lightBlue);
-      sphere(scalar, polyX, polyY);
-      stroke(green);
-      sphere(scalar2, polyX, polyY);
-    }
-  } else {
-    sphere(width / 5, polyX, polyY);
-  }
-  pop();
-}
-
-function spheres2() {
-  push();
-  translate(0, 0, 0);
-  var ampy = map(amp, 0, 1.25, 0., 90.);
-  var scaleMouseX = map(mouseX, 0, width, 45., -45.);
-  var scaleMouseY = map(mouseY, 0, height, -30., 30.);
-  strokeWeight(2);
-  fill(0);
-  for (var i = 0; i < 4; i++) {
-    if (pressed === 0) {
-      stroke(white);
-    } else {
-      stroke(lightBlue);
-    }
-    rotateY(scaleMouseX);
-    rotateX(scaleMouseY);
-    rotateZ(-ampy);
-    sphere(width, 3, 3);
-    translate(0, 0, 10);
-  }
-  for (var i = 0; i < 4; i++) {
-    if (pressed === 0) {
-      stroke(green);
-    } else {
-      stroke(white);
-    }
-    rotateY(scaleMouseX);
-    rotateX(scaleMouseY);
-    rotateZ(ampy);
-    sphere(width, 3, 3);
-    translate(0, 0, 10);
   }
   pop();
 }
