@@ -28,13 +28,13 @@ const part6 = 94.75; //honk
 const part7 = 115.28; //turnt
 const part8 = 134.35; // softer
 const part9 = 153.35; // louder
-const part10 = 173.5; // softer
-const part11 = 193.5;
-const part12 = 210.5;
-const part13 = 221.5;
-const part14 = 232;
-const part15 = 240;
-const part16 = 251;
+const part10 = 172.25; // softer (changed)
+const part11 = 191.35; //(changed)
+const part12 = 210.5; //culmination of events
+const part13 = 220; //soaring line above ba ba da buh buh!
+const part14 = 230; //wrapping it up
+const part15 = 237.75; //no change
+const part16 = 248.75; //final repeat
 const part17 = 268;
 
 //colour pallete
@@ -93,7 +93,7 @@ function draw() {
       sphereXpansion2();
     } else if (currentTime >= part4 && currentTime <= part5) {
       spheres();
-      sphereXpansion();
+      sphereXpansion2();
     } else if (currentTime >= part5 && currentTime <= part6) {
       sphereXpansion();
     } else if (currentTime >= part6 && currentTime <= part7) {
@@ -105,19 +105,20 @@ function draw() {
     } else if (currentTime >= part9 && currentTime <= part10) {
       holeyHole();
     } else if (currentTime >= part10 && currentTime <= part11) {
-      twoPlanes();
+      tubular();
     } else if (currentTime >= part11 && currentTime <= part12) {
       twoPlanes();
     } else if (currentTime >= part12 && currentTime <= part13) {
       spheres2();
-      sphereXpansion();
+      sphereXpansion2();
     } else if (currentTime >= part13 && currentTime <= part14) {
-      spheres();
-      sphereXpansion();
+      sphereXpansion2();
     } else if (currentTime >= part14 && currentTime <= part15) {
-      sphereXpansion();
+      spheres();
+      sphereXpansion2();
     } else if (currentTime >= part15 && currentTime <= part16) {
-      sphereXpansion();
+      spheres();
+      sphereXpansion2();
     } else if (currentTime >= part16 && currentTime <= part17) {
       sphereXpansion();
     } else if (currentTime >= part17) {
@@ -263,7 +264,7 @@ function dunshire() {
   translate(0, 0, -100);
   rotateZ(o1z);
   var xScale = map(mouseX, 0, width, width, width * 2.5);
-  var yScale = map(mouseY, height, 0, height / 2, height * 2);
+  var yScale = map(mouseY, height, 0, height / 2, height);
   noFill();
   strokeWeight(1);
   rotateX(90);
@@ -299,11 +300,11 @@ function rectraction() {
   rotateZ(scaleMouseY);
   for (var i = 0; i < 2; i++) {
     if (pressed === 0) {
-      o1z += (amp * .5);
+      o1z -= (amp * .5);
       stroke(lightBlue);
       rotateX(o1z);
     } else {
-      o1z -= (amp * .5);
+      o1z += (amp * .5);
       stroke(green);
       rotateX(o1z);
     }
@@ -335,13 +336,13 @@ function holeyHole() {
     torus(width / 2, width / 3, 3, 3);
     translate(0, 0, -150);
   }
-  o1y += .3 * amp;
+  o1y += .125 * amp;
   pop();
 }
 
 function planar() {
   var scaleX = map(mouseX, 0, width, 30, -30);
-  var scaleY = map(mouseY, 0, height, 90, -90);
+  var scaleY = map(mouseY, 0, height, 45., -45.);
   var zRot = map(amp, 0., 1., 0., 10.);
   var ampy = map(amp, 0., 1., 50, 100);
   push();
@@ -393,6 +394,36 @@ function twoPlanes() {
     rotateZ(1.5 * amp);
     rotateX(scaleY);
     rotateY(scaleX);
+  }
+  pop();
+}
+
+function tubular() {
+  push();
+  translate(0, 0, 0);
+  var ampy = map(amp, 0., 1.5, 0., 300.);
+  ampy = constrain(ampy, 0, 300);
+  var scaleY = map(mouseY, 0, height, -20., 20.);
+  var scaleX = map(mouseX, 0, width, 40, -40);
+  if (pressed === 0) {
+    o1z += amp * .125 + .01;
+    var pressedClr = lightBlue;
+  } else {
+    var pressedClr = green;
+    o1z -= amp * .125 + .01;
+  }
+  strokeWeight(1);
+  noFill();
+  rotateX(scaleY);
+  rotateY(scaleX);
+  for (var i = 0; i < 15; i++) {
+    translate(0, 0, ampy);
+    rotateZ(o1z);
+    stroke(grey);
+    torus(width / 2, width / 3, 24, 3);
+    translate(0, 0, -500);
+    stroke(pressedClr);
+    torus(width / 2, width / 3, 24, 3);
   }
   pop();
 }
