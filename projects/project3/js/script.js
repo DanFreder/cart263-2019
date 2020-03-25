@@ -32,9 +32,9 @@ const part10 = 172.25; // softer (changed)
 const part11 = 191.35; //(changed)
 const part12 = 210.5; //culmination of events
 const part13 = 220; //soaring line above ba ba da buh buh!
-const part14 = 230; //wrapping it up
+const part14 = 229.65; //wrapping it up
 const part15 = 237.75; //no change
-const part16 = 248.75; //final repeat
+const part16 = 248.65; //final repeat
 const part17 = 268;
 
 //colour pallete
@@ -112,7 +112,7 @@ function draw() {
       spheres2();
       sphereXpansion2();
     } else if (currentTime >= part13 && currentTime <= part14) {
-      sphereXpansion2();
+      sphereXpansion();
     } else if (currentTime >= part14 && currentTime <= part15) {
       spheres();
       sphereXpansion2();
@@ -292,25 +292,46 @@ function dunshire() {
 
 function rectraction() {
   push();
-  translate(0, 0, -300);
+  var scaleMouseX2 = (map(mouseX, 0, width, -90, 180));
+  var scaleMouseY2 = (map(mouseY, height, 0, 60, -60));
+  if (pressed === 0) {
+    stroke(purple);
+  } else {
+    stroke(grey);
+  }
+  noFill();
   strokeWeight(2);
-  var scaleMouseX = (map(mouseX, 0, width, 45, 135));
-  var scaleMouseY = (map(mouseY, height, 0, -45, 45));
+  rotateX(90);
+  rotateX(scaleMouseY2);
+  rotateZ(scaleMouseX2);
+  translate(width, height, -200);
+  for (var i = 0; i < 10; i++) {
+    box(width * 2, height * 2, width, 3, 3);
+    translate(-100, -100, -50 - (75 * amp));
+  }
+  pop();
+  push();
+  translate(0, 0, 0);
+  strokeWeight(2);
+  var scaleMouseX = (map(mouseX, 0, width, 30, -30));
+  var scaleMouseY = (map(mouseY, height, 0, 30, -30));
+  rotateX(scaleMouseY);
   rotateY(scaleMouseX);
-  rotateZ(scaleMouseY);
+  var amped = map(amp, 0, 1.5, 0., 300.);
   for (var i = 0; i < 2; i++) {
+    translate(0, 0, amped);
     if (pressed === 0) {
-      o1z -= (amp * .5);
+      o1z -= (amp * .125);
       stroke(lightBlue);
-      rotateX(o1z);
+      rotateZ(o1z);
     } else {
-      o1z += (amp * .5);
-      stroke(green);
-      rotateX(o1z);
+      o1z += (amp * .125);
+      stroke(pink);
+      rotateZ(o1z);
     }
-    fill(10, 10, 10, i * 11);
-    torus(width / 2, height, 4, 4);
-    translate(0, 0, 100);
+    fill(10, 10, 10, i * 10);
+    torus(width / 3, height, 3, 4);
+    translate(0, 0, -400);
   }
   pop();
 }
@@ -401,29 +422,28 @@ function twoPlanes() {
 function tubular() {
   push();
   translate(0, 0, 0);
-  var ampy = map(amp, 0., 1.5, 0., 300.);
-  ampy = constrain(ampy, 0, 300);
+  var ampy = constrain((map(amp, 0., 3., 0., 200.)), 0, 200);
   var scaleY = map(mouseY, 0, height, -20., 20.);
   var scaleX = map(mouseX, 0, width, 40, -40);
   if (pressed === 0) {
-    o1z += amp * .125 + .01;
+    o1z += amp * .025 + .01;
     var pressedClr = lightBlue;
   } else {
     var pressedClr = green;
-    o1z -= amp * .125 + .01;
+    o1z -= amp * .025 + .01;
   }
   strokeWeight(1);
   noFill();
   rotateX(scaleY);
   rotateY(scaleX);
-  for (var i = 0; i < 15; i++) {
+  for (var i = 0; i < 11; i++) {
     translate(0, 0, ampy);
     rotateZ(o1z);
     stroke(grey);
-    torus(width / 2, width / 3, 24, 3);
-    translate(0, 0, -500);
+    torus(width / 2, width / 3, 24, 2);
+    translate(0, 0, -150);
     stroke(pressedClr);
-    torus(width / 2, width / 3, 24, 3);
+    torus(width / 2, width / 3, 24, 2);
   }
   pop();
 }
