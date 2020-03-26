@@ -79,6 +79,7 @@ function draw() {
   } else if (triggerStart === 0) {
     loadingScreen();
   } else {
+    noCursor();
     //start music video
     background(0);
     amp = amplitude.volume * 10.;
