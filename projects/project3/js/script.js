@@ -18,6 +18,9 @@ let amp = 0;
 let triggerStart = 0;
 let pressed = 0;
 
+let moveX;
+let moveY;
+
 //second values for different song sections
 const part1 = 1; //intro/sparse
 const part2 = 20.125; //intro2/sparse
@@ -541,6 +544,59 @@ function phoneScreen() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+}
+
+//2D Functions to map
+
+function triangleCurve() {
+  angleMode(DEGREES);
+  push();
+  noFill();
+  stroke(255);
+  strokeWeight(1);
+  moveY = map(mouseX, 0, width, 15, -15);
+  moveX = map(mouseY, 0, height, -20, 20);
+  for (var i = 0; i < 150; i++) {
+    stroke(i);
+    rotate(1 + (amp * 3));
+    var triVolScale = 10;
+    triangle(width / 5 - 20 * i - triVolScale, height / 7 + 20 * i + triVolScale, width / 5, height / 7 - 20 * i - triVolScale, width / 5 + 20 * i + triVolScale, height / 7 + 20 * i + triVolScale);
+    translate(moveX, moveY);
+  }
+  pop();
+}
+
+function whiteRectangles() {
+  angleMode(DEGREES);
+  noFill();
+  strokeWeight(2);
+  stroke(255);
+  rectMode(CENTER);
+  var rectWidth = (width / 2 + mouseX);
+  var rectHeight = (height / 2 + mouseY);
+  push();
+  //center to lower right
+  for (var i = 0; i < 10; i++) {
+    rect(0, 0, rectWidth, rectHeight);
+    translate(20, 20);
+  }
+  pop();
+  push();
+  //center to upper left
+  for (var i = 0; i < 10; i++) {
+    rect(0, 0, rectWidth, rectHeight);
+    translate(-20, -20);
+  }
+  pop();
+  //black circles highlight -ve space
+  push();
+  noFill();
+  stroke(0);
+  strokeWeight(6);
+  for (var i = 0; i < 100; i++) {
+    ellipse(0, 0, 100 * amp + 50 * i, 100 * amp + 50 * i);
+  }
+  pop();
 }
 
 // function normalDreams() {
