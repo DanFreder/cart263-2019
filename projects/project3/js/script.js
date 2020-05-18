@@ -98,10 +98,12 @@ function draw() {
       spheres();
       sphereXpansion2();
     } else if (currentTime >= part5 && currentTime <= part6) {
+      whiteRectangles();
       sphereXpansion();
     } else if (currentTime >= part6 && currentTime <= part7) {
       planar();
     } else if (currentTime >= part7 && currentTime <= part8) {
+      triangleCurve();
       rectraction();
     } else if (currentTime >= part8 && currentTime <= part9) {
       dunshire();
@@ -120,7 +122,7 @@ function draw() {
       spheres();
       sphereXpansion2();
     } else if (currentTime >= part15 && currentTime <= part16) {
-      spheres();
+      whiteRectangles();
       sphereXpansion2();
     } else if (currentTime >= part16 && currentTime <= part17) {
       sphereXpansion();
@@ -295,46 +297,29 @@ function dunshire() {
 
 function rectraction() {
   push();
-  var scaleMouseX2 = (map(mouseX, 0, width, -90, 180));
-  var scaleMouseY2 = (map(mouseY, height, 0, 60, -60));
-  if (pressed === 0) {
-    stroke(purple);
-  } else {
-    stroke(grey);
-  }
-  noFill();
-  strokeWeight(2);
-  rotateX(90);
-  rotateX(scaleMouseY2);
-  rotateZ(scaleMouseX2);
-  translate(width, height, -200);
-  for (var i = 0; i < 10; i++) {
-    box(width * 2, height * 2, width, 3, 3);
-    translate(-100, -100, -50 - (75 * amp));
-  }
-  pop();
-  push();
   translate(0, 0, 0);
   strokeWeight(2);
-  var scaleMouseX = (map(mouseX, 0, width, 30, -30));
-  var scaleMouseY = (map(mouseY, height, 0, 30, -30));
+  var scaleMouseX = (map(mouseX, 0, width, -30, 30));
+  var scaleMouseY = (map(mouseY, height, 0, -30, 30));
   rotateX(scaleMouseY);
   rotateY(scaleMouseX);
-  var amped = map(amp, 0, 1.5, 0., 300.);
-  for (var i = 0; i < 2; i++) {
-    translate(0, 0, amped);
-    if (pressed === 0) {
-      o1z -= (amp * .125);
-      stroke(lightBlue);
-      rotateZ(o1z);
-    } else {
-      o1z += (amp * .125);
-      stroke(pink);
-      rotateZ(o1z);
-    }
-    fill(10, 10, 10, i * 10);
-    torus(width / 3, height, 3, 4);
-    translate(0, 0, -400);
+  var amped = map(amp, 0, 1.5, 10., 200.);
+  push();
+  translate(0, 0, amped);
+  stroke(lightBlue);
+  rotateZ(o1z);
+  fill(10, 10, 10, 5);
+  torus(width / 3, height, 3, 4);
+  pop();
+  push();
+  stroke(pink);
+  rotateZ(o1z);
+  translate(0, 0, -amped);
+  torus(width / 3, height, 3, 4);
+  if (pressed === 0) {
+    o1z += .25 + (amp * .75);
+  } else {
+    o1z -= .25 + (amp * .75);
   }
   pop();
 }
@@ -504,13 +489,15 @@ function endScreen() {
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
   graphics2d.fill(255);
-  graphics2d.text('thanks for listening', windowWidth / 2, (windowHeight / 2) - 50);
-  let dfSite = createA('https://dfduo.com/', '< df site');
+  // graphics2d.text('thanks for listening', windowWidth / 2, (windowHeight / 2) - 50);
+  let dfSite = createA('https://dfduo.com/', 'thanks for listening');
   dfSite.style('font-family', 'Be Vietnam');
-  dfSite.style('font-size', '3em');
-  dfSite.style('color', 'Lavender');
-  dfSite.position(width / 35, height / 25);
+  dfSite.style('font-size', '5em');
   dfSite.style('text-align', 'center');
+  dfSite.style('text-decoration', 'none');
+  dfSite.style('color', 'Lavender');
+  dfSite.position(0, height / 2 - 100);
+  dfSite.center('horizontal');
   texture(graphics2d);
   plane(windowWidth, windowHeight);
   noLoop();
@@ -554,10 +541,14 @@ function triangleCurve() {
   noFill();
   stroke(255);
   strokeWeight(1);
-  moveY = map(mouseX, 0, width, 15, -15);
-  moveX = map(mouseY, 0, height, -20, 20);
-  for (var i = 0; i < 150; i++) {
-    stroke(i);
+  moveY = map(mouseX, 0, width, 5, -5);
+  moveX = map(mouseY, 0, height, -2, 2);
+  for (var i = 0; i < 250; i++) {
+    if (i > 25) {
+      stroke(i);
+    } else {
+      noStroke();
+    }
     rotate(1 + (amp * 3));
     var triVolScale = 10;
     triangle(width / 5 - 20 * i - triVolScale, height / 7 + 20 * i + triVolScale, width / 5, height / 7 - 20 * i - triVolScale, width / 5 + 20 * i + triVolScale, height / 7 + 20 * i + triVolScale);
@@ -567,35 +558,41 @@ function triangleCurve() {
 }
 
 function whiteRectangles() {
+  push();
   angleMode(DEGREES);
+  translate(0, 0, -500);
   noFill();
   strokeWeight(2);
   stroke(255);
   rectMode(CENTER);
-  var rectWidth = (width / 2 + mouseX);
-  var rectHeight = (height / 2 + mouseY);
+  var spacer = 40;
+  var rectWidth = map(mouseX, 0, width, 500, 2000);
+  var rectHeight = map(mouseY, 0, height, 400, 1500);
   push();
   //center to lower right
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 50; i++) {
+    stroke(5 * i);
     rect(0, 0, rectWidth, rectHeight);
-    translate(20, 20);
+    translate(spacer, spacer);
   }
   pop();
   push();
   //center to upper left
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 50; i++) {
+    stroke(5 * i);
     rect(0, 0, rectWidth, rectHeight);
-    translate(-20, -20);
+    translate(-spacer, -spacer);
   }
   pop();
   //black circles highlight -ve space
   push();
   noFill();
+  strokeWeight(40);
   stroke(0);
-  strokeWeight(6);
   for (var i = 0; i < 100; i++) {
-    ellipse(0, 0, 100 * amp + 50 * i, 100 * amp + 50 * i);
+    ellipse(0, 0, 100 * amp + 100 * i, 100 * amp + 100 * i);
   }
+  pop();
   pop();
 }
 

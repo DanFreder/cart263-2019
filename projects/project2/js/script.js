@@ -37,8 +37,8 @@ function setup() {
   mic = new p5.AudioIn();
   // start adc~
   mic.start();
-  // Start annYang listening.
-  annyang.start();
+  // // Start annYang listening.
+  // annyang.start();
 }
 
 function draw() {
@@ -220,21 +220,21 @@ function mouseReleased() {
   }
   console.log('counter', counter);
 }
-
-if (annyang) {
-  // First the text we expect, and then the function it should call
-  var commands = {
-    'click': function() {
-      counter++;
-      counter = constrain(counter, 1, 6);
-      if (counter >= 6) {
-        counter = 1;
-      }
-      console.log('counter', counter);
-    }
-  };
-  annyang.addCommands(commands);
-}
+//
+// if (annyang) {
+//   // First the text we expect, and then the function it should call
+//   var commands = {
+//     'click': function() {
+//       counter++;
+//       counter = constrain(counter, 1, 6);
+//       if (counter >= 6) {
+//         counter = 1;
+//       }
+//       console.log('counter', counter);
+//     }
+//   };
+//   annyang.addCommands(commands);
+// }
 
 // resize canvas to new window dimensions
 function windowResized() {
