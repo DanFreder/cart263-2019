@@ -25,7 +25,7 @@ const part1 = 1; //intro/sparse
 const part2 = 20.125; //intro2/sparse
 const part3 = 39.14; //intro3/sparse
 const part4 = 58.2; //thicker /textured
-const part5 = 77.29; //sparser (mod from .24)
+const part5 = 77.27; //sparser (mod from .24)
 const part6 = 94.75; //honk
 const part7 = 115.38; //turnt changed from .28
 const part8 = 136.55; // softer (rectraction/i think? changed from 134.35)
@@ -35,7 +35,7 @@ const part11 = 191.35; //(changed)
 const part12 = 210.5; //culmination of events
 const part13 = 220; //soaring line above ba ba da buh buh!
 const part14 = 229.65; //wrapping it up
-const part15 = 237.75; //no change
+const part15 = 237.85; //no change (was 237.75)
 const part16 = 248.65; //final repeat
 const part17 = 268;
 
@@ -86,8 +86,10 @@ function draw() {
     currentTime = song.currentTime();
     if (currentTime >= part1 && currentTime <= part2) {
       spheresBG();
+      // twoPlanes();
     } else if (currentTime >= part2 && currentTime <= part3) {
       blueSphereExpansion();
+      // twoPlanes();
     } else if (currentTime >= part3 && currentTime <= part4) {
       spheresBG();
       blueSphereExpansion();
@@ -392,7 +394,7 @@ function twoPlanes() {
   push();
   //center to lower right
   for (var i = 0; i < 100; i++) {
-    stroke(3 * i);
+    stroke(5 * i);
     rect(0, 0, rectWidth, rectHeight);
     translate(spacer, spacer);
   }
@@ -400,7 +402,7 @@ function twoPlanes() {
   push();
   //center to upper left
   for (var i = 0; i < 100; i++) {
-    stroke(3 * i);
+    stroke(5 * i);
     rect(0, 0, rectWidth, rectHeight);
     translate(-spacer, -spacer);
   }
@@ -408,11 +410,11 @@ function twoPlanes() {
   //black rects highlight -ve space
   push();
   noFill();
-  strokeWeight(50);
+  strokeWeight(40);
   stroke(0);
-  for (var i = 0; i < 25; i++) {
-    rect(0, 0, 10 * amp + 100 * i, 10 * amp + 100 * i);
-    rotateZ(1.25 * ampTwist);
+  for (var i = 0; i < 50; i++) {
+    rect(0, 0, 230 * amp + 100 * i, 230 * amp + 100 * i);
+    rotateZ(ampTwist);
   }
   pop();
   pop();
@@ -420,11 +422,11 @@ function twoPlanes() {
   //original 2PLanes
   push();
   translate(0, 0, 0);
-  var scaleY = map(mouseY, 0, height, .25, -.25);
-  var scaleX = map(mouseX, 0, width, -.75, .75);
+  var scaleX = map(mouseX, 0, width, -3., 3.);
+  var scaleY = map(mouseY, 0, height, 1., -1.);
   strokeWeight(1);
   noFill();
-  for (var i = 0; i < 20; i++) {
+  for (var i = 0; i < 12; i++) {
     if (pressed === 0) {
       var pressedClr = lightBlue;
     } else {
@@ -445,7 +447,7 @@ function twoPlanes() {
 function tubular() {
   push();
   translate(0, 0, 0);
-  var ampy = constrain((map(amp, 0., 1.25, 0, 130)), 0, 130);
+  var ampy = constrain((map(amp, 0., 1.25, 0, 140)), 0, 140);
   var scaleY = map(mouseY, 0, height, -20., 20.);
   var scaleX = map(mouseX, 0, width, 40, -40);
   if (pressed === 0) {
