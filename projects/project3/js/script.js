@@ -17,7 +17,6 @@ let amplitude;
 let amp = 0;
 let triggerStart = 0;
 let pressed = 0;
-
 let moveX;
 let moveY;
 
@@ -26,10 +25,10 @@ const part1 = 1; //intro/sparse
 const part2 = 20.125; //intro2/sparse
 const part3 = 39.14; //intro3/sparse
 const part4 = 58.2; //thicker /textured
-const part5 = 77.24; //sparser
+const part5 = 77.29; //sparser (mod from .24)
 const part6 = 94.75; //honk
-const part7 = 115.28; //turnt
-const part8 = 134.35; // softer
+const part7 = 115.38; //turnt changed from .28
+const part8 = 136.55; // softer (rectraction/i think? changed from 134.35)
 const part9 = 153.35; // louder
 const part10 = 172.25; // softer (changed)
 const part11 = 191.35; //(changed)
@@ -66,10 +65,9 @@ function setup() {
   //Check if user is on mobile, loadSound if they aren't
   if (window.mobilecheck() !== true) {
     amplitude = new p5.Amplitude();
-    amplitude.smooth(.5);
     angleMode(DEGREES);
     //load audio file if real PC, and trigger songLoaded function once loaded
-    song = loadSound('assets/sounds/slowBurn_unmastered2.mp3', songLoaded);
+    song = loadSound('assets/sounds/slowBurn256.mp3', songLoaded);
   }
 }
 
@@ -84,29 +82,28 @@ function draw() {
   } else {
     //start music video
     background(0);
-    amp = amplitude.volume * 10.;
-    // amp = constrain(amp, 0., 1);
+    amp = amplitude.volume * 3;
     currentTime = song.currentTime();
     if (currentTime >= part1 && currentTime <= part2) {
-      spheres();
+      spheresBG();
     } else if (currentTime >= part2 && currentTime <= part3) {
-      sphereXpansion2();
+      blueSphereExpansion();
     } else if (currentTime >= part3 && currentTime <= part4) {
-      spheres();
-      sphereXpansion2();
+      spheresBG();
+      blueSphereExpansion();
     } else if (currentTime >= part4 && currentTime <= part5) {
-      spheres();
-      sphereXpansion2();
+      spheresBG();
+      blueSphereExpansion();
     } else if (currentTime >= part5 && currentTime <= part6) {
       whiteRectangles();
-      sphereXpansion();
+      spheresExpansion();
     } else if (currentTime >= part6 && currentTime <= part7) {
       planar();
     } else if (currentTime >= part7 && currentTime <= part8) {
+      dunshire();
+    } else if (currentTime >= part8 && currentTime <= part9) {
       triangleCurve();
       rectraction();
-    } else if (currentTime >= part8 && currentTime <= part9) {
-      dunshire();
     } else if (currentTime >= part9 && currentTime <= part10) {
       holeyHole();
     } else if (currentTime >= part10 && currentTime <= part11) {
@@ -114,29 +111,29 @@ function draw() {
     } else if (currentTime >= part11 && currentTime <= part12) {
       twoPlanes();
     } else if (currentTime >= part12 && currentTime <= part13) {
-      spheres2();
-      sphereXpansion2();
+      sphereDistortionBG();
+      blueSphereExpansion();
     } else if (currentTime >= part13 && currentTime <= part14) {
-      sphereXpansion();
+      spheresExpansion();
     } else if (currentTime >= part14 && currentTime <= part15) {
-      spheres();
-      sphereXpansion2();
+      spheresBG();
+      blueSphereExpansion();
     } else if (currentTime >= part15 && currentTime <= part16) {
       whiteRectangles();
-      sphereXpansion2();
+      blueSphereExpansion();
     } else if (currentTime >= part16 && currentTime <= part17) {
-      sphereXpansion();
+      spheresExpansion();
     } else if (currentTime >= part17) {
       endScreen();
     }
   }
 }
 
-function spheres() {
+function spheresBG() {
   push();
   //mouse + amplitude control rotation
-  o1x += amp * (map(mouseX, 0, width, 2., -2.)) + .05;
-  o1y += amp * (map(mouseY, 0, height, -1.5, 1.5)) + .05;
+  o1x += (amp) * (map(mouseX, 0, width, 1, -1)) + .05;
+  o1y += (amp) * (map(mouseY, 0, height, -1, 1)) + .05;
   translate(0, 0, 400);
   strokeWeight(4);
   rotateX(o1y);
@@ -159,7 +156,7 @@ function spheres() {
   pop();
 }
 
-function spheres2() {
+function sphereDistortionBG() {
   push();
   translate(0, 0, 0);
   var ampy = map(amp, 0, 1.25, 0., -30.);
@@ -194,7 +191,7 @@ function spheres2() {
   pop();
 }
 
-function sphereXpansion() {
+function spheresExpansion() {
   push();
   var scaleMouseX = (map(mouseX, 0, width, -90, 90));
   var scaleMouseY = (map(mouseY, height, 0, -90, 90));
@@ -230,7 +227,7 @@ function sphereXpansion() {
   pop();
 }
 
-function sphereXpansion2() {
+function blueSphereExpansion() {
   push();
   var scaleMouseX = (map(mouseX, 0, width, -90, 90));
   var scaleMouseY = (map(mouseY, height, 0, -90, 90));
@@ -251,8 +248,7 @@ function sphereXpansion2() {
   o1z += amp;
   if (amp >= .05) {
     for (var i = 0; i < 5; i++) {
-      var scalar = map(amp, .05, 1.5, width / 5, width / 2);
-      var scalar2 = map(amp, .05, 1.5, width / 5, width / 3);
+      var scalar = map(amp, .0, 1., width / 5, width / 3);
       stroke(white);
       sphere(width / 5, polyX, polyY);
       stroke(lightBlue);
@@ -298,17 +294,17 @@ function dunshire() {
 function rectraction() {
   push();
   translate(0, 0, 0);
-  strokeWeight(2);
+  strokeWeight(1);
   var scaleMouseX = (map(mouseX, 0, width, -30, 30));
   var scaleMouseY = (map(mouseY, height, 0, -30, 30));
   rotateX(scaleMouseY);
   rotateY(scaleMouseX);
-  var amped = map(amp, 0, 1.5, 10., 200.);
+  var amped = map(amp, 0, 1., 0., 100.);
   push();
   translate(0, 0, amped);
-  stroke(lightBlue);
+  stroke(pink);
   rotateZ(o1z);
-  fill(10, 10, 10, 5);
+  fill(0, 0, 0, 4);
   torus(width / 3, height, 3, 4);
   pop();
   push();
@@ -317,9 +313,9 @@ function rectraction() {
   translate(0, 0, -amped);
   torus(width / 3, height, 3, 4);
   if (pressed === 0) {
-    o1z += .25 + (amp * .75);
+    o1z += .05 + (amp * 1.5);
   } else {
-    o1z -= .25 + (amp * .75);
+    o1z -= .05 + (amp * 1.5);
   }
   pop();
 }
@@ -382,25 +378,64 @@ function planar() {
 }
 
 function twoPlanes() {
+  //whiteRectangles model
+  var ampTwist = map(amp, 0., 1.25, 0., 5.);
+  push();
+  translate(0, 0, -1000);
+  noFill();
+  strokeWeight(3);
+  stroke(255);
+  rectMode(CENTER);
+  var spacer = 50;
+  var rectWidth = map(mouseX, 0, width, 3000, 5000);
+  var rectHeight = map(mouseY, 0, height, 2000, 3000);
+  push();
+  //center to lower right
+  for (var i = 0; i < 100; i++) {
+    stroke(3 * i);
+    rect(0, 0, rectWidth, rectHeight);
+    translate(spacer, spacer);
+  }
+  pop();
+  push();
+  //center to upper left
+  for (var i = 0; i < 100; i++) {
+    stroke(3 * i);
+    rect(0, 0, rectWidth, rectHeight);
+    translate(-spacer, -spacer);
+  }
+  pop();
+  //black rects highlight -ve space
+  push();
+  noFill();
+  strokeWeight(50);
+  stroke(0);
+  for (var i = 0; i < 25; i++) {
+    rect(0, 0, 10 * amp + 100 * i, 10 * amp + 100 * i);
+    rotateZ(1.25 * ampTwist);
+  }
+  pop();
+  pop();
+
+  //original 2PLanes
   push();
   translate(0, 0, 0);
-  var scaleY = map(mouseY, 0, height, -6, 6);
-  var scaleX = map(mouseX, 0, width, 3, -3);
-  if (pressed === 0) {
-    var pressedClr = lightBlue;
-  } else {
-    var pressedClr = green;
-  }
+  var scaleY = map(mouseY, 0, height, .25, -.25);
+  var scaleX = map(mouseX, 0, width, -.75, .75);
   strokeWeight(1);
   noFill();
-  for (var i = 0; i < 50; i++) {
+  for (var i = 0; i < 20; i++) {
+    if (pressed === 0) {
+      var pressedClr = lightBlue;
+    } else {
+      var pressedClr = green;
+    }
     stroke(100);
-    box(width / 1.25, height / 2, 10 * i);
-    translate(0, 0, -20);
+    box(width / 3, height / 5, i);
+    translate(0, 0, 30);
     stroke(pressedClr);
-    box(width / 1.25, height / 2, 10 * i);
-    translate(0, 0, amp);
-    rotateZ(1.5 * amp);
+    box(width / 3, height / 5, i);
+    rotateZ(1.25 * ampTwist);
     rotateX(scaleY);
     rotateY(scaleX);
   }
@@ -410,7 +445,7 @@ function twoPlanes() {
 function tubular() {
   push();
   translate(0, 0, 0);
-  var ampy = constrain((map(amp, 0., 3., 0., 200.)), 0, 200);
+  var ampy = constrain((map(amp, 0., 1.25, 0, 130)), 0, 130);
   var scaleY = map(mouseY, 0, height, -20., 20.);
   var scaleX = map(mouseX, 0, width, 40, -40);
   if (pressed === 0) {
@@ -433,6 +468,65 @@ function tubular() {
     stroke(pressedClr);
     torus(width / 2, width / 3, 24, 2);
   }
+  pop();
+}
+
+function triangleCurve() {
+  push();
+  noFill();
+  stroke(255);
+  strokeWeight(1);
+  moveY = map(mouseY, 0, height, -10., 0.);
+  moveX = map(mouseX, 0, width, -5., 5.);
+  for (var i = 0; i < 250; i++) {
+    if (i > 30) {
+      stroke(i + 1);
+    } else {
+      noStroke();
+    }
+    rotate((amp + 1.5));
+    var triVolScale = 20;
+    triangle(width / 5 - 20 * i - triVolScale, height / 7 + 20 * i + triVolScale, width / 5, height / 7 - 20 * i - triVolScale, width / 5 + 20 * i + triVolScale, height / 7 + 20 * i + triVolScale);
+    translate(moveX, moveY);
+  }
+  pop();
+}
+
+function whiteRectangles() {
+  push();
+  translate(0, 0, -500);
+  noFill();
+  strokeWeight(2);
+  stroke(255);
+  rectMode(CENTER);
+  var spacer = 40;
+  var rectWidth = map(mouseX, 0, width, 500, 2000);
+  var rectHeight = map(mouseY, 0, height, 400, 1500);
+  push();
+  //center to lower right
+  for (var i = 0; i < 50; i++) {
+    stroke(5 * i);
+    rect(0, 0, rectWidth, rectHeight);
+    translate(spacer, spacer);
+  }
+  pop();
+  push();
+  //center to upper left
+  for (var i = 0; i < 50; i++) {
+    stroke(5 * i);
+    rect(0, 0, rectWidth, rectHeight);
+    translate(-spacer, -spacer);
+  }
+  pop();
+  //black circles highlight -ve space
+  push();
+  noFill();
+  strokeWeight(40);
+  stroke(0);
+  for (var i = 0; i < 100; i++) {
+    ellipse(0, 0, 100 * amp + 100 * i, 100 * amp + 100 * i);
+  }
+  pop();
   pop();
 }
 
@@ -531,69 +625,6 @@ function phoneScreen() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-}
-
-//2D Functions to map
-
-function triangleCurve() {
-  angleMode(DEGREES);
-  push();
-  noFill();
-  stroke(255);
-  strokeWeight(1);
-  moveY = map(mouseX, 0, width, 5, -5);
-  moveX = map(mouseY, 0, height, -2, 2);
-  for (var i = 0; i < 250; i++) {
-    if (i > 25) {
-      stroke(i);
-    } else {
-      noStroke();
-    }
-    rotate(1 + (amp * 3));
-    var triVolScale = 10;
-    triangle(width / 5 - 20 * i - triVolScale, height / 7 + 20 * i + triVolScale, width / 5, height / 7 - 20 * i - triVolScale, width / 5 + 20 * i + triVolScale, height / 7 + 20 * i + triVolScale);
-    translate(moveX, moveY);
-  }
-  pop();
-}
-
-function whiteRectangles() {
-  push();
-  angleMode(DEGREES);
-  translate(0, 0, -500);
-  noFill();
-  strokeWeight(2);
-  stroke(255);
-  rectMode(CENTER);
-  var spacer = 40;
-  var rectWidth = map(mouseX, 0, width, 500, 2000);
-  var rectHeight = map(mouseY, 0, height, 400, 1500);
-  push();
-  //center to lower right
-  for (var i = 0; i < 50; i++) {
-    stroke(5 * i);
-    rect(0, 0, rectWidth, rectHeight);
-    translate(spacer, spacer);
-  }
-  pop();
-  push();
-  //center to upper left
-  for (var i = 0; i < 50; i++) {
-    stroke(5 * i);
-    rect(0, 0, rectWidth, rectHeight);
-    translate(-spacer, -spacer);
-  }
-  pop();
-  //black circles highlight -ve space
-  push();
-  noFill();
-  strokeWeight(40);
-  stroke(0);
-  for (var i = 0; i < 100; i++) {
-    ellipse(0, 0, 100 * amp + 100 * i, 100 * amp + 100 * i);
-  }
-  pop();
-  pop();
 }
 
 // function normalDreams() {
