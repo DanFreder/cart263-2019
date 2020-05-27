@@ -39,6 +39,13 @@ const part15 = 237.85; //no change (was 237.75)
 const part16 = 248.65; //final repeat
 const part17 = 268;
 
+//ffwd option
+// function keyPressed() {
+//   if (keyCode === RIGHT_ARROW) {
+//     song.jump(190);
+//   }
+// }
+
 //colour pallete
 const green = '#06d6a0';
 const lightBlue = '#00a1e4';
@@ -84,17 +91,16 @@ function draw() {
     background(0);
     amp = amplitude.volume * 3;
     currentTime = song.currentTime();
+    console.log(currentTime);
     if (currentTime >= part1 && currentTime <= part2) {
       spheresBG();
-      // twoPlanes();
     } else if (currentTime >= part2 && currentTime <= part3) {
       blueSphereExpansion();
-      // twoPlanes();
     } else if (currentTime >= part3 && currentTime <= part4) {
       spheresBG();
       blueSphereExpansion();
     } else if (currentTime >= part4 && currentTime <= part5) {
-      spheresBG();
+      sphereDistortionBG();
       blueSphereExpansion();
     } else if (currentTime >= part5 && currentTime <= part6) {
       whiteRectangles();
@@ -111,17 +117,20 @@ function draw() {
     } else if (currentTime >= part10 && currentTime <= part11) {
       tubular();
     } else if (currentTime >= part11 && currentTime <= part12) {
+      // twoPlanes();
       twoPlanes();
     } else if (currentTime >= part12 && currentTime <= part13) {
-      sphereDistortionBG();
-      blueSphereExpansion();
+      // sphereDistortionBG();
+      // blueSphereExpansion();
+      rectWave();
     } else if (currentTime >= part13 && currentTime <= part14) {
-      spheresExpansion();
+      // spheresExpansion();
+      circles();
     } else if (currentTime >= part14 && currentTime <= part15) {
-      spheresBG();
+      whiteRectangles();
       blueSphereExpansion();
     } else if (currentTime >= part15 && currentTime <= part16) {
-      whiteRectangles();
+      spheresBG();
       blueSphereExpansion();
     } else if (currentTime >= part16 && currentTime <= part17) {
       spheresExpansion();
@@ -262,18 +271,51 @@ function blueSphereExpansion() {
   pop();
 }
 
+function planar() {
+  var scaleX = map(mouseX, 0, width, 30, -30);
+  var scaleY = map(mouseY, 0, height, 45., -45.);
+  var zRot = map(amp, 0., 1., 0., 10.);
+  var ampy = map(amp, 0., 1., 50, 100);
+  push();
+  translate(0, 0, 0);
+  noFill();
+  strokeWeight(1);
+  rotateY(scaleX);
+  rotateZ(scaleY);
+  for (var i = 0; i < 50; i++) {
+    if (pressed === 1) {
+      if (i % 2 === 0) {
+        stroke(purple);
+      } else {
+        stroke(grey);
+      }
+    }
+    if (pressed === 0) {
+      if (i % 2 === 0) {
+        stroke(grey);
+      } else {
+        stroke(purple);
+      }
+    }
+    box(width / 16 * i, height / 9 * i, ampy, 4, 4);
+    translate(0, 0, 5);
+    rotateZ(zRot);
+  }
+  pop();
+}
+
 function dunshire() {
   push();
   translate(0, 0, -100);
   rotateZ(o1z);
-  var xScale = map(mouseX, 0, width, width, width * 2.5);
-  var yScale = map(mouseY, height, 0, height / 2, height);
+  var xScale = map(mouseX, 0, width, width, width * 1.25);
+  var yScale = map(mouseY, height, 0, height / 2, height * .75);
   noFill();
   strokeWeight(1);
   rotateX(90);
   for (var i = 0; i < 2; i++) {
     if (pressed === 0) {
-      stroke(purple);
+      stroke(green);
       o1z += (amp * .25) + .05;
     } else {
       stroke(grey);
@@ -285,7 +327,7 @@ function dunshire() {
     if (pressed === 0) {
       stroke(grey);
     } else {
-      stroke(purple);
+      stroke(green);
     }
     cone(xScale, yScale, 3, 9);
   }
@@ -296,7 +338,7 @@ function dunshire() {
 function rectraction() {
   push();
   translate(0, 0, 0);
-  strokeWeight(1);
+  strokeWeight(.75);
   var scaleMouseX = (map(mouseX, 0, width, -30, 30));
   var scaleMouseY = (map(mouseY, height, 0, -30, 30));
   rotateX(scaleMouseY);
@@ -312,7 +354,7 @@ function rectraction() {
   push();
   stroke(pink);
   rotateZ(o1z);
-  translate(0, 0, -amped);
+  translate(0, -amped, 0);
   torus(width / 3, height, 3, 4);
   if (pressed === 0) {
     o1z += .05 + (amp * 1.5);
@@ -324,8 +366,8 @@ function rectraction() {
 
 function holeyHole() {
   push();
-  var rotationScaleMouseX = (map(mouseX, 0, width, 60., -60.));
-  var rotationScaleMouseY = (map(mouseY, 0, height, -40., 40.));
+  var rotationScaleMouseX = (map(mouseX, 0, width, 30., -30.));
+  var rotationScaleMouseY = (map(mouseY, 0, height, -20., 20.));
   strokeWeight(1);
   fill(1, 1, 1, 4);
   if (pressed === 1) {
@@ -344,38 +386,6 @@ function holeyHole() {
     translate(0, 0, -150);
   }
   o1y += .125 * amp;
-  pop();
-}
-
-function planar() {
-  var scaleX = map(mouseX, 0, width, 30, -30);
-  var scaleY = map(mouseY, 0, height, 45., -45.);
-  var zRot = map(amp, 0., 1., 0., 10.);
-  var ampy = map(amp, 0., 1., 50, 100);
-  push();
-  translate(0, 0, 0);
-  noFill();
-  strokeWeight(1);
-  rotateY(scaleX);
-  rotateZ(scaleY);
-  for (var i = 0; i < 50; i++) {
-    if (pressed === 1) {
-      if (i % 2 === 0) {
-        stroke(purple);
-      } else {
-        stroke(100);
-      }
-    } else if (pressed === 0) {
-      if (i % 2 === 0) {
-        stroke(green);
-      } else {
-        stroke(100);
-      }
-    }
-    box(width / 16 * i, height / 9 * i, ampy, 4, 4);
-    translate(0, 0, 5);
-    rotateZ(zRot);
-  }
   pop();
 }
 
@@ -530,12 +540,95 @@ function whiteRectangles() {
   }
   pop();
   pop();
+
+}
+
+function rectWave() {
+  push();
+  var ampTwist = map(amp, 0., 1.25, .1, 1.);
+  var elW = width / 3;
+  var elH = map(mouseY, height, 0, 0, height);
+  var scaleXMouse = map(mouseX, 0, width, -45, 45);
+  var spacer = 0;
+  var coneRad = map(mouseX, 0, width, width / 2, width);
+  var coneHeight = map(mouseY, height, 0, height / 2, height * 2);
+  if (pressed === 0) {
+    o1x -= ampTwist;
+  } else {
+    o1x += ampTwist;
+  }
+  //rectangles
+  push();
+  translate(0, 0, -1000);
+  strokeWeight(2);
+  noFill();
+  rectMode(CENTER);
+  rotateY(scaleXMouse);
+  for (var i = 0; i < 300; i++) {
+    if (i % 2 === 0) {
+      stroke(purple);
+    } else {
+      stroke(pink);
+    }
+    rotateX(-o1x / 50);
+    rect(0, 0, elW + spacer, elH + spacer, 50);
+    spacer += 50;
+  }
+  var ampy = map(amp, 0., 1.25, .001, .01);
+  if (pressed === 0) {
+    o1z += ampy;
+  } else {
+    o1z -= ampy;
+  }
+  pop();
+}
+
+function circles() {
+  var ampTwist = map(amp, 0., 1.25, 0., 5.);
+  push();
+  push();
+  var ampTwist = map(amp, 0., 1.25, 0., 5.);
+  var elW = map(mouseX, 0, width, 100, 200);
+  var elH = map(mouseY, 0, height, -50, 50);
+  translate(0, 0, -500);
+  noFill();
+  strokeWeight(2);
+  var spacer = 80;
+  //white circles
+  for (var i = 0; i < 100; i++) {
+    stroke(255);
+    rotateZ(o1z);
+    ellipse(0, 0, elW + spacer, elH + spacer, 50);
+    spacer += 80;
+    stroke(pink);
+    ellipse(0, 0, elW + spacer, elH + spacer, 50);
+    spacer += 80;
+  }
+  var ampy = map(amp, 0., 1.25, .02, .3);
+  if (pressed === 0) {
+    o1z += ampy;
+  } else {
+    o1z -= ampy;
+  }
+  pop();
+
+  // black circles add -ve space/create mystery
+  push();
+  noFill();
+  strokeWeight(40);
+  stroke(0);
+  for (var i = 0; i < 75; i++) {
+    ellipse(0, 0, 100 * i, 100 * i, 50);
+  }
+  pop();
 }
 
 function mousePressed() {
   //only lets mousePress trigger start/play if user is on a real computer
   if (window.mobilecheck() === false && loaded === 1) {
     triggerStart = 1;
+    //testing this playMode out
+    song.playMode('restart');
     song.play();
     //update loaded variable to avoid retriggering on future mouse clicks
     loaded = 2;
@@ -552,28 +645,37 @@ function songLoaded() {
 
 // text is mapped to a 2D plane so it works in p5's WEBGL canvas
 function loadingScreen() {
+  push();
+  push();
   graphics2d.background(0);
   graphics2d.textFont('Be Vietnam');
   graphics2d.textSize(width / 20);
-  // graphics2d.textStyle('italic');
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
   graphics2d.fill(255);
   graphics2d.text('DF', windowWidth / 2, windowHeight / 2 - 150);
-  graphics2d.text('" Slow Burn "', windowWidth / 2, windowHeight / 2 - 50);
-  push();
+  graphics2d.text('Slow Burn', windowWidth / 2, windowHeight / 2 - 50);
   if (loaded === 0) {
     graphics2d.textSize(width / 30);
     graphics2d.fill(100);
     graphics2d.text('loading...', windowWidth / 2, windowHeight / 2 + 50);
   } else {
     graphics2d.textSize(width / 25);
-    graphics2d.fill(200);
+    graphics2d.fill(255);
     graphics2d.text('click to play', windowWidth / 2, windowHeight / 2 + 50);
   }
-  pop();
   texture(graphics2d);
   plane(windowWidth, windowHeight);
+  pop();
+
+  //green rectangles
+  push();
+  rectMode(CENTER);
+  stroke(green);
+  noFill();
+  rect(0, -30, width * .625, height * .75);
+  rect(0, -30, width * .625 + 20, height * .75 - 20);
+  pop();
 }
 
 function endScreen() {
