@@ -143,8 +143,8 @@ function draw() {
 function spheresBG() {
   push();
   //mouse + amplitude control rotation
-  o1x += (amp) * (map(mouseX, 0, width, 1, -1)) + .05;
-  o1y += (amp) * (map(mouseY, 0, height, -1, 1)) + .05;
+  o1x += (map(amp, 0., 1, .25, 1.)) * (map(mouseX, 0, width, 1, -1));
+  o1y += (map(amp, 0., 1, .25, 1.)) * (map(mouseY, 0, height, -1, 1));
   translate(0, 0, 400);
   strokeWeight(4);
   rotateX(o1y);
@@ -568,7 +568,7 @@ function rectWave() {
     if (i % 2 === 0) {
       stroke(purple);
     } else {
-      stroke(pink);
+      stroke(orange);
     }
     rotateX(-o1x / 50);
     rect(0, 0, elW + spacer, elH + spacer, 50);
@@ -600,7 +600,7 @@ function circles() {
     rotateZ(o1z);
     ellipse(0, 0, elW + spacer, elH + spacer, 50);
     spacer += 80;
-    stroke(pink);
+    stroke(orange);
     ellipse(0, 0, elW + spacer, elH + spacer, 50);
     spacer += 80;
   }
