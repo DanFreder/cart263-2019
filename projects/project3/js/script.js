@@ -17,8 +17,6 @@ let amplitude;
 let amp = 0;
 let triggerStart = 0;
 let pressed = 0;
-let moveX;
-let moveY;
 
 //second values for different song sections
 const part1 = 1; //intro/sparse
@@ -42,14 +40,13 @@ const part17 = 268;
 //ffwd option
 // function keyPressed() {
 //   if (keyCode === RIGHT_ARROW) {
-//     song.jump(190);
+//     song.jump(200);
 //   }
 // }
 
 //colour pallete
 const green = '#06d6a0';
 const lightBlue = '#00a1e4';
-const navy = '#073b4c';
 const orange = '#db5a42';
 const pink = '#e83f6f';
 const yellow = '#ffbf00';
@@ -68,7 +65,6 @@ function setup() {
   canvas.style("left:0");
   canvas.style("z-index:-100");
   background(0);
-
   //Check if user is on mobile, loadSound if they aren't
   if (window.mobilecheck() !== true) {
     amplitude = new p5.Amplitude();
@@ -91,7 +87,6 @@ function draw() {
     background(0);
     amp = amplitude.volume * 3;
     currentTime = song.currentTime();
-    console.log(currentTime);
     if (currentTime >= part1 && currentTime <= part2) {
       spheresBG();
     } else if (currentTime >= part2 && currentTime <= part3) {
@@ -110,21 +105,17 @@ function draw() {
     } else if (currentTime >= part7 && currentTime <= part8) {
       dunshire();
     } else if (currentTime >= part8 && currentTime <= part9) {
-      triangleCurve();
-      rectraction();
+      //change colours
+      circles();
     } else if (currentTime >= part9 && currentTime <= part10) {
       holeyHole();
     } else if (currentTime >= part10 && currentTime <= part11) {
       tubular();
     } else if (currentTime >= part11 && currentTime <= part12) {
-      // twoPlanes();
       twoPlanes();
     } else if (currentTime >= part12 && currentTime <= part13) {
-      // sphereDistortionBG();
-      // blueSphereExpansion();
       rectWave();
     } else if (currentTime >= part13 && currentTime <= part14) {
-      // spheresExpansion();
       circles();
     } else if (currentTime >= part14 && currentTime <= part15) {
       whiteRectangles();
@@ -142,9 +133,8 @@ function draw() {
 
 function spheresBG() {
   push();
-  //mouse + amplitude control rotation
-  o1x += (map(amp, 0., 1, .25, 1.)) * (map(mouseX, 0, width, 1, -1));
-  o1y += (map(amp, 0., 1, .25, 1.)) * (map(mouseY, 0, height, -1, 1));
+  o1x += (map(amp, 0., 1, .25, 1.)) * (map(mouseX, 0, width, .75, -.75));
+  o1y += (map(amp, 0., 1, .25, 1.)) * (map(mouseY, 0, height, -.75, .75));
   translate(0, 0, 400);
   strokeWeight(4);
   rotateX(o1y);
@@ -169,10 +159,10 @@ function spheresBG() {
 
 function sphereDistortionBG() {
   push();
-  translate(0, 0, 0);
   var ampy = map(amp, 0, 1.25, 0., -30.);
   var scaleMouseX = map(mouseX, 0, width, 10., -10.);
   var scaleMouseY = map(mouseY, 0, height, -7., 7.);
+  translate(0, 0, 0);
   strokeWeight(2);
   fill(0);
   for (var i = 0; i < 7; i++) {
@@ -206,6 +196,8 @@ function spheresExpansion() {
   push();
   var scaleMouseX = (map(mouseX, 0, width, -90, 90));
   var scaleMouseY = (map(mouseY, height, 0, -90, 90));
+  var scalar = map(amp, .05, 1.5, width / 5, width / 2);
+  var scalar2 = map(amp, .05, 1.5, width / 5, width / 3);
   if (pressed === 0) {
     var polyX = 3;
     var polyY = 2;
@@ -223,8 +215,6 @@ function spheresExpansion() {
   o1z += amp;
   if (amp >= .05) {
     for (var i = 0; i < 5; i++) {
-      var scalar = map(amp, .05, 1.5, width / 5, width / 2);
-      var scalar2 = map(amp, .05, 1.5, width / 5, width / 3);
       stroke(white);
       sphere(width / 5, polyX, polyY);
       stroke(lightBlue);
@@ -242,6 +232,7 @@ function blueSphereExpansion() {
   push();
   var scaleMouseX = (map(mouseX, 0, width, -90, 90));
   var scaleMouseY = (map(mouseY, height, 0, -90, 90));
+  var scalar = map(amp, .0, 1., width / 5, width / 3);
   if (pressed === 0) {
     var polyX = 3;
     var polyY = 2;
@@ -259,7 +250,6 @@ function blueSphereExpansion() {
   o1z += amp;
   if (amp >= .05) {
     for (var i = 0; i < 5; i++) {
-      var scalar = map(amp, .0, 1., width / 5, width / 3);
       stroke(white);
       sphere(width / 5, polyX, polyY);
       stroke(lightBlue);
@@ -306,10 +296,10 @@ function planar() {
 
 function dunshire() {
   push();
-  translate(0, 0, -100);
-  rotateZ(o1z);
   var xScale = map(mouseX, 0, width, width, width * 1.25);
   var yScale = map(mouseY, height, 0, height / 2, height * .75);
+  translate(0, 0, -100);
+  rotateZ(o1z);
   noFill();
   strokeWeight(1);
   rotateX(90);
@@ -332,35 +322,6 @@ function dunshire() {
     cone(xScale, yScale, 3, 9);
   }
   o1x += amp * .25;
-  pop();
-}
-
-function rectraction() {
-  push();
-  translate(0, 0, 0);
-  strokeWeight(.75);
-  var scaleMouseX = (map(mouseX, 0, width, -30, 30));
-  var scaleMouseY = (map(mouseY, height, 0, -30, 30));
-  rotateX(scaleMouseY);
-  rotateY(scaleMouseX);
-  var amped = map(amp, 0, 1., 0., 100.);
-  push();
-  translate(0, 0, amped);
-  stroke(pink);
-  rotateZ(o1z);
-  fill(0, 0, 0, 4);
-  torus(width / 3, height, 3, 4);
-  pop();
-  push();
-  stroke(pink);
-  rotateZ(o1z);
-  translate(0, -amped, 0);
-  torus(width / 3, height, 3, 4);
-  if (pressed === 0) {
-    o1z += .05 + (amp * 1.5);
-  } else {
-    o1z -= .05 + (amp * 1.5);
-  }
   pop();
 }
 
@@ -390,17 +351,19 @@ function holeyHole() {
 }
 
 function twoPlanes() {
-  //whiteRectangles model
   var ampTwist = map(amp, 0., 1.25, 0., 5.);
+  var spacer = 50;
+  var rectWidth = map(mouseX, 0, width, 3000, 5000);
+  var rectHeight = map(mouseY, 0, height, 2000, 3000);
+  var scaleX = map(mouseX, 0, width, -3., 3.);
+  var scaleY = map(mouseY, 0, height, 1., -1.);
+  //white rectangles
   push();
   translate(0, 0, -1000);
   noFill();
   strokeWeight(3);
   stroke(255);
   rectMode(CENTER);
-  var spacer = 50;
-  var rectWidth = map(mouseX, 0, width, 3000, 5000);
-  var rectHeight = map(mouseY, 0, height, 2000, 3000);
   push();
   //center to lower right
   for (var i = 0; i < 100; i++) {
@@ -429,11 +392,9 @@ function twoPlanes() {
   pop();
   pop();
 
-  //original 2PLanes
+  //original twoPlanes
   push();
   translate(0, 0, 0);
-  var scaleX = map(mouseX, 0, width, -3., 3.);
-  var scaleY = map(mouseY, 0, height, 1., -1.);
   strokeWeight(1);
   noFill();
   for (var i = 0; i < 12; i++) {
@@ -483,37 +444,16 @@ function tubular() {
   pop();
 }
 
-function triangleCurve() {
-  push();
-  noFill();
-  stroke(255);
-  strokeWeight(1);
-  moveY = map(mouseY, 0, height, -10., 0.);
-  moveX = map(mouseX, 0, width, -5., 5.);
-  for (var i = 0; i < 250; i++) {
-    if (i > 30) {
-      stroke(i + 1);
-    } else {
-      noStroke();
-    }
-    rotate((amp + 1.5));
-    var triVolScale = 20;
-    triangle(width / 5 - 20 * i - triVolScale, height / 7 + 20 * i + triVolScale, width / 5, height / 7 - 20 * i - triVolScale, width / 5 + 20 * i + triVolScale, height / 7 + 20 * i + triVolScale);
-    translate(moveX, moveY);
-  }
-  pop();
-}
-
 function whiteRectangles() {
   push();
+  var spacer = 40;
+  var rectWidth = map(mouseX, 0, width, 500, 2000);
+  var rectHeight = map(mouseY, 0, height, 400, 1500);
   translate(0, 0, -500);
   noFill();
   strokeWeight(2);
   stroke(255);
   rectMode(CENTER);
-  var spacer = 40;
-  var rectWidth = map(mouseX, 0, width, 500, 2000);
-  var rectHeight = map(mouseY, 0, height, 400, 1500);
   push();
   //center to lower right
   for (var i = 0; i < 50; i++) {
@@ -584,17 +524,15 @@ function rectWave() {
 }
 
 function circles() {
-  var ampTwist = map(amp, 0., 1.25, 0., 5.);
-  push();
   push();
   var ampTwist = map(amp, 0., 1.25, 0., 5.);
   var elW = map(mouseX, 0, width, 100, 200);
   var elH = map(mouseY, 0, height, -50, 50);
+  var spacer = 80;
   translate(0, 0, -500);
   noFill();
   strokeWeight(2);
-  var spacer = 80;
-  //white circles
+  // white + orange circles
   for (var i = 0; i < 100; i++) {
     stroke(255);
     rotateZ(o1z);
@@ -678,30 +616,6 @@ function loadingScreen() {
   pop();
 }
 
-function endScreen() {
-  push();
-  ambientLight(255);
-  graphics2d.background(0);
-  graphics2d.textFont("'Be Vietnam'");
-  graphics2d.textSize(width / 20);
-  graphics2d.textAlign(CENTER, CENTER);
-  graphics2d.noStroke();
-  graphics2d.fill(255);
-  // graphics2d.text('thanks for listening', windowWidth / 2, (windowHeight / 2) - 50);
-  let dfSite = createA('https://dfduo.com/', 'thanks for listening');
-  dfSite.style('font-family', 'Be Vietnam');
-  dfSite.style('font-size', '5em');
-  dfSite.style('text-align', 'center');
-  dfSite.style('text-decoration', 'none');
-  dfSite.style('color', 'Lavender');
-  dfSite.position(0, height / 2 - 100);
-  dfSite.center('horizontal');
-  texture(graphics2d);
-  plane(windowWidth, windowHeight);
-  noLoop();
-  pop();
-}
-
 //function checks if user is on mobile. False = Real Computer!
 window.mobilecheck = function() {
   var check = false;
@@ -727,30 +641,30 @@ function phoneScreen() {
   pop();
 }
 
+function endScreen() {
+  push();
+  ambientLight(255);
+  graphics2d.background(0);
+  graphics2d.textFont("'Be Vietnam'");
+  graphics2d.textSize(width / 20);
+  graphics2d.textAlign(CENTER, CENTER);
+  graphics2d.noStroke();
+  graphics2d.fill(255);
+  // graphics2d.text('thanks for listening', windowWidth / 2, (windowHeight / 2) - 50);
+  let dfSite = createA('https://dfduo.com/', 'thanks for listening');
+  dfSite.style('font-family', 'Be Vietnam');
+  dfSite.style('font-size', '5em');
+  dfSite.style('text-align', 'center');
+  dfSite.style('text-decoration', 'none');
+  dfSite.style('color', 'Lavender');
+  dfSite.position(0, height / 2 - 100);
+  dfSite.center('horizontal');
+  texture(graphics2d);
+  plane(windowWidth, windowHeight);
+  noLoop();
+  pop();
+}
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
-
-// function normalDreams() {
-//   push();
-//   if (pressed === 0) {
-//     translate(-width / 5, 0, -200);
-//   } else {
-//     translate(width / 5, 0, -200);
-//   }
-//   normalMaterial();
-//   noStroke();
-//   var scaleMouseX = (map(mouseX, 0, width, -3, 3));
-//   var scaleMouseY = (map(mouseY, height, 0, -5, 5));
-//   for (var i = 0; i < 10; i++) {
-//     var xScale = i * 50;
-//     var yScale = i * 50;
-//     torus(xScale, yScale, 3);
-//     rotateZ(i * o1z);
-//     rotateY(scaleMouseX);
-//     rotateX(scaleMouseY);
-//     translate(0, 0, 100);
-//   }
-//   o1z += .1 * amp;
-//   pop();
-// }
