@@ -106,7 +106,7 @@ function draw() {
       dunshire();
     } else if (currentTime >= part8 && currentTime <= part9) {
       //change colours
-      circles();
+      circles2();
     } else if (currentTime >= part9 && currentTime <= part10) {
       holeyHole();
     } else if (currentTime >= part10 && currentTime <= part11) {
@@ -322,6 +322,45 @@ function dunshire() {
     cone(xScale, yScale, 3, 9);
   }
   o1x += amp * .25;
+  pop();
+}
+
+function circles2() {
+  push();
+  var ampy = map(amp, 0., 1.25, .01, .25);
+  var elW = map(mouseX, 0, width, -75, 75);
+  var elH = map(mouseY, 0, height, -50, 50);
+  var spacer = 80;
+  translate(0, 0, -500);
+  noFill();
+  strokeWeight(2);
+  rectMode(CENTER);
+  // white + purple circles
+  for (var i = 0; i < 100; i++) {
+    stroke(lightBlue);
+    rotateZ(o1z);
+    rect(0, 0, elW + spacer, elH + spacer);
+    spacer += 80;
+    stroke(i * 15);
+    rect(0, 0, elW + spacer, elH + spacer);
+    spacer += 80;
+  }
+  if (pressed === 0) {
+    o1z += ampy;
+  } else {
+    o1z -= ampy;
+  }
+  pop();
+
+  // black rects add -ve space/create mystery
+  push();
+  noFill();
+  strokeWeight(35);
+  stroke(0);
+  rectMode(CENTER);
+  for (var i = 0; i < 75; i++) {
+    rect(0, 0, 110 * i, 110 * i);
+  }
   pop();
 }
 
