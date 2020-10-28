@@ -98,7 +98,7 @@ function draw() {
     currentTime = song.currentTime();
 
     //draw pulsing background
-    var bgClr = map(sin(frameCount / 5), -1, 1, 0, 60);
+    var bgClr = map(sin(frameCount / 5), -1, 1, 0, 55);
     background(bgClr);
 
     //timeline
@@ -124,8 +124,8 @@ function draw() {
 function circleSin() {
   noStroke();
   for (var i = 0; i < 50; i++) {
-    var pulseR = map(sin(frameCount / 5), -1, 1, 200, 255);
-    var pulseG = map(sin(frameCount / 5), -1, 1, 0, 150);
+    var pulseR = map(sin(frameCount / 9), -1, 1, 200, 255);
+    var pulseG = map(sin(frameCount / 11), -1, 1, 0, 150);
     fill(pulseR, pulseG, 0, 3);
     ellipse(0, 0, (i * 10) + 10);
   }
@@ -137,9 +137,13 @@ function rays() {
   rectMode(CENTER);
   noStroke();
   rect(0, 0, width, height);
-  strokeWeight(1);
   stroke(255, 255, 0);
   for (var i = 0; i < 9; i++) {
+    if (i % 2 == 1) {
+      strokeWeight(2);
+    } else {
+      strokeWeight(1);
+    }
     noiseValX = map(noise(frameCount / (23 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
     noiseValY = map(noise(frameCount / (24 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
     line(0, 0, noiseValX, noiseValY);
@@ -151,7 +155,7 @@ function curvaceous() {
   push();
   translate(-width / 2, -height / 2);
   //noFill also cool
-  fill(0, 0, 255, 2);
+  fill(100, 0, 255, 5);
   strokeWeight(2);
   var ampy = map(amp, 0., 1, lowSpacer, highSpacer);
   var mX = map(mouseX, 0, width, -mousePull, mousePull);
