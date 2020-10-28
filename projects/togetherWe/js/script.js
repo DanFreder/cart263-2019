@@ -19,30 +19,28 @@ let triggerStart = 0;
 let pressed = 0;
 let cabin;
 let bgClr = 220;
+var noiseValX;
+var noiseValY;
+var lowSpacer = 100;
+var highSpacer = 150;
+var curveCount = 10;
+var mousePull = 320;
+
+let xOff1 = 0;
+let yOff1 = 0;
+let zOff1 = 0;
+let inc = 0.02;
+let start = 0;
+let scl = 100;
+let cols, rows;
 
 //second values for different song sections
 const part1 = 1;
-const part2 = 15.3;
+const part2 = 14.91;
 const part3 = 19;
-const part4 = 28;
+const part4 = 27.5;
 const part5 = 34;
-const part6 = 40.2;
-const part7 = 46.8;
-const part8 = 53;
-const part9 = 59;
-const part10 = 65;
-const part11 = 73;
-const part12 = 79;
-const part13 = 91.5;
-const part14 = 101;
-const part15 = 113;
-const part16 = 122;
-const part17 = 128;
-const part18 = 137.5;
-const part19 = 141;
-const part20 = 162;
-const part21 = 184;
-const part22 = 193;
+
 
 //ffwd option
 // function keyPressed() {
@@ -81,6 +79,8 @@ function setup() {
     angleMode(DEGREES);
     //load audio file if real PC, and trigger songLoaded function once loaded
     song = loadSound('assets/sounds/togetherWe.mp3', songLoaded);
+    noiseValX = random(1);
+    noiseValY = random(1);
   }
 }
 
@@ -97,45 +97,151 @@ function draw() {
     amp = amplitude.volume * 3;
     currentTime = song.currentTime();
 
-    if (currentTime >= part1) {
+    //draw pulsing background
+    var bgClr = map(sin(frameCount / 5), -1, 1, 0, 60);
+    background(bgClr);
+
+    //timeline
+    if (currentTime >= part1 && currentTime <= part2) {
+      rays();
+    } else if (currentTime >= part2 && currentTime <= part3) {
       circleSin();
-      horizontalPlane();
-      if (currentTime >= part2) {
-        horizontalPlane();
-        //     } else if (currentTime >= part2 && currentTime <= part3) {
-        //     } else if (currentTime >= part3 && currentTime <= part4) {
-        //     } else if (currentTime >= part4 && currentTime <= part5) {
-        //     } else if (currentTime >= part5 && currentTime <= part6) {
-        //     } else if (currentTime >= part6 && currentTime <= part7) {
-        //     } else if (currentTime >= part7 && currentTime <= part8) {
-        // }
-      }
+      rays();
+    } else if (currentTime >= part3 && currentTime <= part4) {
+      circleSin();
+      rays();
+    } else if (currentTime >= part4) {
+      curvaceous();
+      circleSin();
+      rays();
     }
+    // } else if (currentTime >= part7 && currentTime <= part8) {
+    //   curvaceous();
+    //   rays();
   }
 }
 
 function circleSin() {
-  push();
-  var bgClr = map(sin(frameCount / 4), -1, 1, 0, 220);
-  background(bgClr);
-  console.log(bgClr);
-  var elClrR = map(sin(frameCount / 10), -1, 1, 0, 255);
   noStroke();
-  fill(elClrR, 0, 0);
-  ellipse(0, 0, width / 3, width / 3, 50);
+  for (var i = 0; i < 50; i++) {
+    var pulseR = map(sin(frameCount / 5), -1, 1, 200, 255);
+    var pulseG = map(sin(frameCount / 5), -1, 1, 0, 150);
+    fill(pulseR, pulseG, 0, 3);
+    ellipse(0, 0, (i * 10) + 10);
+  }
+}
+
+function rays() {
+  push();
+  fill(0, 0, 0, 0);
+  rectMode(CENTER);
+  noStroke();
+  rect(0, 0, width, height);
+  strokeWeight(1);
+  stroke(255, 255, 0);
+  for (var i = 0; i < 9; i++) {
+    noiseValX = map(noise(frameCount / (23 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
+    noiseValY = map(noise(frameCount / (24 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
+    line(0, 0, noiseValX, noiseValY);
+  }
   pop();
 }
 
-function horizontalPlane() {
+function curvaceous() {
   push();
-  noFill();
-  strokeWeight(3);
-  stroke(220);
-  rotateX(80);
-  rotateZ(frameCount / 3);
-  box(width / 2, height / 2, 0);
+  translate(-width / 2, -height / 2);
+  //noFill also cool
+  fill(0, 0, 255, 2);
+  strokeWeight(2);
+  var ampy = map(amp, 0., 1, lowSpacer, highSpacer);
+  var mX = map(mouseX, 0, width, -mousePull, mousePull);
+  var mY = map(mouseY, 0, height, mousePull, -mousePull);
+  for (var i = 0; i < curveCount; i++) {
+    //first and last x,y pair are anchors
+    noStroke();
+    //middle up lines
+    bezier(0, height - (i * ampy) - mY, (width * .125) + mX, 0, (width * .75) + mX, 0, width, height - (i * ampy) - mY);
+
+    bezier(0, (i * ampy) - mY, (width * .125) + mX, height, (width * .75) + mX, height, width, (i * ampy) - mY);
+  }
   pop();
 }
+
+
+// function vectorField() {
+//   push();
+//   background(0);
+//   cols = floor(windowWidth / scl) + 1;
+//   rows = floor(windowHeight / scl) + 1;
+//   angleMode(RADIANS);
+//   // var yOff1 = map(mouseX, 0, width, -1, 1);
+//   translate(-width / 2, -height / 2);
+//   for (var y = 0; y < rows; y++) {
+//     xOff1 = 0;
+//     for (var x = 0; x < cols; x++) {
+//       //calculate angle for every vector from perlin noise
+//       var angle = noise(xOff1, yOff1, zOff1) * TWO_PI;
+//       var v = p5.Vector.fromAngle(angle);
+//       xOff1 += map(mouseX, 0, width, -.1, -.2);
+//       fill(y + 1, 3);
+//       noStroke();
+//       push();
+//       translate(x * scl, y * scl);
+//       rotate(v.heading());
+//       rectMode(CENTER);
+//       rect(0, 0, 2 * scl, 3 * scl);
+//       pop();
+//     }
+//     zOff1 = map(mouseY, height, 0, -.1, -.5);
+//   }
+//   pop();
+// }
+// function circleSinSpiral() {
+//   push();
+//   // var bgClr = map(sin(frameCount / 4), -1, 1, 0, 220);
+//   // background(bgClr);
+//   var elClrR = map(sin(frameCount / 6), -1, 1, 0, 200);
+//   noStroke();
+//   strokeWeight(0);
+//   fill(elClrR);
+//   ellipse(0, 0, width / 5);
+//   pop();
+// }
+//
+// function horizontalPlane() {
+//   push();
+//   noFill();
+//   strokeWeight(1);
+//   var strkClr = map(sin(frameCount / 10), -1, 1, 0, 50);
+//   stroke(strkClr);
+//   rotateX(80);
+//   rotateZ(frameCount / 3);
+//   box(width / 2, width / 2, 1);
+//   pop();
+// }
+//
+// function circlingMouse() {
+//   push();
+//   translate(0, 0, 0);
+//   fill(green);
+//   noStroke();
+//   ellipse(width / 3, 0, 100, 100, 50)
+//   stroke(0);
+//   line(width / 3, 0, width / 3 + 50, 50);
+//   pop();
+// }
+//
+// function spherical() {
+//   push();
+//   normalMaterial();
+//   noStroke();
+//   var ampy = map(amp, 0, 1, .1, 1);
+//   o1z += ampy;
+//   rotateZ(o1z);
+//   translate(0, 0, 100);
+//   sphere(width / 22, 24, 24);
+//   pop();
+// }
 
 function mousePressed() {
   //only lets mousePress trigger start/play if user is on a real computer
