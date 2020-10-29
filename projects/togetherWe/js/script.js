@@ -147,7 +147,7 @@ function circleSin() {
     var pulseR = map(sin(frameCount / 9), -1, 1, 255, 100);
     var pulseG = map(sin(frameCount / 11), -1, 1, 0, 50);
     stroke(pulseR, pulseG, i);
-    ellipse(0, 0, (i * 10));
+    ellipse(0, 0, (i * 10), (i * 10), 50);
     o1z += .0002 * ampy;
   }
   pop();
@@ -199,7 +199,7 @@ function crissCross() {
   var numRects = 10;
   push();
   rectMode(CENTER);
-  stroke(0, 50, 255, 200);
+  stroke(0, 10, 255, 220);
   strokeWeight(1);
   noFill();
   for (var i = 0; i < numRects; i++) {
