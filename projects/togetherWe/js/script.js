@@ -26,6 +26,7 @@ var highSpacer = 150;
 var curveCount = 10;
 var mousePull = 320;
 
+
 let xOff1 = 0;
 let yOff1 = 0;
 let zOff1 = 0;
@@ -39,7 +40,8 @@ const part1 = 1;
 const part2 = 14.91;
 const part3 = 19;
 const part4 = 27.5;
-const part5 = 34;
+const part5 = 39.8;
+const part6 = 200;
 
 
 //ffwd option
@@ -81,6 +83,7 @@ function setup() {
     song = loadSound('assets/sounds/togetherWe.mp3', songLoaded);
     noiseValX = random(1);
     noiseValY = random(1);
+    rectMode(CENTER);
   }
 }
 
@@ -110,25 +113,44 @@ function draw() {
     } else if (currentTime >= part3 && currentTime <= part4) {
       circleSin();
       rays();
-    } else if (currentTime >= part4) {
+    } else if (currentTime >= part4 && currentTime <= part5) {
       curvaceous();
       circleSin();
       rays();
+    } else if (currentTime >= part5 && currentTime <= part6) {
+      curvaceous();
+      crissCross();
+      circleSin();
+      rays();
+      // } else if (currentTime >= part6 && currentTime <= part7) {
+      //   //
+      // } else if (currentTime >= part7 && currentTime <= part8) {
+      //   //
+      // } else if (currentTime >= part8 && currentTime <= part9) {
+      //   //
+      // } else if (currentTime >= part9 && currentTime <= part10) {
+      //   //
+      // } else if (currentTime >= part10 && currentTime <= part11) {
+      //   //
+      // }
     }
-    // } else if (currentTime >= part7 && currentTime <= part8) {
-    //   curvaceous();
-    //   rays();
   }
 }
 
 function circleSin() {
-  noStroke();
+  push();
+  noFill();
+  strokeWeight(10);
+  var ampy = constrain(amp, 0, 1);
   for (var i = 0; i < 50; i++) {
-    var pulseR = map(sin(frameCount / 9), -1, 1, 200, 255);
-    var pulseG = map(sin(frameCount / 11), -1, 1, 0, 150);
-    fill(pulseR, pulseG, 0, 3);
-    ellipse(0, 0, (i * 10) + 10);
+    rotateZ(o1z);
+    var pulseR = map(sin(frameCount / 9), -1, 1, 255, 100);
+    var pulseG = map(sin(frameCount / 11), -1, 1, 0, 50);
+    stroke(pulseR, pulseG, i);
+    ellipse(0, 0, (i * 10));
+    o1z += .0002 * ampy;
   }
+  pop();
 }
 
 function rays() {
@@ -171,6 +193,29 @@ function curvaceous() {
   pop();
 }
 
+function crissCross() {
+  var rectDist = map(amp, 0, 1, 200, 250);
+  var rectSize = height;
+  var numRects = 10;
+  push();
+  rectMode(CENTER);
+  stroke(0, 50, 255, 200);
+  strokeWeight(1);
+  noFill();
+  for (var i = 0; i < numRects; i++) {
+    var scalarX = map(noise(frameCount / 400), 0, 1, -rectDist * i, rectDist * i);
+    var scalarY = map(noise(frameCount / 420), 0, 1, -rectDist * i, rectDist * i);
+    rect(scalarX, scalarY, rectSize, rectSize);
+    rect(-scalarX, -scalarY, rectSize, rectSize);
+  }
+  for (var i = 0; i < numRects; i++) {
+    var scalarX = map(noise(frameCount / 500), 0, 1, -rectDist * i, rectDist * i);
+    var scalarY = map(noise(frameCount / 520), 0, 1, -rectDist * i, rectDist * i);
+    rect(scalarX, scalarY, rectSize, rectSize);
+    rect(-scalarX, -scalarY, rectSize, rectSize);
+  }
+  pop();
+}
 
 // function vectorField() {
 //   push();
