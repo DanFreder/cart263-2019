@@ -81,8 +81,8 @@ function setup() {
     angleMode(DEGREES);
     //load audio file if real PC, and trigger songLoaded function once loaded
     song = loadSound('assets/sounds/togetherWe.mp3', songLoaded);
-    noiseValX = random(1);
-    noiseValY = random(1);
+    noiseValX = random(width);
+    noiseValY = random(width);
     rectMode(CENTER);
   }
 }
@@ -166,8 +166,8 @@ function rays() {
     } else {
       strokeWeight(1);
     }
-    noiseValX = map(noise(frameCount / (23 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
-    noiseValY = map(noise(frameCount / (24 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
+    noiseValX = map(noise(frameCount / (29 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
+    noiseValY = map(noise(frameCount / (27 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
     line(0, 0, noiseValX, noiseValY);
   }
   pop();
