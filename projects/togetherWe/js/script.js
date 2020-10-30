@@ -18,22 +18,12 @@ let amp = 0;
 let triggerStart = 0;
 let pressed = 0;
 let cabin;
+
 let bgClr = 220;
 var noiseValX;
 var noiseValY;
-var lowSpacer = 100;
-var highSpacer = 150;
-var curveCount = 10;
-var mousePull = 320;
 
 
-let xOff1 = 0;
-let yOff1 = 0;
-let zOff1 = 0;
-let inc = 0.02;
-let start = 0;
-let scl = 100;
-let cols, rows;
 
 //second values for different song sections
 const part1 = 1;
@@ -44,12 +34,12 @@ const part5 = 39.8;
 const part6 = 200;
 
 
-//ffwd option
-// function keyPressed() {
-//   if (keyCode === RIGHT_ARROW) {
-//     song.jump(200);
-//   }
-// }
+// ffwd option
+function keyPressed() {
+  if (keyCode === RIGHT_ARROW) {
+    song.jump(26);
+  }
+}
 
 //colour pallete
 const elecGreen = '#06d6a0';
@@ -137,12 +127,31 @@ function draw() {
   }
 }
 
+function cosmos() {
+  push();
+  var elRadius = 10;
+  var off1 = 0;
+  stroke(0);
+  noFill();
+  for (var i = 0; i < 30; i++) {
+
+    elRadius = map(sin(frameCount / 10), -1, 1, 10, 50);
+    rotateZ(15);
+    rotateX(1);
+    rotateY(off1);
+    ellipse(0, 0, (elRadius * i) + 10, (elRadius * i) + 10);
+    off1 += .01;
+    translate(0, 0, 10);
+  }
+  pop();
+}
+
 function circleSin() {
   push();
   noFill();
   strokeWeight(10);
   var ampy = constrain(amp, 0, 1);
-  for (var i = 0; i < 50; i++) {
+  for (var i = 0; i < 40; i++) {
     rotateZ(o1z);
     var pulseR = map(sin(frameCount / 9), -1, 1, 255, 100);
     var pulseG = map(sin(frameCount / 11), -1, 1, 0, 50);
@@ -155,10 +164,6 @@ function circleSin() {
 
 function rays() {
   push();
-  fill(0, 0, 0, 0);
-  rectMode(CENTER);
-  noStroke();
-  rect(0, 0, width, height);
   stroke(255, 255, 0);
   for (var i = 0; i < 9; i++) {
     if (i % 2 == 1) {
@@ -174,77 +179,68 @@ function rays() {
 }
 
 function curvaceous() {
+  var lowSpacer = 75;
+  var highSpacer = 125;
+  var curveCount = 10;
+  var mousePull = 320;
   push();
   translate(-width / 2, -height / 2);
-  //noFill also cool
-  fill(100, 0, 255, 5);
-  strokeWeight(2);
+  noFill();
+  var fillClr = map(sin(frameCount / 3), -1, 1, 0, 255);
+  fill(fillClr, 2);
+  stroke(122, 0, 247, 200);
+  strokeWeight(1);
   var ampy = map(amp, 0., 1, lowSpacer, highSpacer);
   var mX = map(mouseX, 0, width, -mousePull, mousePull);
   var mY = map(mouseY, 0, height, mousePull, -mousePull);
   for (var i = 0; i < curveCount; i++) {
     //first and last x,y pair are anchors
-    noStroke();
+
     //middle up lines
     bezier(0, height - (i * ampy) - mY, (width * .125) + mX, 0, (width * .75) + mX, 0, width, height - (i * ampy) - mY);
-
+    //middle down lines
     bezier(0, (i * ampy) - mY, (width * .125) + mX, height, (width * .75) + mX, height, width, (i * ampy) - mY);
   }
   pop();
 }
 
 function crissCross() {
-  var rectDist = map(amp, 0, 1, 200, 250);
+  var rectDist = map(amp, 0, 1, 75, 100);
   var rectSize = height;
-  var numRects = 10;
+  var numRects = 5;
+  var curveRad = 400;
   push();
   rectMode(CENTER);
-  stroke(0, 10, 255, 220);
-  strokeWeight(1);
   noFill();
   for (var i = 0; i < numRects; i++) {
+    if (i % 2 == 1) {
+      stroke(0, 10, 255, 200);
+      strokeWeight(1);
+    } else {
+      stroke(bgClr, 1);
+      strokeWeight(5);
+    }
     var scalarX = map(noise(frameCount / 400), 0, 1, -rectDist * i, rectDist * i);
     var scalarY = map(noise(frameCount / 420), 0, 1, -rectDist * i, rectDist * i);
-    rect(scalarX, scalarY, rectSize, rectSize);
-    rect(-scalarX, -scalarY, rectSize, rectSize);
+    rect(scalarX, scalarY, rectSize, rectSize, curveRad);
+    rect(-scalarX, -scalarY, rectSize, rectSize, curveRad);
   }
   for (var i = 0; i < numRects; i++) {
+    if (i % 2 == 1) {
+      stroke(0, 10, 255, 200);
+      strokeWeight(1);
+    } else {
+      stroke(bgClr, 1);
+      strokeWeight(5);
+    }
     var scalarX = map(noise(frameCount / 500), 0, 1, -rectDist * i, rectDist * i);
     var scalarY = map(noise(frameCount / 520), 0, 1, -rectDist * i, rectDist * i);
-    rect(scalarX, scalarY, rectSize, rectSize);
-    rect(-scalarX, -scalarY, rectSize, rectSize);
+    rect(scalarX, scalarY, rectSize, rectSize, curveRad);
+    rect(-scalarX, -scalarY, rectSize, rectSize, curveRad);
   }
   pop();
 }
 
-// function vectorField() {
-//   push();
-//   background(0);
-//   cols = floor(windowWidth / scl) + 1;
-//   rows = floor(windowHeight / scl) + 1;
-//   angleMode(RADIANS);
-//   // var yOff1 = map(mouseX, 0, width, -1, 1);
-//   translate(-width / 2, -height / 2);
-//   for (var y = 0; y < rows; y++) {
-//     xOff1 = 0;
-//     for (var x = 0; x < cols; x++) {
-//       //calculate angle for every vector from perlin noise
-//       var angle = noise(xOff1, yOff1, zOff1) * TWO_PI;
-//       var v = p5.Vector.fromAngle(angle);
-//       xOff1 += map(mouseX, 0, width, -.1, -.2);
-//       fill(y + 1, 3);
-//       noStroke();
-//       push();
-//       translate(x * scl, y * scl);
-//       rotate(v.heading());
-//       rectMode(CENTER);
-//       rect(0, 0, 2 * scl, 3 * scl);
-//       pop();
-//     }
-//     zOff1 = map(mouseY, height, 0, -.1, -.5);
-//   }
-//   pop();
-// }
 // function circleSinSpiral() {
 //   push();
 //   // var bgClr = map(sin(frameCount / 4), -1, 1, 0, 220);
@@ -333,13 +329,13 @@ function loadingScreen() {
     graphics2d.text('click to play', windowWidth / 2, windowHeight / 2 + 50);
   }
   texture(graphics2d);
-  plane(windowWidth, windowHeight);
+  plane(windowWidth, windowHeight, 2, 2);
   pop();
 
-  //green rectangles
+  //red rectangles
   push();
   rectMode(CENTER);
-  stroke(elecGreen);
+  stroke(red);
   noFill();
   rect(0, -30, width * .625, height * .75);
   rect(0, -30, width * .625 + 20, height * .75 - 20);
@@ -367,7 +363,7 @@ function phoneScreen() {
   graphics2d.text('please revisit', windowWidth / 2, windowHeight / 2 - 150);
   graphics2d.text('on desktop', windowWidth / 2, windowHeight / 2 - 50);
   texture(graphics2d);
-  plane(windowWidth, windowHeight);
+  plane(windowWidth, windowHeight, 2, 2);
   pop();
 }
 
@@ -390,7 +386,7 @@ function endScreen() {
   dfSite.position(0, height / 2 - 100);
   dfSite.center('horizontal');
   texture(graphics2d);
-  plane(windowWidth, windowHeight);
+  plane(windowWidth, windowHeight, 2, 2);
   noLoop();
   pop();
 }
