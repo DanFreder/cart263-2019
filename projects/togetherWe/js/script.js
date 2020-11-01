@@ -101,49 +101,42 @@ function draw() {
     //timeline
     if (currentTime >= part1 && currentTime <= part2) {
       background(bgClr);
-
-      curvaceous();
+      wideRects();
       circleSin();
-      crissCross();
       rays();
     } else if (currentTime >= part2 && currentTime <= part3) {
       background(bgClr);
-      curvaceous();
+      wideRects();
       circleSin();
-      crissCross();
-
       rays();
     } else if (currentTime >= part3 && currentTime <= part4) {
       background(bgClr);
+      wideRects();
       circleSin();
-      crissCross();
-
       rays();
     } else if (currentTime >= part4 && currentTime <= part5) {
       background(bgClr);
+      wideRects();
       curvaceous();
       circleSin();
-      crissCross();
-
       rays();
     } else if (currentTime >= part5 && currentTime <= part6) {
       background(bgClr);
       curvaceous();
       circleSin();
       crissCross();
-
       rays();
     } else if (currentTime >= part6 && currentTime <= part7) {
       background(bgClr);
-      crissCross();
       curvaceous();
       circleSin();
+      crissCross();
       rays();
     } else if (currentTime >= part7 && currentTime <= part8) {
       background(bgClr);
-      crissCross();
       curvaceous();
       circleSin();
+      crissCross();
       rays();
       // } else if (currentTime >= part8 && currentTime <= part9) {
       //   //
@@ -154,6 +147,20 @@ function draw() {
       // }
     }
   }
+}
+
+function wideRects() {
+  push();
+  translate(0, 0, -100);
+  strokeWeight(1);
+  noFill();
+  for (var i = 0; i < 10; i++) {
+    rotateX(o1x);
+    stroke((i * 5) + 1);
+    box(width * 2, height / 3, 1);
+    o1x += .01;
+  }
+  pop();
 }
 
 // function noisyCirc() {
@@ -175,6 +182,7 @@ function draw() {
 
 function circleSin() {
   push();
+  noStroke();
   var redForeman = map(sin(frameCount / 3), -1, 1, 100, 200);
   var notEasy = map(sin(frameCount / 4), -1, 1, 0, 38);
   fill(redForeman, notEasy, 0, 255);
@@ -239,9 +247,8 @@ function curvaceous() {
 }
 
 function crissCross() {
-  var rectDist = map(sin(amp / frameCount * 2), -1, 1, 0, 10);
   var rectSize = 10;
-  var numRects = 7;
+  var numRects = 3;
   push();
   rectMode(CENTER);
   noStroke();
@@ -250,8 +257,9 @@ function crissCross() {
     if (i % 2 == 1) {
       fill(0, 10, 255, 175);
     } else {
-      fill(0, 0, 255, 175);
+      fill(0, 0, 255, 105);
     }
+    var rectDist = map(sin(amp / frameCount * i), -1, 1, 10, 20);
     rectSize = map(sin(frameCount / (i * 100)), -1, 1, 15, 100);
     var scalarX = map(noise(frameCount / 100), 0, 1, -rectDist * i, rectDist * i);
     var scalarY = map(noise(frameCount / 220), 0, 1, -rectDist * i, rectDist * i);
