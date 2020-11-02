@@ -6,24 +6,26 @@ move and click the mouse to modify animations with the music
 
 "use strict";
 
-let o1x = 0.0001;
-let o1y = 0.0002;
-let o1z = 0.0003;
-let song;
-let loaded = 0;
-let currentTime = 0;
-let graphics2d;
-let amplitude;
-let amp = 0;
-let triggerStart = 0;
-let pressed = 0;
-let cabin;
 
-let bgClr = 220;
+var song;
+var loaded = 0;
+var currentTime = 0;
+var graphics2d;
+var amplitude;
+var amp = 0;
+var triggerStart = 0;
+var pressed = 0;
+var cabin;
+
+var bgClr = 220;
 var noiseValX;
 var noiseValY;
 var offX;
 var offY;
+var o1x = 0.;
+var o1y = 0.00001;
+var o1z = 0.0003;
+var polyTwist = 0;
 
 
 
@@ -45,10 +47,10 @@ function keyPressed() {
   }
 }
 
-//colour pallete
+//colour palvare
 const elecGreen = '#06d6a0';
 const white = '#f9fdff';
-const violet = '#FF89FF';
+const viovar = '#FF89FF';
 const yellow = '#FFF200';
 const green = '#86C35E';
 const red = '#DD1C29';
@@ -103,6 +105,7 @@ function draw() {
       background(bgClr);
       wideRects();
       circleSin();
+      polyMorph();
       rays();
     } else if (currentTime >= part2 && currentTime <= part3) {
       background(bgClr);
@@ -124,19 +127,16 @@ function draw() {
       background(bgClr);
       curvaceous();
       circleSin();
-      crissCross();
       rays();
     } else if (currentTime >= part6 && currentTime <= part7) {
       background(bgClr);
       curvaceous();
       circleSin();
-      crissCross();
       rays();
     } else if (currentTime >= part7 && currentTime <= part8) {
       background(bgClr);
       curvaceous();
       circleSin();
-      crissCross();
       rays();
       // } else if (currentTime >= part8 && currentTime <= part9) {
       //   //
@@ -163,23 +163,6 @@ function wideRects() {
   pop();
 }
 
-// function noisyCirc() {
-//   push();
-//   var numCircles = 7;
-//   var circRadius = 50;
-//   noFill();
-//   for (var i = 0; i < numCircles; i++) {
-//     var xLoc = map(noise(offX + i + 1), 0., 1., -width / 5, width / 5);
-//     var yLoc = map(noise(offY + i + 1), 0., 1., -height / 9, height / 9);
-//     offX += .0001;
-//     offY += .00015;
-//     stroke(255, 0, 0, 1);
-//     strokeWeight(2);
-//     ellipse(xLoc, yLoc, circRadius * 14, circRadius * 6);
-//   }
-//   pop();
-// }
-
 function circleSin() {
   push();
   noStroke();
@@ -204,7 +187,6 @@ function circleSin() {
     o1z += .0002 * ampy;
   }
   pop();
-
 }
 
 function rays() {
@@ -293,35 +275,20 @@ function crissCross() {
 //   pop();
 // }
 //
-function horizontalPlane() {
-  push();
-  noFill();
-  strokeWeight(1);
-  var strkClr = map(sin(frameCount / 10), -1, 1, 255, 130);
-  stroke(0, strkClr, 255);
-  rotateX(80);
-  rotateZ(frameCount / 3);
-  box(height * .75, height * .75, 1);
-  pop();
-}
+
 
 function polyMorph() {
   push();
+  translate(0, 0, 100);
   var elRadius = 10;
-  var mX;
-  var mY;
-  var off1 = 0;
-
   stroke(255, 255, 0);
-  mX = constrain(mouseX, elRadius, width - elRadius);
-  mY = constrain(mouseY, elRadius, height - elRadius);
   fill(255, 255, 0, 10);
-  for (var i = 0; i < 100; i++) {
-    ellipse(0, 0, (elRadius * i) + 10);
-    elRadius = map(sin(frameCount / 100), -1, 1, 1, 5);
+  for (var i = 0; i < 50; i++) {
+    elRadius = map(sin(frameCount / 1000), -1, 1, 4, 10);
     rotateZ(2);
-    rotateY(off1);
-    off1 += .0001;
+    rotateY(polyTwist);
+    ellipse(0, 0, (elRadius * i) + 10);
+    polyTwist += .0001;
   }
   pop();
 }
@@ -350,7 +317,7 @@ function polyMorph() {
 // }
 
 function mousePressed() {
-  //only lets mousePress trigger start/play if user is on a real computer
+  //only vars mousePress trigger start/play if user is on a real computer
   if (window.mobilecheck() === false && loaded === 1) {
     triggerStart = 1;
     //testing this playMode out
@@ -440,7 +407,7 @@ function endScreen() {
   graphics2d.noStroke();
   graphics2d.fill(255);
   // graphics2d.text('thanks for listening', windowWidth / 2, (windowHeight / 2) - 50);
-  let dfSite = createA('https://dfduo.com/', 'thanks for listening');
+  var dfSite = createA('https://dfduo.com/', 'thanks for listening');
   dfSite.style('font-family', 'Be Vietnam');
   dfSite.style('font-size', '5em');
   dfSite.style('text-align', 'center');
