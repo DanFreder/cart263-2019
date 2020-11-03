@@ -17,7 +17,7 @@ var triggerStart = 0;
 var pressed = 0;
 var cabin;
 
-var bgClr = 220;
+var bgClr;
 var noiseValX;
 var noiseValY;
 var offX;
@@ -26,6 +26,14 @@ var o1x = 0.;
 var o1y = 0.00001;
 var o1z = 0.0003;
 var polyTwist = 0;
+
+var xyLoc;
+var elRadLow = 25;
+var elRadHigh = 50;
+var mX;
+var mY;
+var off1 = 10;
+var off2 = 10;
 
 
 
@@ -99,17 +107,18 @@ function draw() {
     currentTime = song.currentTime();
 
     //draw pulsing background
-    var bgClr = map(sin(frameCount / 5), -1, 1, 0, 55);
+    bgClr = map(sin(frameCount / 5), -1, 1, 0, 55);
     //timeline
     if (currentTime >= part1 && currentTime <= part2) {
       background(bgClr);
       wideRects();
+      twistedLines();
       circleSin();
-      polyMorph();
       rays();
     } else if (currentTime >= part2 && currentTime <= part3) {
       background(bgClr);
       wideRects();
+      twistedLines();
       circleSin();
       rays();
     } else if (currentTime >= part3 && currentTime <= part4) {
@@ -263,19 +272,6 @@ function crissCross() {
   pop();
 }
 
-// function circleSinSpiral() {
-//   push();
-//   // var bgClr = map(sin(frameCount / 4), -1, 1, 0, 220);
-//   // background(bgClr);
-//   var elClrR = map(sin(frameCount / 6), -1, 1, 0, 200);
-//   noStroke();
-//   strokeWeight(0);
-//   fill(elClrR);
-//   ellipse(0, 0, width / 5);
-//   pop();
-// }
-//
-
 
 function polyMorph() {
   push();
@@ -288,33 +284,29 @@ function polyMorph() {
     rotateZ(2);
     rotateY(polyTwist);
     ellipse(0, 0, (elRadius * i) + 10);
-    polyTwist += .0001;
+    polyTwist += .0005;
   }
   pop();
 }
-//
-// function circlingMouse() {
-//   push();
-//   translate(0, 0, 0);
-//   fill(green);
-//   noStroke();
-//   ellipse(width / 3, 0, 100, 100, 50)
-//   stroke(0);
-//   line(width / 3, 0, width / 3 + 50, 50);
-//   pop();
-// }
-//
-// function spherical() {
-//   push();
-//   normalMaterial();
-//   noStroke();
-//   var ampy = map(amp, 0, 1, .1, 1);
-//   o1z += ampy;
-//   rotateZ(o1z);
-//   translate(0, 0, 100);
-//   sphere(width / 22, 24, 24);
-//   pop();
-// }
+
+function twistedLines() {
+  push();
+  strokeWeight(1);
+  rotateZ(0);
+  var mY = map(mouseY, 0, height, -3, 5);
+  var mX = map(mouseX, 0, width, -30, 30);
+  rotateZ(0);
+  rectMode(CENTER);
+  for (var i = 0; i < 50; i++) {
+    stroke(bgClr);
+    line(0, 0, (xyLoc * i) + 16, (xyLoc * i) + 9);
+    xyLoc = map(sin(frameCount / 6), -1, 1, elRadLow, elRadHigh);
+    rotateY(off2);
+    off2 = map(sin(frameCount / 2), -1, 1, 10, 15);
+    translate(mX, mY);
+  }
+  pop();
+}
 
 function mousePressed() {
   //only vars mousePress trigger start/play if user is on a real computer
