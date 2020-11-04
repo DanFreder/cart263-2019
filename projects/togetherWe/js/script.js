@@ -111,24 +111,22 @@ function draw() {
     //timeline
     if (currentTime >= part1 && currentTime <= part2) {
       background(bgClr);
-      wideRects();
-      twistedLines();
-      circleSin();
+      curvaceous();
+      blowCurve();
       rays();
     } else if (currentTime >= part2 && currentTime <= part3) {
       background(bgClr);
-      wideRects();
-      twistedLines();
+      curvaceous();
+      blowCurve();
       circleSin();
       rays();
     } else if (currentTime >= part3 && currentTime <= part4) {
       background(bgClr);
-      wideRects();
       circleSin();
+      atomic();
       rays();
     } else if (currentTime >= part4 && currentTime <= part5) {
       background(bgClr);
-      wideRects();
       curvaceous();
       circleSin();
       rays();
@@ -158,16 +156,33 @@ function draw() {
   }
 }
 
-function wideRects() {
+//CURVE THIS UP!
+function atomic() {
   push();
-  translate(0, 0, -100);
   strokeWeight(1);
   noFill();
-  for (var i = 0; i < 10; i++) {
+  stroke(255);
+  for (var i = 0; i < 11; i++) {
+    rotateZ(o1x);
+    bezier(-width / 4, 0, -width / 5, height / 9, width / 5, height / 9, width / 4, 0)
+    o1x -= .01;
+  }
+  pop();
+}
+
+//wide sin-y curve
+function blowCurve() {
+  push();
+  strokeWeight(1);
+  noFill();
+  stroke(255);
+  var mY = map(mouseY, -height / 2, height / 2, -height, height / 2);
+  var mX = map(mouseX, -width / 2, width / 2, -width / 2, width / 7);
+  for (var i = 0; i < 3; i++) {
     rotateX(o1x);
-    stroke((i * 5) + 1);
-    box(width * 2, height / 3, 1);
-    o1x += .01;
+    bezier(-width / 2, 0, -width / 500 - mX, -height / 2 + mY, width / 500 + mX, height - mY, width / 2, 0);
+    bezier(-width / 2, 0, -width / 500 - mX, height - mY, width / 500 + mX, -height / 2 + mY, width / 2, 0);
+    o1x += .08;
   }
   pop();
 }
@@ -236,42 +251,6 @@ function curvaceous() {
   }
   pop();
 }
-
-function crissCross() {
-  var rectSize = 10;
-  var numRects = 3;
-  push();
-  rectMode(CENTER);
-  noStroke();
-  strokeWeight(1);
-  for (var i = 0; i < numRects; i++) {
-    if (i % 2 == 1) {
-      fill(0, 10, 255, 175);
-    } else {
-      fill(0, 0, 255, 105);
-    }
-    var rectDist = map(sin(amp / frameCount * i), -1, 1, 10, 20);
-    rectSize = map(sin(frameCount / (i * 100)), -1, 1, 15, 100);
-    var scalarX = map(noise(frameCount / 100), 0, 1, -rectDist * i, rectDist * i);
-    var scalarY = map(noise(frameCount / 220), 0, 1, -rectDist * i, rectDist * i);
-    ellipse(scalarX, scalarY, rectSize);
-    ellipse(-scalarX, -scalarY, rectSize);
-  }
-  for (var i = 0; i < numRects; i++) {
-    if (i % 2 == 1) {
-      fill(0, 10, 255, 175);
-    } else {
-      fill(0, 0, 255, 175);
-    }
-    rectSize = map(sin(frameCount / (i * 100)), -1, 1, 15, 100);
-    var scalarX = map(noise(frameCount / 200), 0, 1, -rectDist * i, rectDist * i);
-    var scalarY = map(noise(frameCount / 133), 0, 1, -rectDist * i, rectDist * i);
-    ellipse(scalarX, scalarY, rectSize);
-    ellipse(-scalarX, -scalarY, rectSize);
-  }
-  pop();
-}
-
 
 function polyMorph() {
   push();
