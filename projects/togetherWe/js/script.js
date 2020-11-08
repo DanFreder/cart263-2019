@@ -112,13 +112,16 @@ function draw() {
     if (currentTime >= part1 && currentTime <= part2) {
       background(bgClr);
       curvaceous();
+      circleSin();
+      atomic();
       blowCurve();
       rays();
     } else if (currentTime >= part2 && currentTime <= part3) {
       background(bgClr);
       curvaceous();
-      blowCurve();
       circleSin();
+      atomic();
+      blowCurve();
       rays();
     } else if (currentTime >= part3 && currentTime <= part4) {
       background(bgClr);
@@ -162,9 +165,11 @@ function atomic() {
   strokeWeight(1);
   noFill();
   stroke(255);
+  var mX = map(mouseX, 0, width, -width / 4, width / 4);
+  var mY = map(mouseY, 0, height, height * .3, height * 1.75);
   for (var i = 0; i < 11; i++) {
     rotateZ(o1x);
-    bezier(-width / 4, 0, -width / 5, height / 9, width / 5, height / 9, width / 4, 0)
+    bezier(-width / 4, 0, -width / 7 + mX, height / 9 + mY, width / 7 + mX, height / 9 + mY, width / 4, 0)
     o1x -= .01;
   }
   pop();
@@ -173,16 +178,16 @@ function atomic() {
 //wide sin-y curve
 function blowCurve() {
   push();
+  translate(0, 0, -100);
   strokeWeight(1);
   noFill();
-  stroke(255);
-  var mY = map(mouseY, -height / 2, height / 2, -height, height / 2);
-  var mX = map(mouseX, -width / 2, width / 2, -width / 2, width / 7);
-  for (var i = 0; i < 3; i++) {
-    rotateX(o1x);
-    bezier(-width / 2, 0, -width / 500 - mX, -height / 2 + mY, width / 500 + mX, height - mY, width / 2, 0);
-    bezier(-width / 2, 0, -width / 500 - mX, height - mY, width / 500 + mX, -height / 2 + mY, width / 2, 0);
-    o1x += .08;
+  stroke(0);
+  var mY = map(mouseY, 0, height, 150, 200);
+  var mX = map(mouseX, 0, width, -30, 30);
+  for (var i = 0; i < 50; i++) {
+    rotateX(o1y);
+    bezier(-width / 5, 0, -width / 50 + mX, height / 18 + mY, width / 50 + mX, height / 18 + mY, width / 5, 0);
+    o1y += .0001;
   }
   pop();
 }
