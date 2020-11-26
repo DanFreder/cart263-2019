@@ -22,18 +22,24 @@ var noiseValX;
 var noiseValY;
 var offX;
 var offY;
-var o1x = 0.;
+var o1x = 0;
+var o2x = 0;
 var o1y = 0.00001;
-var o1z = 0.0003;
+var o1z = .03;
+var o2z = 0;
+var o3z = 10;
 var polyTwist = 0;
+var polyTwist2 = 0;
 
 var xyLoc;
-var elRadLow = 25;
-var elRadHigh = 50;
 var mX;
 var mY;
 var off1 = 10;
 var off2 = 10;
+var o1z = 0;
+var sDrive1;
+var sDrive2;
+
 
 
 
@@ -42,10 +48,22 @@ const part1 = 1;
 const part2 = 14.91;
 const part3 = 19;
 const part4 = 27.5;
-const part5 = 39.8;
+const part5 = 33.6;
 const part6 = 46;
 const part7 = 61.4;
-const part8 = 100;
+const part8 = 78.1;
+const part9 = 90.18;
+const part10 = 115.10;
+const part11 = 127.22;
+const part12 = 140.02;
+const part13 = 152.13;
+const part14 = 161.2;
+const part15 = 170.27;
+const part16 = 180.07;
+const part17 = 186.13;
+const part18 = 192.14; //terminate
+const part19 = 195; //endScreen
+
 
 
 // ffwd option
@@ -55,7 +73,7 @@ function keyPressed() {
   }
 }
 
-//colour palvare
+//colour pallette?
 const elecGreen = '#06d6a0';
 const white = '#f9fdff';
 const viovar = '#FF89FF';
@@ -91,6 +109,8 @@ function setup() {
   }
   offX = random(1);
   offY = random(1);
+  sDrive1 = random(1);;
+  sDrive2 = random(1);;
 }
 
 function draw() {
@@ -111,115 +131,122 @@ function draw() {
     //timeline
     if (currentTime >= part1 && currentTime <= part2) {
       background(bgClr);
-      curvaceous();
-      circleSin();
-      atomic();
-      blowCurve();
       rays();
     } else if (currentTime >= part2 && currentTime <= part3) {
       background(bgClr);
-      curvaceous();
-      circleSin();
-      atomic();
-      blowCurve();
+      starfield();
       rays();
     } else if (currentTime >= part3 && currentTime <= part4) {
       background(bgClr);
-      circleSin();
-      atomic();
+      starfield();
       rays();
     } else if (currentTime >= part4 && currentTime <= part5) {
       background(bgClr);
-      curvaceous();
+      starfield();
       circleSin();
       rays();
     } else if (currentTime >= part5 && currentTime <= part6) {
       background(bgClr);
+      starfield();
       curvaceous();
+
       circleSin();
       rays();
     } else if (currentTime >= part6 && currentTime <= part7) {
       background(bgClr);
+      starfield();
       curvaceous();
+
       circleSin();
+      atomic();
       rays();
     } else if (currentTime >= part7 && currentTime <= part8) {
       background(bgClr);
+      starField();
       curvaceous();
+
+      stretchyHole();
       circleSin();
+      atomic();
       rays();
-      // } else if (currentTime >= part8 && currentTime <= part9) {
-      //   //
-      // } else if (currentTime >= part9 && currentTime <= part10) {
-      //   //
-      // } else if (currentTime >= part10 && currentTime <= part11) {
-      //   //
-      // }
+    } else if (currentTime >= part8 && currentTime <= part9) {
+      //
+    } else if (currentTime >= part9 && currentTime <= part10) {
+      //
+    } else if (currentTime >= part10 && currentTime <= part11) {
+      //
+    } else if (currentTime >= part11 && currentTime <= part12) {
+      //
+    } else if (currentTime >= part12 && currentTime <= part13) {
+      //
+    } else if (currentTime >= part13 && currentTime <= part14) {
+      //
+    } else if (currentTime >= part14 && currentTime <= part15) {
+      //
+    } else if (currentTime >= part15 && currentTime <= part16) {
+      //
+    } else if (currentTime >= part16 && currentTime <= part17) {
+      //
+    } else if (currentTime >= part17 && currentTime <= part18) {
+      //
+    } else if (currentTime >= part18 && currentTime <= part19) {
+      //
+    } else if (currentTime >= part19) {
+      //
     }
   }
 }
 
-//CURVE THIS UP!
-function atomic() {
+function stretchyHole() {
   push();
-  strokeWeight(1);
+  var amper = amp * 90;
+  var elW = map(sin(sDrive1), -1, 1, width * 9, width * 16);
+  var elH = map(sin(sDrive2), -1, 1, height * 9, height * 16);
+  var elMW = map(mouseX, 0, width, width * 9, width * 16);
+  var elMH = map(mouseY, 0, height, height * 9, height * 16);
   noFill();
-  stroke(255);
-  var mX = map(mouseX, 0, width, -width / 4, width / 4);
-  var mY = map(mouseY, 0, height, height * .3, height * 1.75);
   for (var i = 0; i < 11; i++) {
-    rotateZ(o1x);
-    bezier(-width / 4, 0, -width / 7 + mX, height / 9 + mY, width / 7 + mX, height / 9 + mY, width / 4, 0)
-    o1x -= .01;
+    stroke(0, 83, 255, i);
+    rotateZ(o2z);
+    ellipse(0, 0, mouseX / 2 - elW / i, mouseY / 2 - elH / i);
+    o2z += .00001;
   }
-  pop();
-}
-
-//wide sin-y curve
-function blowCurve() {
-  push();
-  translate(0, 0, -100);
-  strokeWeight(1);
-  noFill();
-  stroke(0);
-  var mY = map(mouseY, 0, height, 150, 200);
-  var mX = map(mouseX, 0, width, -30, 30);
-  for (var i = 0; i < 50; i++) {
-    rotateX(o1y);
-    bezier(-width / 5, 0, -width / 50 + mX, height / 18 + mY, width / 50 + mX, height / 18 + mY, width / 5, 0);
-    o1y += .0001;
-  }
+  sDrive1 += .003 * amper;
+  sDrive2 += .005 * amper;
   pop();
 }
 
 function circleSin() {
   push();
+  translate(0, 0, 50);
   noStroke();
   var redForeman = map(sin(frameCount / 3), -1, 1, 100, 200);
   var notEasy = map(sin(frameCount / 4), -1, 1, 0, 38);
   fill(redForeman, notEasy, 0, 255);
   rotateZ(o1z);
-  ellipse(0, 0, 450);
+  ellipse(0, 0, 250);
   pop();
 
   push();
   var ampy = amp * 90;
   noStroke();
+  translate(0, 0, 50);
   for (var i = 0; i < 30; i++) {
-    var pulsar = map(sin(ampy), -1, 1, 0, 15);
+    var pulsar = map(sin(ampy), -1, 1, 0, 8);
     rotateZ(o1z);
     var pulseR = map(sin(frameCount / 9), -1, 1, 255, 100);
     var pulseG = map(sin(frameCount / 11), -1, 1, 0, 50);
     // stroke(pulseR, pulseG, i);
     fill(pulseR, pulseG, 0, 2);
     ellipse(0, 0, (i * pulsar) + 1);
-    o1z += .0002 * ampy;
+    o1z -= .0002 * ampy;
   }
   pop();
 }
 
 function rays() {
   push();
+  translate(0, 0, 100);
   stroke(255, 255, 0);
   for (var i = 0; i < 9; i++) {
     if (i % 2 == 1) {
@@ -234,6 +261,22 @@ function rays() {
   pop();
 }
 
+function atomic() {
+  push();
+  strokeWeight(1);
+  noFill();
+  stroke('#7900FF');
+  var amped = amp * 90;
+  var mX = map(mouseX, 0, width, -width * .25, width * .75);
+  var mY = map(mouseY, 0, height, height * .25, height * .5);
+  for (var i = 0; i < 11; i++) {
+    rotateZ(o1x);
+    bezier(-width / 4, 0, -width / 7 + mX, height / 9 + mY, width / 7 + mX, height / 9 + mY, width / 4, 0)
+    o1x -= .0001 * amped;
+  }
+  pop();
+}
+
 function curvaceous() {
   var lowSpacer = 75;
   var highSpacer = 125;
@@ -241,9 +284,9 @@ function curvaceous() {
   var mousePull = 320;
   push();
   translate(-width / 2, -height / 2);
-  var fillClr = map(sin(frameCount / 3), -1, 1, 200, 255);
-  fill(0, 1);
-  noStroke();
+  noFill();
+  stroke(0);
+  strokeWeight(7);
   var ampy = map(amp, 0., 1, lowSpacer, highSpacer);
   var mX = map(mouseX, 0, width, -mousePull, mousePull);
   var mY = map(mouseY, 0, height, mousePull, -mousePull);
@@ -257,18 +300,49 @@ function curvaceous() {
   pop();
 }
 
+function starfield() {
+  push();
+  noStroke();
+  fill(0, 255);
+  translate(0, 0, 50);
+  ellipse(0, 0, 20);
+  pop();
+  push();
+  noFill();
+  stroke(255);
+  strokeWeight(1);
+  for (var i = 0; i < 20; i++) {
+    rotateX(o2x);
+    rotateZ(o3z);
+    var noiZ = map(noise(i * frameCount / 500), 0, 1, 20, 100);
+    triangle(-50 * i - noiZ, 0, 0, -50 * i - noiZ, 50 * i + noiZ, 0);
+    o3z += .000001 * (i * noiZ);
+  }
+  for (var i = 0; i < 50; i++) {
+    noFill();
+    stroke(0);
+    strokeWeight(15);
+    ellipse(0, 0, 50 * i);
+    rectMode(CENTER);
+    rect(0, 0, 33 * i);
+  }
+  fill(0);
+  translate(0, 0, 100);
+  pop();
+}
+
 function polyMorph() {
   push();
   translate(0, 0, 100);
   var elRadius = 10;
-  stroke(255, 255, 0);
-  fill(255, 255, 0, 10);
-  for (var i = 0; i < 50; i++) {
-    elRadius = map(sin(frameCount / 1000), -1, 1, 4, 10);
+  stroke(0);
+  fill(0, 1);
+  for (var i = 0; i < 15; i++) {
+    elRadius = map(sin(frameCount / 1000), -1, 1, 3, 20);
     rotateZ(2);
     rotateY(polyTwist);
-    ellipse(0, 0, (elRadius * i) + 10);
-    polyTwist += .0005;
+    ellipse(0, 0, (elRadius * i) + 2);
+    polyTwist += .0006;
   }
   pop();
 }
@@ -276,15 +350,13 @@ function polyMorph() {
 function twistedLines() {
   push();
   strokeWeight(1);
-  rotateZ(0);
   var mY = map(mouseY, 0, height, -3, 5);
-  var mX = map(mouseX, 0, width, -30, 30);
-  rotateZ(0);
+  var mX = map(mouseX, 0, width, -30, 0);
   rectMode(CENTER);
   for (var i = 0; i < 50; i++) {
     stroke(bgClr);
     line(0, 0, (xyLoc * i) + 16, (xyLoc * i) + 9);
-    xyLoc = map(sin(frameCount / 6), -1, 1, elRadLow, elRadHigh);
+    xyLoc = map(sin(frameCount / 6), -1, 1, 25, 50);
     rotateY(off2);
     off2 = map(sin(frameCount / 2), -1, 1, 10, 15);
     translate(mX, mY);
