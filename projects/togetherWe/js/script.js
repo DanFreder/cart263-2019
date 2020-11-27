@@ -46,7 +46,7 @@ var sDrive2;
 //second values for different song sections
 const part1 = 1;
 const part2 = 14.91;
-const part3 = 19;
+const part3 = 18.2 //circleSin entrance
 const part4 = 27.5;
 const part5 = 33.6;
 const part6 = 46;
@@ -139,33 +139,31 @@ function draw() {
     } else if (currentTime >= part3 && currentTime <= part4) {
       background(bgClr);
       starfield();
+      circleSin();
       rays();
     } else if (currentTime >= part4 && currentTime <= part5) {
       background(bgClr);
       starfield();
+      curvaceous();
       circleSin();
       rays();
     } else if (currentTime >= part5 && currentTime <= part6) {
       background(bgClr);
       starfield();
       curvaceous();
-
       circleSin();
+      atomic();
       rays();
     } else if (currentTime >= part6 && currentTime <= part7) {
       background(bgClr);
       starfield();
       curvaceous();
-
       circleSin();
       atomic();
       rays();
     } else if (currentTime >= part7 && currentTime <= part8) {
-      background(bgClr);
-      starField();
+      starfield();
       curvaceous();
-
-      stretchyHole();
       circleSin();
       atomic();
       rays();
@@ -265,9 +263,9 @@ function atomic() {
   push();
   strokeWeight(1);
   noFill();
-  stroke('#7900FF');
+  stroke(82, 0, 200);
   var amped = amp * 90;
-  var mX = map(mouseX, 0, width, -width * .25, width * .75);
+  var mX = map(mouseX, 0, width, -width * .05, width * .75);
   var mY = map(mouseY, 0, height, height * .25, height * .5);
   for (var i = 0; i < 11; i++) {
     rotateZ(o1x);
@@ -285,8 +283,8 @@ function curvaceous() {
   push();
   translate(-width / 2, -height / 2);
   noFill();
-  stroke(0);
-  strokeWeight(7);
+  stroke(0, 0, 69);
+  strokeWeight(1);
   var ampy = map(amp, 0., 1, lowSpacer, highSpacer);
   var mX = map(mouseX, 0, width, -mousePull, mousePull);
   var mY = map(mouseY, 0, height, mousePull, -mousePull);
