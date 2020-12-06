@@ -43,19 +43,25 @@ var sDrive2;
 
 var redForeman;
 var notEasy;
+var xOff = 0;
+var yOff = 0;
+var xGrow = 0;
+var yGrow = 0;
+var o7x = 0;
+var o7z = 0;
 
 
 
 
 //second values for different song sections
-const part1 = 1;
-const part2 = 14.91;
+const part1 = 1; //rays
+const part2 = 14.91; //starfield
 const part3 = 18.2 //circleSin entrance
 const part4 = 27.5;
 const part5 = 33.6;
 const part6 = 46;
-const part7 = 61.4;
-const part8 = 78.1;
+const part7 = 61.3; //61.4 orig, orangeQuad entrance
+const part8 = 78.4; //78.1 orig - blueQuad entrance
 const part9 = 90.18;
 const part10 = 115.10;
 const part11 = 127.22;
@@ -69,11 +75,10 @@ const part18 = 192.14; //terminate
 const part19 = 195; //endScreen
 
 
-
 // ffwd option
 function keyPressed() {
   if (keyCode === RIGHT_ARROW) {
-    song.jump(26);
+    song.jump(60);
   }
 }
 
@@ -113,8 +118,10 @@ function setup() {
   }
   offX = random(1);
   offY = random(1);
-  sDrive1 = random(1);;
-  sDrive2 = random(1);;
+  sDrive1 = random(1);
+  sDrive2 = random(1);
+  xOff = random(30);
+  yOff = random(30);
 }
 
 function draw() {
@@ -134,28 +141,44 @@ function draw() {
     bgClr = map(sin(frameCount / 5), -1, 1, 0, 55);
     //timeline
     if (currentTime >= part1 && currentTime <= part2) {
-      background(bgClr);
+      // background(bgClr);
       starfield();
       curvaceous();
-      bgLightquad();
+      orangeQuad();
+      blueQuad();
       circleSin();
       atomic();
       polyMorph();
       rays();
+      sphereCircles();
+      spheres();
+      sphereRays();
     } else if (currentTime >= part2 && currentTime <= part3) {
       background(bgClr);
       starfield();
       curvaceous();
-      bgLightquad();
+      orangeQuad();
+      blueQuad();
       circleSin();
       atomic();
       polyMorph();
       rays();
+      sphereCircles();
+      spheres();
+      sphereRays();
     } else if (currentTime >= part3 && currentTime <= part4) {
       background(bgClr);
       starfield();
+      // curvaceous();
+      // orangeQuad();
+      // blueQuad();
       circleSin();
+      // atomic();
+      // polyMorph();
       rays();
+      // sphereCircles();
+      // spheres();
+      // sphereRays();
     } else if (currentTime >= part4 && currentTime <= part5) {
       background(bgClr);
       starfield();
@@ -181,6 +204,7 @@ function draw() {
       background(bgClr);
       starfield();
       curvaceous();
+      orangeQuad();
       circleSin();
       atomic();
       polyMorph();
@@ -189,53 +213,210 @@ function draw() {
       background(bgClr);
       starfield();
       curvaceous();
+      orangeQuad();
+      blueQuad();
       circleSin();
       atomic();
       polyMorph();
       rays();
     } else if (currentTime >= part9 && currentTime <= part10) {
-      //
+      background(bgClr);
+      starfield();
+      curvaceous();
+      orangeQuad();
+      blueQuad();
+      circleSin();
+      atomic();
+      polyMorph();
+      rays();
+      spheres();
     } else if (currentTime >= part10 && currentTime <= part11) {
-      //
+      background(bgClr);
+      starfield();
+      curvaceous();
+      orangeQuad();
+      blueQuad();
+      circleSin();
+      atomic();
+      polyMorph();
+      rays();
+      spheres();
+      sphereRays();
     } else if (currentTime >= part11 && currentTime <= part12) {
-      //
+      background(bgClr);
+      bigRed();
     } else if (currentTime >= part12 && currentTime <= part13) {
-      //
+      background(bgClr);
+      atomic();
     } else if (currentTime >= part13 && currentTime <= part14) {
-      //
+      background(bgClr);
+      bigRed();
     } else if (currentTime >= part14 && currentTime <= part15) {
-      //
+      background(bgClr);
+      atomic();
     } else if (currentTime >= part15 && currentTime <= part16) {
-      //
+      background(bgClr);
+      bigRed();
     } else if (currentTime >= part16 && currentTime <= part17) {
-      //
+      background(bgClr);
+      atomic();
     } else if (currentTime >= part17 && currentTime <= part18) {
-      //
+      background(bgClr);
+      bigRed();
     } else if (currentTime >= part18 && currentTime <= part19) {
-      //
+      background(bgClr);
+      atomic();
     } else if (currentTime >= part19) {
-      //
+      background(bgClr);
+      bigRed();
     }
   }
 }
 
-function bgLightquad() {
+function spheres() {
+  push();
+  translate(mouseX - width / 2, mouseY - height / 2, 150);
+  rotateZ(frameCount * .0005);
+  strokeWeight(1);
+  noCursor();
+  for (var i = 0; i < 9; i++) {
+    if (i == 2) {
+      noStroke();
+    } else if (i % 2 == 1) {
+      fill(200, 25, 0, 238);
+      noStroke();
+    } else {
+      fill(0);
+    }
+    rotateX(xOff);
+    rotateY(yOff);
+    sphere(width / 32, 6, 6);
+  }
+  xGrow += random(.01);
+  yGrow += random(.01);
+  xOff += .06;
+  yOff += .05;
+  pop();
+
+  push();
+  translate(width / 2 - mouseX, height / 2 - mouseY, 150);
+  rotateZ(frameCount * .0005);
+  strokeWeight(1);
+  noCursor();
+  for (var i = 0; i < 9; i++) {
+    if (i == 2) {
+      noStroke();
+    } else if (i % 2 == 1) {
+      fill(200, 25, 0, 238);
+      noStroke();
+    } else {
+      fill(0);
+    }
+    rotateX(xOff);
+    rotateY(yOff);
+    sphere(width / 32, 6, 6);
+  }
+  pop();
+}
+
+function sphereRays() {
+  push();
+  translate(mouseX - width / 2, mouseY - height / 2, 195);
+  stroke(255, 255, 0);
+  for (var i = 0; i < 9; i++) {
+    if (i % 2 == 1) {
+      strokeWeight(2);
+    } else {
+      strokeWeight(1);
+    }
+    noiseValX = map(noise(frameCount / (29 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
+    noiseValY = map(noise(frameCount / (27 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
+    line(0, 0, noiseValX * .25, noiseValY * .25);
+  }
+  pop();
+  push();
+  translate(0, 0, 100);
+  strokeWeight(2);
+  stroke(255, 255, 0);
+  // line(0, 0, mouseX - width / 2, mouseY - height / 2);
+  pop();
+
+  //2nd sphere rays (opposite mouse)
+  push();
+  translate(width / 2 - mouseX, height / 2 - mouseY, 195);
+  stroke(255, 255, 0);
+  for (var i = 0; i < 9; i++) {
+    if (i % 2 == 1) {
+      strokeWeight(2);
+    } else {
+      strokeWeight(1);
+    }
+    noiseValX = map(noise(frameCount / (29 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
+    noiseValY = map(noise(frameCount / (27 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
+    line(0, 0, noiseValX * -.25, noiseValY * -.25);
+  }
+  pop();
+  push();
+  translate(0, 0, 100);
+  strokeWeight(2);
+  stroke(255, 255, 0);
+  // line(0, 0, width / 2 - mouseX, height / 2 - mouseY);
+  pop();
+}
+
+function sphereCircles() {
+  push();
+  translate(mouseX - width / 2, mouseY - height / 2, 150);
+  noFill();
+  stroke(118, 0, 255);
+  o7x += 1;
+  o7z += 1;
+  rotateX(o7x);
+  rotateZ(o7z);
+  for (var i = 0; i < 1; i++) {
+    ellipse(0, 0, 150);
+    rotateX(15);
+  }
+  pop();
+}
+
+function orangeQuad() {
   push();
   fill(255, 180, 0);
   noStroke();
   o3x = map(mouseX, 0, width, -10, 10);
-  var yPull = map(mouseY, 0, height, -300, 50);
+  var yPull = map(mouseY, 0, height, -300, -50);
   rotateZ(o3x);
-  var q_x1 = width * -.125;
+  var q_x1 = width * -.175;
   var q_y1 = height * .125 + yPull;
-  var q_x2 = width * -.4;
+  var q_x2 = width * -.5;
   var q_y2 = height * .25;
-  var q_x3 = width * .125;
+
+  var q_x3 = width * .175;
   var q_y3 = height * .125 + yPull;
-  var q_x4 = width * .4;
+  var q_x4 = width * .5;
   var q_y4 = height * .25;
   quad(q_x1, q_y1, q_x2, q_y2, q_x3, q_y3, q_x4, q_y4);
+  pop();
+}
 
+function blueQuad() {
+  push();
+  fill(0, 145, 255);
+  noStroke();
+  o3x = map(mouseX, 0, width, -10, 10);
+  var yPull = map(mouseY, 0, height, -200, 0);
+  rotateZ(o3x);
+  var q2_x1 = width * -.125;
+  var q2_y1 = height * .25 + yPull;
+  var q2_x2 = width * -.4;
+  var q2_y2 = height * -.25;
+
+  var q2_x3 = width * .125;
+  var q2_y3 = height * .25 + yPull;
+  var q2_x4 = width * .4;
+  var q2_y4 = height * -.25;
+  quad(q2_x1, q2_y1, q2_x2, q2_y2, q2_x3, q2_y3, q2_x4, q2_y4);
   pop();
 }
 
