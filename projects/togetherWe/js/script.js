@@ -274,11 +274,14 @@ function draw() {
 }
 
 function spheres() {
+  //constrains spheres to stay on canvas
+  var mX1 = map(mouseX, 0, width, width / 7, width - width / 7);
+  var mY1 = map(mouseY, 0, height, height / 7, height - height / 7);
   push();
-  translate(mouseX - width / 2, mouseY - height / 2, 150);
+  translate(mX1 - width / 2, mY1 - height / 2, 150);
   rotateZ(frameCount * .0005);
   strokeWeight(1);
-  noCursor();
+  // noCursor();
   for (var i = 0; i < 9; i++) {
     if (i == 2) {
       noStroke();
@@ -299,10 +302,9 @@ function spheres() {
   pop();
 
   push();
-  translate(width / 2 - mouseX, height / 2 - mouseY, 150);
+  translate(width / 2 - mX1, height / 2 - mY1, 150);
   rotateZ(frameCount * .0005);
   strokeWeight(1);
-  noCursor();
   for (var i = 0; i < 9; i++) {
     if (i == 2) {
       noStroke();
@@ -320,8 +322,10 @@ function spheres() {
 }
 
 function sphereRays() {
+  var mX1 = map(mouseX, 0, width, width / 7, width - width / 7);
+  var mY1 = map(mouseY, 0, height, height / 7, height - height / 7);
   push();
-  translate(mouseX - width / 2, mouseY - height / 2, 195);
+  translate(mX1 - width / 2, mY1 - height / 2, 195);
   stroke(255, 255, 0);
   for (var i = 0; i < 9; i++) {
     if (i % 2 == 1) {
@@ -343,7 +347,7 @@ function sphereRays() {
 
   //2nd sphere rays (opposite mouse)
   push();
-  translate(width / 2 - mouseX, height / 2 - mouseY, 195);
+  translate(width / 2 - mX1, height / 2 - mY1, 195);
   stroke(255, 255, 0);
   for (var i = 0; i < 9; i++) {
     if (i % 2 == 1) {
@@ -365,8 +369,10 @@ function sphereRays() {
 }
 
 function sphereCircles() {
+  var mX1 = map(mouseX, 0, width, width / 7, width - width / 7);
+  var mY1 = map(mouseY, 0, height, height / 7, height - height / 7);
   push();
-  translate(mouseX - width / 2, mouseY - height / 2, 150);
+  translate(mX1 - width / 2, mY1 - height / 2, 150);
   noFill();
   stroke(118, 0, 255);
   o7x += 1;
