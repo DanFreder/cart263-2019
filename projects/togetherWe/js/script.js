@@ -49,6 +49,8 @@ var xGrow = 0;
 var yGrow = 0;
 var o7x = 0;
 var o7z = 0;
+var o4z = 90;
+var rev = -1;
 
 
 
@@ -109,12 +111,12 @@ function setup() {
   //Check if user is on mobile, loadSound if they aren't
   if (window.mobilecheck() !== true) {
     amplitude = new p5.Amplitude();
-    angleMode(DEGREES);
     //load audio file if real PC, and trigger songLoaded function once loaded
     song = loadSound('assets/sounds/togetherWe.mp3', songLoaded);
     noiseValX = random(width);
     noiseValY = random(width);
     rectMode(CENTER);
+    angleMode(DEGREES);
   }
   offX = random(1);
   offY = random(1);
@@ -140,45 +142,47 @@ function draw() {
     //draw pulsing background
     bgClr = map(sin(frameCount / 5), -1, 1, 0, 55);
     //timeline
+
+    //you need 6x more graphics patches
     if (currentTime >= part1 && currentTime <= part2) {
-      // background(bgClr);
+      background(bgClr);
       starfield();
       curvaceous();
+      neonRects();
       orangeQuad();
       blueQuad();
       circleSin();
       atomic();
       polyMorph();
       rays();
-      sphereCircles();
       spheres();
       sphereRays();
     } else if (currentTime >= part2 && currentTime <= part3) {
       background(bgClr);
       starfield();
       curvaceous();
+      neonRects();
       orangeQuad();
       blueQuad();
       circleSin();
       atomic();
       polyMorph();
       rays();
-      sphereCircles();
       spheres();
       sphereRays();
     } else if (currentTime >= part3 && currentTime <= part4) {
       background(bgClr);
       starfield();
-      // curvaceous();
-      // orangeQuad();
-      // blueQuad();
+      curvaceous();
+      neonRects();
+      orangeQuad();
+      blueQuad();
       circleSin();
-      // atomic();
-      // polyMorph();
+      atomic();
+      polyMorph();
       rays();
-      // sphereCircles();
-      // spheres();
-      // sphereRays();
+      spheres();
+      sphereRays();
     } else if (currentTime >= part4 && currentTime <= part5) {
       background(bgClr);
       starfield();
@@ -274,114 +278,70 @@ function draw() {
 }
 
 function spheres() {
-  //constrains spheres to stay on canvas
-  var mX1 = map(mouseX, 0, width, width / 7, width - width / 7);
-  var mY1 = map(mouseY, 0, height, height / 7, height - height / 7);
   push();
-  translate(mX1 - width / 2, mY1 - height / 2, 150);
+  translate(0, 0, 115);
   rotateZ(frameCount * .0005);
   strokeWeight(1);
   // noCursor();
-  for (var i = 0; i < 9; i++) {
+  for (var i = 0; i < 7; i++) {
     if (i == 2) {
       noStroke();
     } else if (i % 2 == 1) {
-      fill(200, 25, 0, 238);
+      fill(redForeman, notEasy, 0);
       noStroke();
     } else {
       fill(0);
     }
     rotateX(xOff);
     rotateY(yOff);
-    sphere(width / 32, 6, 6);
+    sphere(width / 30, 6, 6);
   }
   xGrow += random(.01);
   yGrow += random(.01);
   xOff += .06;
   yOff += .05;
   pop();
+}
 
+function neonRects() {
+  var m3X = map(mouseX, 0, width, width * .125, width);
+  var m3Y = map(mouseY, 0, height, -height * .125, height * .125);
   push();
-  translate(width / 2 - mX1, height / 2 - mY1, 150);
-  rotateZ(frameCount * .0005);
-  strokeWeight(1);
-  for (var i = 0; i < 9; i++) {
-    if (i == 2) {
-      noStroke();
-    } else if (i % 2 == 1) {
-      fill(200, 25, 0, 238);
-      noStroke();
+  translate(0, 0, -10);
+  strokeWeight(10);
+  fill(255, 10);
+  for (var i = 0; i < 10; i++) {
+    if (i % 2 == 0) {
+      stroke(255, 0, 148);
     } else {
-      fill(0);
+      stroke(118, 0, 255);
     }
-    rotateX(xOff);
-    rotateY(yOff);
-    sphere(width / 32, 6, 6);
+    rotateZ(o4z);
+    rect(20 * i, 20 * i, m3X, m3Y);
   }
+  for (var i = 0; i < 10; i++) {
+    if (i % 2 == 0) {
+      stroke(255, 0, 148);
+    } else {
+      stroke(118, 0, 255);
+    }
+    rotateZ(o4z);
+    rect(-20 * i, -20 * i, m3X, m3Y);
+  }
+  o4z += .003
   pop();
 }
 
 function sphereRays() {
-  var mX1 = map(mouseX, 0, width, width / 7, width - width / 7);
-  var mY1 = map(mouseY, 0, height, height / 7, height - height / 7);
   push();
-  translate(mX1 - width / 2, mY1 - height / 2, 195);
-  stroke(255, 255, 0);
-  for (var i = 0; i < 9; i++) {
-    if (i % 2 == 1) {
-      strokeWeight(2);
-    } else {
-      strokeWeight(1);
-    }
-    noiseValX = map(noise(frameCount / (29 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
-    noiseValY = map(noise(frameCount / (27 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
-    line(0, 0, noiseValX * .25, noiseValY * .25);
-  }
-  pop();
-  push();
-  translate(0, 0, 100);
-  strokeWeight(2);
-  stroke(255, 255, 0);
-  // line(0, 0, mouseX - width / 2, mouseY - height / 2);
-  pop();
-
-  //2nd sphere rays (opposite mouse)
-  push();
-  translate(width / 2 - mX1, height / 2 - mY1, 195);
-  stroke(255, 255, 0);
-  for (var i = 0; i < 9; i++) {
-    if (i % 2 == 1) {
-      strokeWeight(2);
-    } else {
-      strokeWeight(1);
-    }
-    noiseValX = map(noise(frameCount / (29 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
-    noiseValY = map(noise(frameCount / (27 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
-    line(0, 0, noiseValX * -.25, noiseValY * -.25);
-  }
-  pop();
-  push();
-  translate(0, 0, 100);
-  strokeWeight(2);
-  stroke(255, 255, 0);
-  // line(0, 0, width / 2 - mouseX, height / 2 - mouseY);
-  pop();
-}
-
-function sphereCircles() {
-  var mX1 = map(mouseX, 0, width, width / 7, width - width / 7);
-  var mY1 = map(mouseY, 0, height, height / 7, height - height / 7);
-  push();
-  translate(mX1 - width / 2, mY1 - height / 2, 150);
+  var mXC = map(mouseX, 0, width, -width / 2, width / 2);
+  var mYC = map(mouseY, 0, height, -height / 2, height / 2);
+  translate(-width / 2, -height / 2, 0);
   noFill();
-  stroke(118, 0, 255);
-  o7x += 1;
-  o7z += 1;
-  rotateX(o7x);
-  rotateZ(o7z);
-  for (var i = 0; i < 1; i++) {
-    ellipse(0, 0, 150);
-    rotateX(15);
+  stroke(255, 142, 0);
+  for (var i = 0; i < 4; i++) {
+    bezier(0, height * .5, width * .25 + mXC, height * .75 - mYC, width * .75 + mXC, height * .25 + mYC, width, height * .5);
+    translate(0, -10, 0);
   }
   pop();
 }
