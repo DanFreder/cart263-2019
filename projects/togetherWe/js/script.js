@@ -6,7 +6,6 @@ move and click the mouse to modify animations with the music
 
 "use strict";
 
-
 var song;
 var loaded = 0;
 var currentTime = 0;
@@ -52,8 +51,8 @@ var o7z = 0;
 var o4z = 90;
 var rev = -1;
 
-
-
+var o6x = 15;
+var o6z = 45;
 
 //second values for different song sections
 const part1 = 1; //rays
@@ -126,6 +125,7 @@ function setup() {
   yOff = random(30);
 }
 
+//you need 4x more graphics patches!
 function draw() {
   //if user is on mobile, display phoneScreen, halt draw loop
   if (window.mobilecheck() !== false) {
@@ -141,7 +141,6 @@ function draw() {
     //draw pulsing background
     bgClr = map(sin(frameCount / 5), -1, 1, 0, 55);
     //timeline
-    //you need 6x more graphics patches
     if (currentTime >= part1 && currentTime <= part2) {
       background(bgClr);
       starfield();
@@ -150,6 +149,7 @@ function draw() {
       orangeQuad();
       blueQuad();
       circleSin();
+      twistAlong();
       atomic();
       polyMorph();
       rays();
@@ -164,6 +164,7 @@ function draw() {
       orangeQuad();
       blueQuad();
       circleSin();
+      twistAlong();
       atomic();
       polyMorph();
       rays();
@@ -178,6 +179,7 @@ function draw() {
       orangeQuad();
       blueQuad();
       circleSin();
+      twistAlong();
       atomic();
       polyMorph();
       rays();
@@ -192,6 +194,7 @@ function draw() {
       orangeQuad();
       blueQuad();
       circleSin();
+      twistAlong();
       atomic();
       polyMorph();
       rays();
@@ -282,12 +285,14 @@ function draw() {
     } else if (currentTime >= part17 && currentTime <= part18) {
       background(bgClr);
       bigRed();
+
+      //terminate
     } else if (currentTime >= part18 && currentTime <= part19) {
       background(bgClr);
-      atomic();
+
+      //endScreen
     } else if (currentTime >= part19) {
-      background(bgClr);
-      bigRed();
+      endScreen();
     }
   }
 }
@@ -593,6 +598,83 @@ function twistedLines() {
     off2 = map(sin(frameCount / 2), -1, 1, 10, 15);
     translate(m4X, m4Y);
   }
+  pop();
+}
+
+function recTwist() {
+  var o1z = 0;
+  var rota = 1;
+  var xLocDriver = 0;
+  var xLoc;
+  var yLoc;
+  var yLocDriver = 0;
+  var noiZ = 0;
+
+  function setup() {
+    createCanvas(720, 640, WEBGL);
+    rectMode(CENTER);
+  }
+
+  function draw() {
+    background(0);
+    strokeWeight(2);
+    noFill();
+    xLoc = noise(xLocDriver);
+    xLocDriver += .001;
+    yLoc = noise(yLocDriver);
+    yLocDriver += .005;
+    xLoc = map(xLoc, 0, 1, -width / 2, width / 2);
+    yLoc = map(yLoc, 0, 1, -height / 2, height / 2);
+    var mX = map(mouseY, 0, height, .02, -.02);
+    var mY = map(mouseX, 0, width, -.03, .03);
+    var noiZ = map(noise(frameCount / 100), 0, 1, -.05, .05);
+    for (var i = 0; i < 75; i++) {
+      if (i % 2 == 1) {
+        stroke(100, 0, 200);
+      } else {
+        stroke(255, 0, 0);
+      }
+      rotateY(mY);
+      rotateX(mX);
+      rotateZ(o1z);
+      var nScale = map(noise(sin(i)), -1, 1, .75, 1);
+      rect(xLoc, yLoc, (12 * i) * nScale);
+      if (rota == 1) {
+        o1z += .00001;
+      } else {
+        o1z -= .00001;
+      }
+      o1z = constrain(o1z, -.03, .03);
+    }
+  }
+
+  function mousePressed() {
+    if (rota == 1) {
+      rota = 0;
+    } else {
+      rota = 1;
+    }
+  }
+}
+
+function twistAlong() {
+  push();
+  noStroke();
+  translate(0, 0, -500);
+  var m5x = map(mouseX, 0, width, 20, width);
+  var m5y = map(mouseY, 0, height, -height, height);
+  for (var i = 0; i < 20; i++) {
+    if (i % 2 == 0) {
+      fill(0, 145, 255);
+    } else {
+      fill(255, 142, 0);
+    }
+    rotateX(o6x);
+    rotateZ(o6z);
+    ellipse(0, 0, m5x + (30 * i), m5y + (30 * i));
+  }
+  o6x += .00001;
+  o6z += .015;
   pop();
 }
 
