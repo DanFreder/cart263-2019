@@ -138,11 +138,9 @@ function draw() {
     //start music video
     amp = amplitude.volume * 3;
     currentTime = song.currentTime();
-
     //draw pulsing background
     bgClr = map(sin(frameCount / 5), -1, 1, 0, 55);
     //timeline
-
     //you need 6x more graphics patches
     if (currentTime >= part1 && currentTime <= part2) {
       background(bgClr);
@@ -156,7 +154,8 @@ function draw() {
       polyMorph();
       rays();
       spheres();
-      sphereRays();
+      curvyLines();
+      twistedLines();
     } else if (currentTime >= part2 && currentTime <= part3) {
       background(bgClr);
       starfield();
@@ -169,7 +168,8 @@ function draw() {
       polyMorph();
       rays();
       spheres();
-      sphereRays();
+      curvyLines();
+      twistedLines();
     } else if (currentTime >= part3 && currentTime <= part4) {
       background(bgClr);
       starfield();
@@ -182,20 +182,36 @@ function draw() {
       polyMorph();
       rays();
       spheres();
-      sphereRays();
+      curvyLines();
+      twistedLines();
     } else if (currentTime >= part4 && currentTime <= part5) {
       background(bgClr);
       starfield();
       curvaceous();
+      neonRects();
+      orangeQuad();
+      blueQuad();
       circleSin();
+      atomic();
+      polyMorph();
       rays();
+      spheres();
+      curvyLines();
+      twistedLines();
     } else if (currentTime >= part5 && currentTime <= part6) {
       background(bgClr);
       starfield();
       curvaceous();
+      neonRects();
+      orangeQuad();
+      blueQuad();
       circleSin();
       atomic();
+      polyMorph();
       rays();
+      spheres();
+      curvyLines();
+      twistedLines();
     } else if (currentTime >= part6 && currentTime <= part7) {
       background(bgClr);
       starfield();
@@ -245,7 +261,6 @@ function draw() {
       polyMorph();
       rays();
       spheres();
-      sphereRays();
     } else if (currentTime >= part11 && currentTime <= part12) {
       background(bgClr);
       bigRed();
@@ -332,10 +347,10 @@ function neonRects() {
   pop();
 }
 
-function sphereRays() {
+function curvyLines() {
   push();
-  var mXC = map(mouseX, 0, width, -width / 2, width / 2);
-  var mYC = map(mouseY, 0, height, -height / 2, height / 2);
+  var mXC = map(mouseX, 0, width, -width * .75, width * .75);
+  var mYC = map(mouseY, 0, height, -height * .75, height * .75);
   translate(-width / 2, -height / 2, 0);
   noFill();
   stroke(255, 142, 0);
@@ -537,18 +552,46 @@ function polyMorph() {
 }
 
 function twistedLines() {
+
+  //lower lines (cone below sphere)
   push();
+  translate(0, 0, -100);
   strokeWeight(1);
-  var mY = map(mouseY, 0, height, -3, 5);
-  var mX = map(mouseX, 0, width, -30, 0);
+  var mY = map(mouseY, 0, height, -2, 2);
+  var mX = map(mouseX, 0, width, -10, 10);
   rectMode(CENTER);
-  for (var i = 0; i < 50; i++) {
-    stroke(bgClr);
+  for (var i = 0; i < 30; i++) {
+    if (i % 2 == 0) {
+      stroke(255, 0, 148);
+    } else {
+      stroke(255, 255, 0);
+    }
     line(0, 0, (xyLoc * i) + 16, (xyLoc * i) + 9);
     xyLoc = map(sin(frameCount / 6), -1, 1, 25, 50);
     rotateY(off2);
     off2 = map(sin(frameCount / 2), -1, 1, 10, 15);
-    translate(mX, mY);
+    translate(-mX, mY);
+  }
+  pop();
+
+  //upper lines (cone above sphere)
+  push();
+  translate(0, 0, -100);
+  strokeWeight(1);
+  var m4Y = map(mouseY, 0, height, -2, 2);
+  var m4X = map(mouseX, 0, width, -10, 10);
+  rectMode(CENTER);
+  for (var i = 0; i < 30; i++) {
+    if (i % 2 == 0) {
+      stroke(255, 0, 148);
+    } else {
+      stroke(255, 255, 0);
+    }
+    line(0, 0, (-xyLoc * i) - 16, (-xyLoc * i) - 9);
+    xyLoc = map(sin(frameCount / 6), -1, 1, 25, 50);
+    rotateY(off2);
+    off2 = map(sin(frameCount / 2), -1, 1, 10, 15);
+    translate(m4X, m4Y);
   }
   pop();
 }
