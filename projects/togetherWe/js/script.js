@@ -28,6 +28,7 @@ var o1y = 0.00001;
 var o1z = .03;
 var o2z = 0;
 var o3z = 10;
+var o5z = 0;
 var polyTwist = 0;
 var polyTwist2 = 0;
 
@@ -125,7 +126,7 @@ function setup() {
   yOff = random(30);
 }
 
-//you need 4x more graphics patches!
+//you need 3x more graphics patches!
 function draw() {
   //if user is on mobile, display phoneScreen, halt draw loop
   if (window.mobilecheck() !== false) {
@@ -142,7 +143,7 @@ function draw() {
     bgClr = map(sin(frameCount / 5), -1, 1, 0, 55);
     //timeline
     if (currentTime >= part1 && currentTime <= part2) {
-      background(bgClr);
+      // background(bgClr);
       starfield();
       curvaceous();
       neonRects();
@@ -156,8 +157,9 @@ function draw() {
       spheres();
       curvyLines();
       twistedLines();
+      sideQuads();
     } else if (currentTime >= part2 && currentTime <= part3) {
-      background(bgClr);
+      // background(bgClr);
       starfield();
       curvaceous();
       neonRects();
@@ -171,8 +173,9 @@ function draw() {
       spheres();
       curvyLines();
       twistedLines();
+      sideQuads();
     } else if (currentTime >= part3 && currentTime <= part4) {
-      background(bgClr);
+      // background(bgClr);
       starfield();
       curvaceous();
       neonRects();
@@ -186,6 +189,7 @@ function draw() {
       spheres();
       curvyLines();
       twistedLines();
+      sideQuads();
     } else if (currentTime >= part4 && currentTime <= part5) {
       background(bgClr);
       starfield();
@@ -201,6 +205,7 @@ function draw() {
       spheres();
       curvyLines();
       twistedLines();
+      sideQuads();
     } else if (currentTime >= part5 && currentTime <= part6) {
       background(bgClr);
       starfield();
@@ -215,6 +220,7 @@ function draw() {
       spheres();
       curvyLines();
       twistedLines();
+      sideQuads();
     } else if (currentTime >= part6 && currentTime <= part7) {
       background(bgClr);
       starfield();
@@ -295,6 +301,19 @@ function draw() {
       endScreen();
     }
   }
+}
+
+function sideQuads() {
+  push();
+  translate(0, 0, -100);
+  noStroke();
+  fill(255, 0, 148);
+  var mZ = map(mouseX, 0, width, 90, 270);
+  rotateZ(mZ);
+  triangle(-width * 1.5, -height * 1.5, -width * 1.5, height * 1.5, 0, 0);
+  triangle(width * 1.5, -height * 1.5, width * 1.5, height * 1.5, 0, 0);
+  o5z += 1;
+  pop();
 }
 
 function spheres() {
@@ -475,7 +494,7 @@ function curvaceous() {
   push();
   translate(-width / 2, -height / 2);
   noFill();
-  stroke(0, 0, 69);
+  stroke(24, 0, 121);
   strokeWeight(1);
   var ampy = map(amp, 0., 1, lowSpacer, highSpacer);
   var mX = map(mouseX, 0, width, -mousePull, mousePull);
