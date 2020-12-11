@@ -64,17 +64,17 @@ const part5 = 33.6;
 const part6 = 46;
 const part7 = 61.3; //61.4 orig, orangeQuad entrance
 const part8 = 78.4; //78.1 orig - blueQuad entrance
-const part9 = 90.45; //90.18 was orig - sphere entrance
+const part9 = 90.5; //90.18 was orig - sphere entrance
 const part10 = 115.5; //115.10 was orig - twistedLines
-const part11 = 127.82; //127.22 - curvylines
-const part12 = 140.52; //140.02
-const part13 = 152.63; //152.13
+const part11 = 127.82; //127.22
+const part12 = 140.82; //140.02 - side tris
+const part13 = 152.43; //152.13 - curvy lines
 const part14 = 161.7; //161.2
 const part15 = 170.57; //170.27
 const part16 = 180.57; //180.07
 const part17 = 186.63; //186.13
 const part18 = 192.64; //terminate
-const part19 = 195; //endScreen
+const part19 = 199; //endScreen
 
 
 // ffwd option
@@ -337,7 +337,7 @@ function sideTris() {
   translate(0, 0, -100);
   noStroke();
   fill(255, 0, 148);
-  var mZ = map(mouseX, 0, width, 90, 270);
+  var mZ = map(mouseX, 0, width, -45, 45);
   rotateZ(mZ);
   triangle(-width * 1.5, -height * 1.5, -width * 1.5, height * 1.5, 0, 0);
   triangle(width * 1.5, -height * 1.5, width * 1.5, height * 1.5, 0, 0);
