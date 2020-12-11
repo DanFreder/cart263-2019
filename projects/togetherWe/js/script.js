@@ -64,7 +64,7 @@ const part5 = 33.6;
 const part6 = 46;
 const part7 = 61.3; //61.4 orig, orangeQuad entrance
 const part8 = 78.4; //78.1 orig - blueQuad entrance
-const part9 = 90.4; //90.18 was orig - sphere entrance
+const part9 = 90.45; //90.18 was orig - sphere entrance
 const part10 = 115.5; //115.10 was orig - twistedLines
 const part11 = 127.82; //127.22 - curvylines
 const part12 = 140.52; //140.02
@@ -219,6 +219,7 @@ function draw() {
       background(bgClr);
       starfield();
       curvaceous();
+      neonRects();
       orangeQuad();
       blueQuad();
       circleSin();
@@ -226,7 +227,6 @@ function draw() {
       polyMorph();
       rays();
       spheres();
-      curvyLines();
       twistedLines();
     } else if (currentTime >= part12 && currentTime <= part13) {
       background(bgClr);
@@ -240,8 +240,8 @@ function draw() {
       polyMorph();
       rays();
       spheres();
-      curvyLines();
       twistedLines();
+      sideTris();
     } else if (currentTime >= part13 && currentTime <= part14) {
       background(bgClr);
       starfield();
@@ -375,7 +375,7 @@ function neonRects() {
   var m3X = map(mouseX, 0, width, width * .125, width);
   var m3Y = map(mouseY, 0, height, -height * .125, height * .125);
   push();
-  translate(0, 0, -10);
+  translate(0, 0, -5);
   strokeWeight(10);
   fill(255, 10);
   for (var i = 0; i < 10; i++) {
