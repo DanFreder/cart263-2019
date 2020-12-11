@@ -24,27 +24,27 @@ var offY;
 var o1x = 0;
 var o2x = 0;
 var o3x = 0;
-var o1y = 0.00001;
 var o1z = .03;
 var o2z = 0;
 var o3z = 10;
 var o5z = 0;
 var polyTwist = 0;
-var polyTwist2 = 0;
 
 var xyLoc;
 var mX;
+var atomicMx;
+var mXTwisted;
 var mY;
 var off1 = 10;
 var off2 = 10;
-var o1z = 0;
+var circleSinZ = 0;
 var sDrive1;
 var sDrive2;
 
 var redForeman;
 var notEasy;
-var xOff = 0;
-var yOff = 0;
+var sphereXoff = 0;
+var sphereYoff = 0;
 var xGrow = 0;
 var yGrow = 0;
 var o7x = 0;
@@ -64,16 +64,16 @@ const part5 = 33.6;
 const part6 = 46;
 const part7 = 61.3; //61.4 orig, orangeQuad entrance
 const part8 = 78.4; //78.1 orig - blueQuad entrance
-const part9 = 90.18;
-const part10 = 115.10;
-const part11 = 127.22;
-const part12 = 140.02;
-const part13 = 152.13;
-const part14 = 161.2;
-const part15 = 170.27;
-const part16 = 180.07;
-const part17 = 186.13;
-const part18 = 192.14; //terminate
+const part9 = 90.4; //90.18 was orig - sphere entrance
+const part10 = 115.5; //115.10 was orig - twistedLines
+const part11 = 127.82; //127.22 - curvylines
+const part12 = 140.52; //140.02
+const part13 = 152.63; //152.13
+const part14 = 161.7; //161.2
+const part15 = 170.57; //170.27
+const part16 = 180.57; //180.07
+const part17 = 186.63; //186.13
+const part18 = 192.64; //terminate
 const part19 = 195; //endScreen
 
 
@@ -114,16 +114,14 @@ function setup() {
     //load audio file if real PC, and trigger songLoaded function once loaded
     song = loadSound('assets/sounds/togetherWe.mp3', songLoaded);
     noiseValX = random(width);
-    noiseValY = random(width);
+    noiseValY = random(height);
     rectMode(CENTER);
     angleMode(DEGREES);
   }
-  offX = random(1);
-  offY = random(1);
   sDrive1 = random(1);
   sDrive2 = random(1);
-  xOff = random(30);
-  yOff = random(30);
+  sphereXoff = random(30);
+  sphereYoff = random(30);
 }
 
 //you need 3x more graphics patches!
@@ -143,84 +141,30 @@ function draw() {
     bgClr = map(sin(frameCount / 5), -1, 1, 0, 55);
     //timeline
     if (currentTime >= part1 && currentTime <= part2) {
-      // background(bgClr);
-      starfield();
-      curvaceous();
-      neonRects();
-      orangeQuad();
-      blueQuad();
-      circleSin();
-      twistAlong();
-      atomic();
-      polyMorph();
+      background(bgClr);
       rays();
-      spheres();
-      curvyLines();
-      twistedLines();
-      sideQuads();
     } else if (currentTime >= part2 && currentTime <= part3) {
-      // background(bgClr);
+      background(bgClr);
       starfield();
-      curvaceous();
-      neonRects();
-      orangeQuad();
-      blueQuad();
-      circleSin();
-      twistAlong();
-      atomic();
-      polyMorph();
       rays();
-      spheres();
-      curvyLines();
-      twistedLines();
-      sideQuads();
     } else if (currentTime >= part3 && currentTime <= part4) {
-      // background(bgClr);
+      background(bgClr);
       starfield();
-      curvaceous();
-      neonRects();
-      orangeQuad();
-      blueQuad();
       circleSin();
-      twistAlong();
-      atomic();
-      polyMorph();
       rays();
-      spheres();
-      curvyLines();
-      twistedLines();
-      sideQuads();
     } else if (currentTime >= part4 && currentTime <= part5) {
       background(bgClr);
       starfield();
       curvaceous();
-      neonRects();
-      orangeQuad();
-      blueQuad();
       circleSin();
-      twistAlong();
-      atomic();
-      polyMorph();
       rays();
-      spheres();
-      curvyLines();
-      twistedLines();
-      sideQuads();
     } else if (currentTime >= part5 && currentTime <= part6) {
       background(bgClr);
       starfield();
       curvaceous();
-      neonRects();
-      orangeQuad();
-      blueQuad();
       circleSin();
       atomic();
-      polyMorph();
       rays();
-      spheres();
-      curvyLines();
-      twistedLines();
-      sideQuads();
     } else if (currentTime >= part6 && currentTime <= part7) {
       background(bgClr);
       starfield();
@@ -270,27 +214,112 @@ function draw() {
       polyMorph();
       rays();
       spheres();
+      twistedLines();
     } else if (currentTime >= part11 && currentTime <= part12) {
       background(bgClr);
-      bigRed();
+      starfield();
+      curvaceous();
+      orangeQuad();
+      blueQuad();
+      circleSin();
+      atomic();
+      polyMorph();
+      rays();
+      spheres();
+      curvyLines();
+      twistedLines();
     } else if (currentTime >= part12 && currentTime <= part13) {
       background(bgClr);
+      starfield();
+      curvaceous();
+      neonRects();
+      orangeQuad();
+      blueQuad();
+      circleSin();
       atomic();
+      polyMorph();
+      rays();
+      spheres();
+      curvyLines();
+      twistedLines();
     } else if (currentTime >= part13 && currentTime <= part14) {
       background(bgClr);
-      bigRed();
+      starfield();
+      curvaceous();
+      neonRects();
+      orangeQuad();
+      blueQuad();
+      circleSin();
+      atomic();
+      polyMorph();
+      rays();
+      spheres();
+      curvyLines();
+      twistedLines();
+      sideTris();
     } else if (currentTime >= part14 && currentTime <= part15) {
       background(bgClr);
+      starfield();
+      curvaceous();
+      neonRects();
+      orangeQuad();
+      blueQuad();
+      circleSin();
       atomic();
+      polyMorph();
+      rays();
+      spheres();
+      curvyLines();
+      twistedLines();
+      sideTris();
     } else if (currentTime >= part15 && currentTime <= part16) {
       background(bgClr);
-      bigRed();
+      starfield();
+      curvaceous();
+      neonRects();
+      orangeQuad();
+      blueQuad();
+      circleSin();
+      twistAlong();
+      atomic();
+      polyMorph();
+      rays();
+      spheres();
+      curvyLines();
+      twistedLines();
+      sideTris();
     } else if (currentTime >= part16 && currentTime <= part17) {
       background(bgClr);
+      starfield();
+      curvaceous();
+      neonRects();
+      orangeQuad();
+      blueQuad();
+      circleSin();
+      twistAlong();
       atomic();
+      polyMorph();
+      rays();
+      spheres();
+      curvyLines();
+      twistedLines();
+      sideTris();
     } else if (currentTime >= part17 && currentTime <= part18) {
       background(bgClr);
-      bigRed();
+      starfield();
+      curvaceous();
+      neonRects();
+      orangeQuad();
+      blueQuad();
+      circleSin();
+      twistAlong();
+      atomic();
+      polyMorph();
+      rays();
+      spheres();
+      curvyLines();
+      twistedLines();
+      sideTris();
 
       //terminate
     } else if (currentTime >= part18 && currentTime <= part19) {
@@ -303,7 +332,7 @@ function draw() {
   }
 }
 
-function sideQuads() {
+function sideTris() {
   push();
   translate(0, 0, -100);
   noStroke();
@@ -331,14 +360,14 @@ function spheres() {
     } else {
       fill(0);
     }
-    rotateX(xOff);
-    rotateY(yOff);
+    rotateX(sphereXoff);
+    rotateY(sphereYoff);
     sphere(width / 30, 6, 6);
   }
   xGrow += random(.01);
   yGrow += random(.01);
-  xOff += .06;
-  yOff += .05;
+  sphereXoff += .06;
+  sphereYoff += .05;
   pop();
 }
 
@@ -432,7 +461,7 @@ function circleSin() {
   redForeman = map(sin(frameCount / 3), -1, 1, 100, 200);
   notEasy = map(sin(frameCount / 4), -1, 1, 0, 38);
   fill(redForeman, notEasy, 0, 255);
-  rotateZ(o1z);
+  rotateZ(circleSinZ);
   ellipse(0, 0, 250);
   pop();
 
@@ -442,13 +471,13 @@ function circleSin() {
   translate(0, 0, 50);
   for (var i = 0; i < 30; i++) {
     var pulsar = map(sin(ampy), -1, 1, 0, 8);
-    rotateZ(o1z);
+    rotateZ(circleSinZ);
     var pulseR = map(sin(frameCount / 9), -1, 1, 255, 100);
     var pulseG = map(sin(frameCount / 11), -1, 1, 0, 50);
     // stroke(pulseR, pulseG, i);
     fill(pulseR, pulseG, 0, 2);
     ellipse(0, 0, (i * pulsar) + 1);
-    o1z -= .0002 * ampy;
+    circleSinZ -= .0002 * ampy;
   }
   pop();
 }
@@ -476,11 +505,11 @@ function atomic() {
   noFill();
   stroke(82, 0, 200);
   var amped = amp * 90;
-  var mX = map(mouseX, 0, width, -width * .05, width * .75);
+  var atomicMx = map(mouseX, 0, width, -width * .05, width * .75);
   var mY = map(mouseY, 0, height, height * .25, height * .5);
   for (var i = 0; i < 11; i++) {
     rotateZ(o1x);
-    bezier(-width / 4, 0, -width / 7 + mX, height / 9 + mY, width / 7 + mX, height / 9 + mY, width / 4, 0)
+    bezier(-width / 4, 0, -width / 7 + atomicMx, height / 9 + mY, width / 7 + atomicMx, height / 9 + mY, width / 4, 0)
     o1x -= .0001 * amped;
   }
   pop();
@@ -581,8 +610,8 @@ function twistedLines() {
   push();
   translate(0, 0, -100);
   strokeWeight(1);
-  var mY = map(mouseY, 0, height, -2, 2);
-  var mX = map(mouseX, 0, width, -10, 10);
+  var mYTwisted = map(mouseY, 0, height, -2, 2);
+  var mXTwisted = map(mouseX, 0, width, -10, 10);
   rectMode(CENTER);
   for (var i = 0; i < 30; i++) {
     if (i % 2 == 0) {
@@ -594,7 +623,7 @@ function twistedLines() {
     xyLoc = map(sin(frameCount / 6), -1, 1, 25, 50);
     rotateY(off2);
     off2 = map(sin(frameCount / 2), -1, 1, 10, 15);
-    translate(-mX, mY);
+    translate(-mXTwisted, mYTwisted);
   }
   pop();
 
@@ -618,62 +647,6 @@ function twistedLines() {
     translate(m4X, m4Y);
   }
   pop();
-}
-
-function recTwist() {
-  var o1z = 0;
-  var rota = 1;
-  var xLocDriver = 0;
-  var xLoc;
-  var yLoc;
-  var yLocDriver = 0;
-  var noiZ = 0;
-
-  function setup() {
-    createCanvas(720, 640, WEBGL);
-    rectMode(CENTER);
-  }
-
-  function draw() {
-    background(0);
-    strokeWeight(2);
-    noFill();
-    xLoc = noise(xLocDriver);
-    xLocDriver += .001;
-    yLoc = noise(yLocDriver);
-    yLocDriver += .005;
-    xLoc = map(xLoc, 0, 1, -width / 2, width / 2);
-    yLoc = map(yLoc, 0, 1, -height / 2, height / 2);
-    var mX = map(mouseY, 0, height, .02, -.02);
-    var mY = map(mouseX, 0, width, -.03, .03);
-    var noiZ = map(noise(frameCount / 100), 0, 1, -.05, .05);
-    for (var i = 0; i < 75; i++) {
-      if (i % 2 == 1) {
-        stroke(100, 0, 200);
-      } else {
-        stroke(255, 0, 0);
-      }
-      rotateY(mY);
-      rotateX(mX);
-      rotateZ(o1z);
-      var nScale = map(noise(sin(i)), -1, 1, .75, 1);
-      rect(xLoc, yLoc, (12 * i) * nScale);
-      if (rota == 1) {
-        o1z += .00001;
-      } else {
-        o1z -= .00001;
-      }
-      o1z = constrain(o1z, -.03, .03);
-    }
-  }
-
-  function mousePressed() {
-    if (rota == 1) {
-      rota = 0;
-    } else {
-      rota = 1;
-    }
-  }
 }
 
 function twistAlong() {
