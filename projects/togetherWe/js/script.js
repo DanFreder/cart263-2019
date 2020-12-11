@@ -39,8 +39,8 @@ var off2 = 10;
 var circleSinZ = 0;
 var sDrive1;
 var sDrive2;
-var redForeman;
-var notEasy;
+var redForeman = 150;
+var notEasy = 19;
 var sphereXoff = 0;
 var sphereYoff = 0;
 var xGrow = 0;
@@ -48,6 +48,17 @@ var yGrow = 0;
 var o4z = 90;
 var o6x = 15;
 var o6z = 45;
+
+//colour palette
+var navyBlue;
+var punchyPurp;
+var mutedPurp;
+var darkPurp;
+var punchyPink;
+var lightBlue;
+var yellow;
+var orange;
+var red;
 
 //second values for different song sections
 const part1 = 1; //rays
@@ -68,7 +79,7 @@ const part15 = 170.57; //170.27
 const part16 = 180.57; //180.07
 const part17 = 186.63; //186.13
 const part18 = 192.64; //terminate
-const part19 = 197; //endScreen
+const part19 = 196; //endScreen (197 too far)
 
 // ffwd option for testing
 // function keyPressed() {
@@ -85,6 +96,7 @@ function setup() {
   // Create a canvas the size of the window
   canvas = createCanvas(windowWidth, windowHeight, WEBGL);
   graphics2d = createGraphics(windowWidth, windowHeight);
+
   // Canvas stays fixed behind HTML & ignores scrolling
   canvas.style("display:block");
   canvas.style("position:fixed");
@@ -92,6 +104,18 @@ function setup() {
   canvas.style("left:0");
   canvas.style("z-index:-100");
   background(0);
+
+  //colour palette
+  navyBlue = color(0, 0, 100);
+  punchyPurp = color(130, 0, 255);
+  mutedPurp = color(84, 0, 255);
+  punchyPink = color(255, 0, 148);
+  lightBlue = color(0, 145, 255);
+  yellow = color(255, 255, 0);
+  orange = color(255, 142, 0);
+  red = color(255, 0, 0);
+  darkPurp = color(50, 0, 80);
+
   //Check if user is on mobile, loadSound if they aren't
   if (window.mobilecheck() !== true) {
     amplitude = new p5.Amplitude();
@@ -108,7 +132,6 @@ function setup() {
   sphereYoff = random(30);
 }
 
-//you need 3x more graphics patches!
 function draw() {
   //if user is on mobile, display phoneScreen, halt draw loop
   if (window.mobilecheck() !== false) {
@@ -316,7 +339,11 @@ function sideTris() {
   push();
   translate(0, 0, -100);
   noStroke();
-  fill(255, 0, 148);
+  if (pressed == 0) {
+    fill(punchyPink);
+  } else {
+    fill(lightBlue);
+  }
   var mZ = map(mouseX, 0, width, -45, 45);
   rotateZ(mZ);
   triangle(-width * 1.5, -height * 1.5, -width * 1.5, height * 1.5, 0, 0);
@@ -360,18 +387,18 @@ function neonRects() {
   fill(255, 10);
   for (var i = 0; i < 10; i++) {
     if (i % 2 == 0) {
-      stroke(255, 0, 148);
+      stroke(punchyPurp);
     } else {
-      stroke(118, 0, 255);
+      stroke(punchyPink);
     }
     rotateZ(o4z);
     rect(20 * i, 20 * i, m3X, m3Y);
   }
   for (var i = 0; i < 10; i++) {
     if (i % 2 == 0) {
-      stroke(255, 0, 148);
+      stroke(punchyPink);
     } else {
-      stroke(118, 0, 255);
+      stroke(punchyPurp);
     }
     rotateZ(o4z);
     rect(-20 * i, -20 * i, m3X, m3Y);
@@ -386,8 +413,20 @@ function curvyLines() {
   var mYC = map(mouseY, 0, height, -height * .75, height * .75);
   translate(-width / 2, -height / 2, 0);
   noFill();
-  stroke(255, 142, 0);
   for (var i = 0; i < 4; i++) {
+    if (i % 2 == 0) {
+      if (pressed == 0) {
+        stroke(orange);
+      } else {
+        stroke(lightBlue);
+      }
+    } else {
+      if (pressed == 0) {
+        stroke(lightBlue);
+      } else {
+        stroke(orange);
+      }
+    }
     bezier(0, height * .5, width * .25 + mXC, height * .75 - mYC, width * .75 + mXC, height * .25 + mYC, width, height * .5);
     translate(0, -10, 0);
   }
@@ -396,7 +435,11 @@ function curvyLines() {
 
 function orangeQuad() {
   push();
-  fill(255, 180, 0);
+  if (pressed == 0) {
+    fill(orange);
+  } else {
+    fill(lightBlue);
+  }
   noStroke();
   o3x = map(mouseX, 0, width, -10, 10);
   var yPull = map(mouseY, 0, height, -300, -50);
@@ -405,7 +448,6 @@ function orangeQuad() {
   var q_y1 = height * .125 + yPull;
   var q_x2 = width * -.5;
   var q_y2 = height * .25;
-
   var q_x3 = width * .175;
   var q_y3 = height * .125 + yPull;
   var q_x4 = width * .5;
@@ -416,7 +458,11 @@ function orangeQuad() {
 
 function blueQuad() {
   push();
-  fill(0, 145, 255);
+  if (pressed == 0) {
+    fill(lightBlue);
+  } else {
+    fill(orange);
+  }
   noStroke();
   o3x = map(mouseX, 0, width, -10, 10);
   var yPull = map(mouseY, 0, height, -200, 0);
@@ -425,7 +471,6 @@ function blueQuad() {
   var q2_y1 = height * .25 + yPull;
   var q2_x2 = width * -.4;
   var q2_y2 = height * -.25;
-
   var q2_x3 = width * .125;
   var q2_y3 = height * .25 + yPull;
   var q2_x4 = width * .4;
@@ -444,7 +489,6 @@ function circleSin() {
   rotateZ(circleSinZ);
   ellipse(0, 0, 250);
   pop();
-
   push();
   var ampy = amp * 90;
   noStroke();
@@ -465,7 +509,7 @@ function circleSin() {
 function rays() {
   push();
   translate(0, 0, 150);
-  stroke(255, 255, 0);
+  stroke(yellow);
   for (var i = 0; i < 9; i++) {
     if (i % 2 == 1) {
       strokeWeight(2);
@@ -474,7 +518,11 @@ function rays() {
     }
     noiseValX = map(noise(frameCount / (29 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
     noiseValY = map(noise(frameCount / (27 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
-    line(0, 0, noiseValX, noiseValY);
+    if (pressed == 0) {
+      line(0, 0, noiseValX, noiseValY);
+    } else {
+      line(-noiseValX, -noiseValY, 0, 0);
+    }
   }
   pop();
 }
@@ -483,7 +531,11 @@ function atomic() {
   push();
   strokeWeight(.5);
   noFill();
-  stroke(82, 0, 200);
+  if (pressed == 0) {
+    stroke(lightBlue);
+  } else {
+    stroke(punchyPurp);
+  }
   var amped = amp * 90;
   var atomicMx = map(mouseX, 0, width, -width * .05, width * .75);
   var atomicMy = map(mouseY, 0, height, height * .25, height * .5);
@@ -503,7 +555,11 @@ function curvaceous() {
   push();
   translate(-width / 2, -height / 2);
   noFill();
-  stroke(24, 0, 121);
+  if (pressed == 0) {
+    stroke(darkPurp);
+  } else {
+    stroke(navyBlue);
+  }
   strokeWeight(1);
   var ampy = map(amp, 0., 1, lowSpacer, highSpacer);
   var mX = map(mouseX, 0, width, -mousePull, mousePull);
@@ -579,7 +635,11 @@ function polyMorph() {
     rotateZ(2);
     rotateY(polyTwist);
     ellipse(0, 0, (elRadius * i) + 10);
-    polyTwist += .0008;
+    if (pressed == 0) {
+      polyTwist += .0008;
+    } else {
+      polyTwist -= .0008;
+    }
   }
   pop();
 }
@@ -595,9 +655,17 @@ function twistedLines() {
   rectMode(CENTER);
   for (var i = 0; i < 30; i++) {
     if (i % 2 == 0) {
-      stroke(255, 0, 148);
+      if (pressed == 0) {
+        stroke(yellow);
+      } else {
+        stroke(punchyPink);
+      }
     } else {
-      stroke(255, 255, 0);
+      if (pressed == 0) {
+        stroke(punchyPink);
+      } else {
+        stroke(yellow);
+      }
     }
     line(0, 0, (xyLoc * i) + 16, (xyLoc * i) + 9);
     xyLoc = map(sin(frameCount / 6), -1, 1, 25, 50);
@@ -606,7 +674,6 @@ function twistedLines() {
     translate(-mXTwisted, mYTwisted);
   }
   pop();
-
   //upper lines (cone above sphere)
   push();
   translate(0, 0, -100);
@@ -616,9 +683,17 @@ function twistedLines() {
   rectMode(CENTER);
   for (var i = 0; i < 30; i++) {
     if (i % 2 == 0) {
-      stroke(255, 0, 148);
+      if (pressed == 0) {
+        stroke(yellow);
+      } else {
+        stroke(punchyPink);
+      }
     } else {
-      stroke(255, 255, 0);
+      if (pressed == 0) {
+        stroke(punchyPink);
+      } else {
+        stroke(yellow);
+      }
     }
     line(0, 0, (-xyLoc * i) - 16, (-xyLoc * i) - 9);
     xyLoc = map(sin(frameCount / 6), -1, 1, 25, 50);
@@ -637,9 +712,9 @@ function twistAlong() {
   var m5y = map(mouseY, 0, height, -height, height);
   for (var i = 0; i < 20; i++) {
     if (i % 2 == 0) {
-      fill(0, 145, 255);
+      fill(lightBlue);
     } else {
-      fill(255, 142, 0);
+      fill(orange);
     }
     rotateX(o6x);
     rotateZ(o6z);
