@@ -15,7 +15,6 @@ var amp = 0;
 var triggerStart = 0;
 var pressed = 0;
 var cabin;
-
 var bgClr;
 var noiseValX;
 var noiseValY;
@@ -29,10 +28,10 @@ var o2z = 0;
 var o3z = 10;
 var o5z = 0;
 var polyTwist = 0;
-
 var xyLoc;
 var mX;
 var atomicMx;
+var atomicMy;
 var mXTwisted;
 var mY;
 var off1 = 10;
@@ -40,58 +39,43 @@ var off2 = 10;
 var circleSinZ = 0;
 var sDrive1;
 var sDrive2;
-
 var redForeman;
 var notEasy;
 var sphereXoff = 0;
 var sphereYoff = 0;
 var xGrow = 0;
 var yGrow = 0;
-var o7x = 0;
-var o7z = 0;
 var o4z = 90;
-var rev = -1;
-
 var o6x = 15;
 var o6z = 45;
 
 //second values for different song sections
 const part1 = 1; //rays
 const part2 = 14.91; //starfield
-const part3 = 18.2 //circleSin entrance
-const part4 = 27.5;
-const part5 = 33.6;
-const part6 = 46;
-const part7 = 61.3; //61.4 orig, orangeQuad entrance
-const part8 = 78.4; //78.1 orig - blueQuad entrance
-const part9 = 90.5; //90.18 was orig - sphere entrance
-const part10 = 115.5; //115.10 was orig - twistedLines
-const part11 = 127.82; //127.22
-const part12 = 140.82; //140.02 - side tris
+const part3 = 18.2 //circleSin
+const part4 = 27.5; //curvaceous
+const part5 = 33.6; //atomic
+const part6 = 46; //polyMorph
+const part7 = 61.3; //orangeQuad
+const part8 = 78.4; //blueQuad
+const part9 = 90.6; //sphere
+const part10 = 115.4; //115.5 - twistedLines
+const part11 = 127.82; //127.22 - neonRects
+const part12 = 140.22; //140.02 - side tris
 const part13 = 152.43; //152.13 - curvy lines
 const part14 = 161.7; //161.2
 const part15 = 170.57; //170.27
 const part16 = 180.57; //180.07
 const part17 = 186.63; //186.13
 const part18 = 192.64; //terminate
-const part19 = 199; //endScreen
+const part19 = 197; //endScreen
 
-
-// ffwd option
-function keyPressed() {
-  if (keyCode === RIGHT_ARROW) {
-    song.jump(60);
-  }
-}
-
-//colour pallette?
-const elecGreen = '#06d6a0';
-const white = '#f9fdff';
-const viovar = '#FF89FF';
-const yellow = '#FFF200';
-const green = '#86C35E';
-const red = '#DD1C29';
-const blue = '#005788';
+// ffwd option for testing
+// function keyPressed() {
+//   if (keyCode === RIGHT_ARROW) {
+//     song.jump(60);
+//   }
+// }
 
 function preload() {
   cabin = loadFont('assets/images/Cabin-Medium.otf');
@@ -258,7 +242,6 @@ function draw() {
       twistedLines();
       sideTris();
     } else if (currentTime >= part14 && currentTime <= part15) {
-      background(bgClr);
       starfield();
       curvaceous();
       neonRects();
@@ -273,7 +256,6 @@ function draw() {
       twistedLines();
       sideTris();
     } else if (currentTime >= part15 && currentTime <= part16) {
-      background(bgClr);
       starfield();
       curvaceous();
       neonRects();
@@ -289,7 +271,6 @@ function draw() {
       twistedLines();
       sideTris();
     } else if (currentTime >= part16 && currentTime <= part17) {
-      background(bgClr);
       starfield();
       curvaceous();
       neonRects();
@@ -305,7 +286,6 @@ function draw() {
       twistedLines();
       sideTris();
     } else if (currentTime >= part17 && currentTime <= part18) {
-      background(bgClr);
       starfield();
       curvaceous();
       neonRects();
@@ -373,7 +353,7 @@ function spheres() {
 
 function neonRects() {
   var m3X = map(mouseX, 0, width, width * .125, width);
-  var m3Y = map(mouseY, 0, height, -height * .125, height * .125);
+  var m3Y = map(mouseY, 0, height, -height * .5, height * .5);
   push();
   translate(0, 0, -5);
   strokeWeight(10);
@@ -506,10 +486,10 @@ function atomic() {
   stroke(82, 0, 200);
   var amped = amp * 90;
   var atomicMx = map(mouseX, 0, width, -width * .05, width * .75);
-  var mY = map(mouseY, 0, height, height * .25, height * .5);
+  var atomicMy = map(mouseY, 0, height, height * .25, height * .5);
   for (var i = 0; i < 11; i++) {
     rotateZ(o1x);
-    bezier(-width / 4, 0, -width / 7 + atomicMx, height / 9 + mY, width / 7 + atomicMx, height / 9 + mY, width / 4, 0)
+    bezier(-width / 4, 0, -width / 7 + atomicMx, height / 9 + atomicMy, width / 7 + atomicMx, height / 9 + atomicMy, width / 4, 0)
     o1x -= .0001 * amped;
   }
   pop();
@@ -718,7 +698,7 @@ function loadingScreen() {
   //red rectangles
   push();
   rectMode(CENTER);
-  stroke(red);
+  stroke(200, 0, 0);
   noFill();
   rect(0, -30, width * .625, height * .75);
   rect(0, -30, width * .625 + 20, height * .75 - 20);
@@ -756,7 +736,7 @@ function endScreen() {
   ambientLight(255);
   graphics2d.background(0);
   graphics2d.textFont("'Be Vietnam'");
-  graphics2d.textSize(width / 20);
+  graphics2d.textSize(width / 25);
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.noStroke();
   graphics2d.fill(255);
