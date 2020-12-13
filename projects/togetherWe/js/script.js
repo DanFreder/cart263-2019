@@ -114,7 +114,7 @@ function setup() {
   yellow = color(255, 255, 0);
   orange = color(255, 142, 0);
   red = color(255, 0, 0);
-  darkPurp = color(50, 0, 80);
+  darkPurp = color(46, 0, 62);
 
   //Check if user is on mobile, loadSound if they aren't
   if (window.mobilecheck() !== true) {
@@ -150,6 +150,20 @@ function draw() {
     if (currentTime >= part1 && currentTime <= part2) {
       background(bgClr);
       rays();
+      // starfield();
+      // curvaceous();
+      // neonRects();
+      // orangeQuad();
+      // blueQuad();
+      // circleSin();
+      // twistAlong();
+      // atomic();
+      // polyMorph();
+      // rays();
+      // spheres();
+      // curvyLines();
+      // twistedLines();
+      // sideTris();
     } else if (currentTime >= part2 && currentTime <= part3) {
       background(bgClr);
       starfield();
@@ -342,7 +356,7 @@ function sideTris() {
   if (pressed == 0) {
     fill(punchyPink);
   } else {
-    fill(lightBlue);
+    fill(punchyPink);
   }
   var mZ = map(mouseX, 0, width, -45, 45);
   rotateZ(mZ);
@@ -413,18 +427,18 @@ function curvyLines() {
   var mYC = map(mouseY, 0, height, -height * .75, height * .75);
   translate(-width / 2, -height / 2, 0);
   noFill();
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < 3; i++) {
     if (i % 2 == 0) {
       if (pressed == 0) {
-        stroke(orange);
+        stroke(redForeman, notEasy, 0);
       } else {
-        stroke(lightBlue);
+        stroke(orange);
       }
     } else {
       if (pressed == 0) {
-        stroke(lightBlue);
-      } else {
         stroke(orange);
+      } else {
+        stroke(redForeman, notEasy, 0);
       }
     }
     bezier(0, height * .5, width * .25 + mXC, height * .75 - mYC, width * .75 + mXC, height * .25 + mYC, width, height * .5);
@@ -512,17 +526,21 @@ function rays() {
   stroke(yellow);
   for (var i = 0; i < 9; i++) {
     if (i % 2 == 1) {
-      strokeWeight(2);
+      if (pressed == 0) {
+        strokeWeight(2);
+      } else {
+        strokeWeight(1)
+      }
     } else {
-      strokeWeight(1);
+      if (pressed == 0) {
+        strokeWeight(1);
+      } else {
+        strokeWeight(2);
+      }
     }
     noiseValX = map(noise(frameCount / (29 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
     noiseValY = map(noise(frameCount / (27 * i)), 0, 1, -1.5 * width * amp, 1.5 * width * amp);
-    if (pressed == 0) {
-      line(0, 0, noiseValX, noiseValY);
-    } else {
-      line(-noiseValX, -noiseValY, 0, 0);
-    }
+    line(0, 0, noiseValX, noiseValY);
   }
   pop();
 }
