@@ -150,20 +150,6 @@ function draw() {
     if (currentTime >= part1 && currentTime <= part2) {
       background(bgClr);
       rays();
-      // starfield();
-      // curvaceous();
-      // neonRects();
-      // orangeQuad();
-      // blueQuad();
-      // circleSin();
-      // twistAlong();
-      // atomic();
-      // polyMorph();
-      // rays();
-      // spheres();
-      // curvyLines();
-      // twistedLines();
-      // sideTris();
     } else if (currentTime >= part2 && currentTime <= part3) {
       background(bgClr);
       starfield();
@@ -427,7 +413,7 @@ function curvyLines() {
   var mYC = map(mouseY, 0, height, -height * .75, height * .75);
   translate(-width / 2, -height / 2, 0);
   noFill();
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < 2; i++) {
     if (i % 2 == 0) {
       if (pressed == 0) {
         stroke(redForeman, notEasy, 0);
