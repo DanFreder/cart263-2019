@@ -136,7 +136,7 @@ function draw() {
   //if user is on mobile, display phoneScreen, halt draw loop
   if (window.mobilecheck() !== false) {
     phoneScreen();
-    noLoop();
+    // noLoop();
     //display loading screen if song hasn't loaded &/or user hasn't clicked on canvas
   } else if (triggerStart === 0) {
     loadingScreen();
