@@ -128,6 +128,15 @@ function setup() {
   sphereYoff = random(30);
 }
 
+//check if user is on mobile
+function touchStarted() {
+  touched = 1;
+}
+
+function isMobileDevice() {
+  return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+};
+
 function draw() {
   if (isMobileDevice() === true || touched === 1) {
     phoneScreen();
@@ -817,16 +826,6 @@ function endScreen() {
   noLoop();
   pop();
 }
-
-
-//check if user is on mobile
-function touchStarted() {
-  touched = 1;
-}
-
-function isMobileDevice() {
-  return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-};
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
