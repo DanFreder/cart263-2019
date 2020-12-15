@@ -132,13 +132,13 @@ function setup() {
 }
 
 function draw() {
+  if (touched === 1) {
+    phoneScreen();
+    noLoop();
+  }
   if (triggerStart === 0) {
     loadingScreen();
   } else {
-    if (touched === 1) {
-      phoneScreen();
-      noLoop();
-    }
     //start music video
     amp = amplitude.volume * 3;
     currentTime = song.currentTime();
