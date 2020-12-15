@@ -129,7 +129,7 @@ function setup() {
 }
 
 function draw() {
-  if (isMobileDevice() === true) {
+  if (isMobileDevice() === true || touched === 1) {
     phoneScreen();
     noLoop();
   } else if (triggerStart === 0) {
@@ -819,13 +819,11 @@ function endScreen() {
 }
 
 
-// checks if user is on mobile.
-// function touchStarted() {
-//   touched = 1;
-// }
+//check if user is on mobile
+function touchStarted() {
+  touched = 1;
+}
 
-
-//check if user's on mobile
 function isMobileDevice() {
   return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
 };
