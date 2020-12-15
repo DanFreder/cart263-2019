@@ -782,11 +782,11 @@ function phoneScreen() {
   push();
   graphics2d.background(0);
   graphics2d.textFont("'Be Vietnam'");
-  graphics2d.textSize(64);
+  graphics2d.textSize(width / 25);
   graphics2d.textAlign(CENTER, CENTER);
   graphics2d.fill(255);
-  graphics2d.text('please revisit', windowWidth / 2, windowHeight / 2);
-  graphics2d.text('on desktop', windowWidth / 2, windowHeight / 2);
+  graphics2d.text('please revisit', windowWidth / 2, windowHeight / 2 - 150);
+  graphics2d.text('on desktop', windowWidth / 2, windowHeight / 2 - 50);
   texture(graphics2d);
   noStroke();
   plane(windowWidth, windowHeight);
