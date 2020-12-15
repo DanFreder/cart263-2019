@@ -89,9 +89,6 @@ const part19 = 196; //endScreen (197 too far)
 //   }
 // }
 
-function preload() {
-  cabin = loadFont('assets/images/Cabin-Medium.otf');
-}
 
 function setup() {
   // Create a canvas the size of the window
@@ -131,12 +128,16 @@ function setup() {
   sphereYoff = random(30);
 }
 
+//check if user's on mobile
+function isMobileDevice() {
+  return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+};
+
 function draw() {
-  if (touched === 1) {
+  if (isMobileDevice() === true) {
     phoneScreen();
-    noLoop();
-  }
-  if (triggerStart === 0) {
+    // noLoop();
+  } else if (triggerStart === 0) {
     loadingScreen();
   } else {
     //start music video
