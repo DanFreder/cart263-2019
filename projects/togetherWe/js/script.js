@@ -795,7 +795,7 @@ window.mobilecheck = function() {
 
 function phoneScreen() {
   push();
-  ambientLight(255);
+  // ambientLight(255);
   graphics2d.background(0);
   graphics2d.textFont("'Be Vietnam'");
   graphics2d.textSize(width / 10);
