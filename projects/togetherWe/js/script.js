@@ -48,6 +48,7 @@ var yGrow = 0;
 var o4z = 90;
 var o6x = 15;
 var o6z = 45;
+var touched = 0;
 
 //colour palette
 var navyBlue;
@@ -134,6 +135,10 @@ function draw() {
   if (triggerStart === 0) {
     loadingScreen();
   } else {
+    if (touched === 1) {
+      phoneScreen();
+      noLoop();
+    }
     //start music video
     amp = amplitude.volume * 3;
     currentTime = song.currentTime();
@@ -777,10 +782,9 @@ function loadingScreen() {
   pop();
 }
 
-//function checks if user is on mobile. False = Real Computer!
+// checks if user is on mobile.
 function touchStarted() {
-  phoneScreen();
-  noLoop();
+  touched = 1;
 }
 
 function phoneScreen() {
