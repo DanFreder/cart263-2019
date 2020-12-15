@@ -129,10 +129,11 @@ function setup() {
 }
 
 function draw() {
-  if (isMobileDevice() === true) {
-    phoneScreen();
-    noLoop();
-  } else if (triggerStart === 0) {
+  // if (isMobileDevice() === true) {
+  //   phoneScreen();
+  //   noLoop();
+  // } else
+  if (triggerStart === 0) {
     loadingScreen();
   } else {
     //start music video
@@ -780,11 +781,10 @@ function loadingScreen() {
 
 function phoneScreen() {
   push();
-  // ambientLight(255);
   graphics2d.background(0);
   graphics2d.textFont("'Be Vietnam'");
   graphics2d.textSize(64);
-  graphics2d.textAlign(CENTER, CENTER);
+  // graphics2d.textAlign(CENTER, CENTER);
   graphics2d.fill(255);
   graphics2d.text('please revisit', windowWidth / 2, windowHeight / 2);
   graphics2d.text('on desktop', windowWidth / 2, windowHeight / 2);
