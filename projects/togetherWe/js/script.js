@@ -138,10 +138,11 @@ function isMobileDevice() {
 };
 
 function draw() {
+
   if (isMobileDevice() === true || touched === 1) {
     phoneScreen();
-    amplitude.volume *= 0.;
-    noLoop();
+    currentTime = 0;
+    song.pause();
   } else if (triggerStart === 0) {
     loadingScreen();
   } else {
