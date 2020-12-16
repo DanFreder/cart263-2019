@@ -140,6 +140,7 @@ function isMobileDevice() {
 function draw() {
   if (isMobileDevice() === true || touched === 1) {
     phoneScreen();
+    amplitude.volume *= 0.;
     noLoop();
   } else if (triggerStart === 0) {
     loadingScreen();
