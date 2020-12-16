@@ -148,7 +148,7 @@ function isMobileDevice() {
 
 function draw() {
 
-  if (isMobileDevice() === true || touched === 1 || window.mobileCheck === true) {
+  if (isMobileDevice() === true || touched === 1 || window.mobileCheck === false) {
     phoneScreen();
     currentTime = 0;
     song.pause();
