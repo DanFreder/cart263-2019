@@ -129,7 +129,6 @@ function setup() {
 }
 
 //check if user is on mobile
-
 window.mobileCheck = function() {
   let check = false;
   (function(a) {
@@ -147,8 +146,7 @@ function isMobileDevice() {
 };
 
 function draw() {
-
-  if (isMobileDevice() === true || touched === 1 || window.mobileCheck === false) {
+  if (isMobileDevice() === true || touched === 1 || window.mobileCheck() === true) {
     phoneScreen();
     currentTime = 0;
     song.pause();
